@@ -4,7 +4,11 @@ TAREA: Coca Cola (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
 Descripción:
-    si el numero es divi
+    Escribir un programa que imprima los números del 1 al 100, pero con las siguientes reglas:
+    - Si el número es divisible por 3, imprimir "Coca" en lugar del número
+    - Si el número es divisible por 5, imprimir "Cola" en lugar del número
+    - Si el número es divisible por ambos 3 y 5 (es decir, por 15), imprimir "Coca Cola"
+    - Si el número no es divisible por 3 ni por 5, imprimir el número tal como es
 
 INTEGRANTES:
     Dominique Jeldes - 1121623
@@ -14,52 +18,55 @@ Fecha: 23/May/2025
 */
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main() {
 
-    for (int i = 1; i <= 100; i++) {  // Iterar del 1 al 100
+    for (int i = 1; i <= 100; i++) {
 
-        if (i % 3 == 0 && i % 5 == 0) {  // Múltiplo de 3 y 5
+        if (i % 3 == 0 && i % 5 == 0) {
+
             cout << "Coca Cola" << endl;
         }
-        else if (i % 3 == 0) {         // Múltiplo de 3
+
+        else if (i % 3 == 0) {
+
             cout << "Coca" << endl;
         }
-        else if (i % 5 == 0) {         // Múltiplo de 5
+
+        else if (i % 5 == 0) {
+
             cout << "Cola" << endl;
         }
-        else {                         // No múltiplo de 3 ni de 5
+
+        else {
+
             cout << i << endl;
         }
     }
 
-    return 0;
-
     /*
-    Otra forma de hacerlo:
 
-    Con operador ternario, se pregunta "Es x mayor que 100? entonces...."
+    for (int i = 1; i <= 100; i++) {
 
-    x>100? k=1:k=13;
+        // Creamos un string vacío donde acumularemos el texto
+        string output = "";
 
-    for (int i=0; i<=100; i++) {
+        // Si el número es divisible por 3, añadimos "Coca" al string
+        output += (i % 3 == 0) ? "Coca" : "";
 
-        t=3;
+        // Si el número es divisible por 5, añadimos "Cola" al string
+        output += (i % 5 == 0) ? "Cola" : "";
 
-        x % 3?
-        cout << "Coca" : t=1;
+        // Si el string está vacío, significa que no era divisible ni por 3 ni por 5,
+        // por lo tanto imprimimos el número; de lo contrario, imprimimos el contenido del string
 
-        x % 5?
-        cout << "Cola" : t=2;
-
-        if (t=3) {
-            cout << i;
-        }
+        cout << (output.empty() ? to_string(i) : output) << endl;
     }
 
-    return 0;
     */
 
+    return 0;
 }
