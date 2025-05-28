@@ -1,10 +1,10 @@
 /*
 -----------------------------------------------------------------------------------------
-TAREA: Coca Cola (LABORATORIO)
+TAREA: Floreros de Salvador (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
-Descripción:
-    Salvador tenía inicialmente 100 floreros. Vendió 8 floreros y quiere distribuir los floreros restantes cumpliendo las siguientes condiciones:
+DescripciÃ³n:
+    Salvador tenÃ­a inicialmente 100 floreros. VendiÃ³ 8 floreros y quiere distribuir los floreros restantes cumpliendo las siguientes condiciones:
 
     Los floreros deben poder agruparse de 6 en 6 sin que sobre ninguno
     Los floreros finales restantes deben poder agruparse de 11 en 11 sin que sobre ninguno
