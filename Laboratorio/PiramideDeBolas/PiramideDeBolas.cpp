@@ -1,12 +1,12 @@
 /*
-    -------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 TAREA: La Piramide de Bolas  (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
-Descripción:
-    Con un grupo de 10,000 bolas se forma una pirámide de base cuadrada, con una única bola
-en su vértice superior y un número cuadrado perfecto de ellas en cada capa.
-¿Cuántas capas pueden hacerse? Y ¿Cuántas bolas sobrarán?
+DescripciÃ³n:
+    Con un grupo de 10,000 bolas se forma una pirÃ¡mide de base cuadrada, con una Ãºnica bola
+en su vÃ©rtice superior y un nÃºmero cuadrado perfecto de ellas en cada capa.
+Â¿CuÃ¡ntas capas pueden hacerse? Y Â¿CuÃ¡ntas bolas sobrarÃ¡n?
 
 INTEGRANTES:
     Dominique Jeldes - 1121623
@@ -25,7 +25,7 @@ int main() {
     int bolasUsadas = 0;
     int capas = 0;
 
-    // Construir la pirámide capa por capa
+    // Construir la pirÃ¡mide capa por capa
     for (int capa = 1; ; capa++) {
 
         int bolasEnCapa = capa * capa;  // Capa 1: 1 bola, Capa 2: 4 bolas, etc.
@@ -45,8 +45,8 @@ int main() {
     int bolasSobrantes = totalBolas - bolasUsadas;
 
     //Resultados
-    cout << "¿Cuantas capas pueden hacerse?: " << capas << endl;
-    cout << "¿Cuantas bolas sobraran?: " << bolasSobrantes << endl;
+    cout << "Â¿Cuantas capas pueden hacerse?: " << capas << endl;
+    cout << "Â¿Cuantas bolas sobraran?: " << bolasSobrantes << endl;
     cout << "Se usaron en total " << bolasUsadas << " bolas" << endl;
 
     return 0;
