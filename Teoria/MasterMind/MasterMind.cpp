@@ -39,7 +39,7 @@ Fecha: 21/05/2025
 using namespace std;
 
 int main() {
-    // ===== VARIABLES DEL JUEGO =====
+    //VARIABLES DEL JUEGO
     int clave[4];
     int jugadas[4];
     char pista[4];
@@ -48,7 +48,7 @@ int main() {
     int intentosAnteriores[10][4];
     int numIntentos = 0;
 
-    // ===== INICIALIZACIÓN =====
+    //INICIALIZACIÓN
     srand(time(0));
 
     cout << "===    MASTERMIND  ===\n" << endl;
