@@ -61,7 +61,7 @@ int main() {
     cout << "X = numero que no esta en la clave" << endl;
     cout << endl;
 
-    // ===== GENERAR CLAVE SECRETA =====
+    //GENERAR CLAVE SECRETA
     bool usado[7] = { false };
 
     for (i = 0; i < 4; i++) {
@@ -79,21 +79,21 @@ int main() {
         usado[numero] = true;
     }
 
-    // ===== JUEGO PRINCIPAL (10 INTENTOS) =====
+    //JUEGO PRINCIPAL
     for (i = 0; i < 10; i++) {
 
         cout << "--- INTENTO " << (i + 1) << " DE 10 ---" << endl;
 
         bool entradaValida = false;
 
-        // ===== LEER ENTRADA HASTA QUE SEA VÁLIDA =====
+        //LEER ENTRADA HASTA QUE SEA VÁLIDA
         while (!entradaValida) {
 
             cout << "Escribe 4 numeros del 1 al 6 (Ej: 1234 o 1 2 3 4): ";
             string entrada;
             cin >> entrada;
 
-            // ===== VALIDAR ENTRADA UNIDA (1234) =====
+            //VALIDAR ENTRADA UNIDA (1234)
             if (entrada.length() == 4) {
 
                 bool todoNumeros = true;
@@ -116,7 +116,7 @@ int main() {
                 }
                 if (!todoNumeros) continue;
             }
-            // ===== VALIDAR ENTRADA SEPARADA (1 2 3 4) =====
+            //VALIDAR ENTRADA SEPARADA (1 2 3 4)
             else {
 
                 if (entrada.length() == 1 && entrada[0] >= '1' && entrada[0] <= '6') {
@@ -151,7 +151,7 @@ int main() {
                 if (errorLectura) continue;
             }
 
-            // ===== VALIDAR SIN DUPLICADOS =====
+            //VALIDAR SIN DUPLICADOS
             bool sinRepetir = true;
 
             for (int a = 0; a < 4; a++) {
@@ -171,7 +171,7 @@ int main() {
             }
             if (!sinRepetir) continue;
 
-            // ===== VALIDAR NO REPETIR INTENTOS ANTERIORES =====
+            //VALIDAR NO REPETIR INTENTOS ANTERIORES
             bool esDuplicado = false;
 
             for (int ant = 0; ant < numIntentos; ant++) {
@@ -198,18 +198,18 @@ int main() {
             }
             if (esDuplicado) continue;
 
-            // ===== ENTRADA VÁLIDA =====
+            //ENTRADA VÁLIDA
             entradaValida = true;
         }
 
-        // ===== GUARDAR INTENTO VÁLIDO =====
+        //GUARDAR INTENTO VÁLIDO
         for (int pos = 0; pos < 4; pos++) {
 
             intentosAnteriores[numIntentos][pos] = jugadas[pos];
         }
         numIntentos++;
 
-        // ===== GENERAR PISTAS =====
+        //GENERAR PISTAS
         aciertos = 0;
 
         for (j = 0; j < 4; j++) {
@@ -237,7 +237,7 @@ int main() {
             }
         }
 
-        // ===== MOSTRAR PISTAS =====
+        //MOSTRAR PISTAS
         cout << "Pistas:   ";
 
         for (j = 0; j < 4; j++) {
@@ -246,7 +246,7 @@ int main() {
         }
         cout << endl;
 
-        // ===== VERIFICAR SI GANÓ =====
+        //VERIFICAR SI GANÓ
         if (aciertos == 4) {
 
             cout << "*** FELICIDADES GANASTE ***\n" << endl;
@@ -268,7 +268,7 @@ int main() {
             return 0;
         }
 
-        // ===== SI ES EL ÚLTIMO INTENTO =====
+        //SI ES EL ÚLTIMO INTENTO
         if (i == 9) {
 
             cout << "*** SE ACABARON LOS INTENTOS ***\n" << endl;
