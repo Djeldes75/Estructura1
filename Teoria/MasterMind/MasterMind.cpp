@@ -29,6 +29,7 @@ INTEGRANTES (Grupo 6):
     Elianyer Gomez - 1118021        
 
 Fecha: 21/05/2025
+
 */
 
 #include <iostream>
