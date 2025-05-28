@@ -4,7 +4,7 @@ TAREA: Coca Cola (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
 Descripción:
-    aaa
+    si el numero es divi
 
 INTEGRANTES:
     Dominique Jeldes - 1121623

@@ -1,20 +1,54 @@
-// PiramideDeBolas.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+    -------------------------------------------------------------------------------------
+TAREA: La Piramide de Bolas  (LABORATORIO)
+Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
+-----------------------------------------------------------------------------------------
+Descripción:
+    Con un grupo de 10,000 bolas se forma una pirámide de base cuadrada, con una única bola
+en su vértice superior y un número cuadrado perfecto de ellas en cada capa.
+¿Cuántas capas pueden hacerse? Y ¿Cuántas bolas sobrarán?
+
+INTEGRANTES:
+    Dominique Jeldes - 1121623
+
+Fecha: 23/May/2025
+
+*/
 
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+int main() {
+
+    int totalBolas = 10000;
+    int bolasUsadas = 0;
+    int capas = 0;
+
+    // Construir la pirámide capa por capa
+    for (int capa = 1; ; capa++) {
+
+        int bolasEnCapa = capa * capa;  // Capa 1: 1 bola, Capa 2: 4 bolas, etc.
+
+        // Verificar si caben las bolas de esta capa
+        if (bolasUsadas + bolasEnCapa > totalBolas) {
+
+            break;
+        }
+
+        bolasUsadas += bolasEnCapa;
+
+        capas++;
+    }
+
+    // Calcular bolas sobrantes
+    int bolasSobrantes = totalBolas - bolasUsadas;
+
+    //Resultados
+    cout << "¿Cuantas capas pueden hacerse?: " << capas << endl;
+    cout << "¿Cuantas bolas sobraran?: " << bolasSobrantes << endl;
+    cout << "Se usaron en total " << bolasUsadas << " bolas" << endl;
+
+    return 0;
+
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
