@@ -301,21 +301,3 @@ int main() {
 
     return 0;
 }
-
-
-/*
-Notas:
-
-1. Mejor organizacion para encontrar los metodos a utilizar
-2. Duda: Si me equivoco en el intento deberia de incrementar el intento O deberia de repetirse?
-3. Aprenderselo mejor para evitar preguntas o cosas que nos generen duda.
-4. Evitar colores psicodelicos.
-
-
-clave[4] =
-            1,2,3,4
-
-            clave[0],.... clave[3]
-
-
-*/
