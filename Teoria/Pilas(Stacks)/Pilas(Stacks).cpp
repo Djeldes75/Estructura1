@@ -89,19 +89,11 @@ void push() {
     cout << "Elemento " << valor << " agregado a la pila." << endl;
 }
 
-<<<<<<< HEAD
-/*
-
-OPERACI”N POP - Quitar elemento de la pila
-Analizar mejor en verdad
-----------------------------------------------
-LIFO = (Last In, First Out)
-*/
-
-=======
-// OPERACIÔøΩN POP - Quitar elemento de la pila
+//OPERACI”N POP - Quitar elemento de la pila
 //Analizar mejor en verdad
->>>>>>> d27c21c0d53b9e3361f569be45e8e9a44ac031f6
+//LIFO = (Last In, First Out)
+//Analizar mejor en verdad
+
 void pop() {
 
     // Verificar si la pila est√° vac√≠a
