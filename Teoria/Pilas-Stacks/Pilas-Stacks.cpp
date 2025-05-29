@@ -103,6 +103,7 @@ void pop() {
 
 // DESPLEGAR TODA LA PILA
 void DesplegarTodaPila() {
+
     if (top == nullptr) {
         cout << "Empty Stack" << endl;
         return;
@@ -129,7 +130,7 @@ void mostrarMenu() {
     cout << "2. Pop (Quitar elemento)" << endl;
     cout << "3. Desplegar toda la pila" << endl;
     cout << "4. Salir" << endl;
-    cout << "Seleccione una opcion: ";
+    cout << "\nSeleccione una opcion: ";
 }
 
 //Validación del menú
