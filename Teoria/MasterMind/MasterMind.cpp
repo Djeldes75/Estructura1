@@ -21,7 +21,7 @@ RESTRICCIONES:
         c. F si el digito está en la clave seleccionada pero no en la posición correcta.
 
 INTEGRANTES (Grupo 6):
-    Samira Vasquez - 1125467        
+    Samira Jaquez - 1125467        
     Dominique Jeldes - 1121623      
     Enmanuel Carrasco - 1124404     
     Juan Castillo - 1127310         
@@ -29,7 +29,6 @@ INTEGRANTES (Grupo 6):
     Elianyer Gomez - 1118021        
 
 Fecha: 21/05/2025
-
 */
 
 #include <iostream>

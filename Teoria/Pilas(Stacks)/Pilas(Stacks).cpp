@@ -23,7 +23,7 @@ salir del programa.
 Nota: Este programa valida correctamente las entradas del usuario y maneja escenarios de errores para garantizar su robustez.
 
 INTEGRANTES (Grupo 6):
-    Samira Vasquez - 1125467
+    Samira Jaquez - 1125467
     Dominique Jeldes - 1121623
     Enmanuel Carrasco - 1124404
     Juan Castillo - 1127310
@@ -31,7 +31,6 @@ INTEGRANTES (Grupo 6):
     Elianyer Gomez - 1118021
 
 Fecha: 28/05/2025
-
 */
 
 #include <iostream>
@@ -56,21 +55,48 @@ void push() {
 
     cout << "Ingrese el valor a agregar: ";
 
-    cin >> valor;
+    cin >> valor; //Lee el valor que ingreso el usuario
+
+    //Validacion de que el usuario no ingrese letras/simbolos ya que puede entrar en un bucle infinito
 
     Pila* nuevo = new Pila;
 
+    /*
+        new Pila: Reserva espacio de 12-16 bytes para el heap(un nodo de manera auxiliar para poder entrar al nuevo valor)
+
+        Pila* nuevo  : Se crea un puntero local llamado "nuevo" y almacena la direccion devuelta por "new"
+
+    */
+
     nuevo->dato = valor;
 
+    /*
+        -> : Operador de acceso a miembro(valor, etc) via el puntero.
+    */
+
     nuevo->next = top;
+
+    /*
+        Copia lo que esta en "top" , y ahora el nodo ahora "apunta" al nodo anterior
+        por ej:
+
+        nuevo -> [50]->[60]->[70]->nullptr
+        top ----> [60]->[70]->nullptr
+    */
 
     top = nuevo;
 
     cout << "Elemento " << valor << " agregado a la pila." << endl;
 }
 
-// OPERACIÓN POP - Quitar elemento de la pila
-//Analizar mejor en verdad
+/*
+
+OPERACIÓN POP - Quitar elemento de la pila
+Analizar mejor en verdad
+----------------------------------------------
+LIFO = (Last In, First Out)
+*/
+
 void pop() {
 
     // Verificar si la pila está vacía
@@ -79,11 +105,19 @@ void pop() {
         cout << "Empty Stack" << endl;
 
         return;
-    }
+    } //Evita para acceder a memoria invalida
 
     Pila* temp = top;
 
+    /*
+       Guarda la referencia al nodo que sera eliminado
+    */
+
     int valor = top->dato;
+
+    /*
+        El valor que sera para mostrarlo despues
+    */
 
     top = top->next;
 
@@ -128,11 +162,20 @@ void mostrarMenu() {
     cout << "Seleccione una opcion: ";
 }
 
+//Validacion
+
 int main() {
 
     int opcion;
 
     cout << "PROGRAMA SIMULADOR DE PILA (STACK)" << endl;
+
+    /*while (!(cin >> opcion) {
+        
+        cout << "ERROR: Ingrese un numero valido: ";
+        cin.clear();
+        cin.ignore(1000,'\n');
+    }*/
 
     do {
         mostrarMenu();
@@ -177,4 +220,5 @@ int main() {
     } while (opcion != 4);
 
     return 0;
+
 }
