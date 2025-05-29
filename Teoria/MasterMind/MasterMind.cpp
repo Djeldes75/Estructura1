@@ -25,7 +25,7 @@ INTEGRANTES (Grupo 6):
     Dominique Jeldes - 1121623      
     Enmanuel Carrasco - 1124404     
     Juan Castillo - 1127310         
-    Sebastian Ventura - 1125467     
+    Sebastian Ventura - 1128066     
     Elianyer Gomez - 1118021        
 
 Fecha: 21/05/2025
