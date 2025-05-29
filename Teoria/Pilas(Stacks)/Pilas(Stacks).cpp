@@ -38,11 +38,12 @@ Fecha: 28/05/2025
 
 using namespace std;
 
+//Estructura base
 struct Pila {
 
-    int dato;
+    int dato; //Tipo de dato y nombre
 
-    Pila* next;
+    Pila* next; //Puntero a una estructura Pila
 };
 
 // Variable global para el tope de la pila
