@@ -70,6 +70,7 @@ void push() {
 }
 
 // OPERACIÓN POP - Quitar elemento de la pila
+//Analizar mejor en verdad
 void pop() {
 
     // Verificar si la pila está vacía
