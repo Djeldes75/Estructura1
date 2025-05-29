@@ -45,8 +45,11 @@ struct Pila {
     Pila* next; //Puntero a una estructura Pila
 };
 
+// Variable global para el tope de la pila
+Pila* top = nullptr;
+
 //Validacion para el intendo o entrada numerica
-int leerEntero() {
+int NumPedido() {
     int numero;
     cout << "Ingrese un numero: ";
 
@@ -62,24 +65,19 @@ int leerEntero() {
     return numero;
 }
 
-// Variable global para el tope de la pila
-Pila* top = nullptr;
-
 // OPERACIoN PUSH - Agregar elemento a la pila
 void push() {
 
-    int valor;
+    //Se ingresa el num. y dentro de esa funcion se valida
+    int valor = NumPedido();
 
-    cout << "Ingrese el valor a agregar: ";
-
-    cin >> valor;
-
+    //Se crea un nuevo nodo
     Pila* nuevo = new Pila;
 
     nuevo->dato = valor;
+    nuevo->next = top; //El nuevo nodo literalmente "apunta" al que era el tope o "top"
 
-    nuevo->next = top;
-
+    //Se actualiza el nodo con el valor
     top = nuevo;
 
     cout << "Elemento " << valor << " agregado a la pila." << endl;
@@ -87,27 +85,27 @@ void push() {
 
 void pop() {
 
+    //Valida que no este vacio
     if (top == nullptr) {
-
         cout << "Empty Stack" << endl;
-
         return;
+    }
 
-    } //Evita para acceder a memoria invalida
-
+    //Se guarda el valor que se quita (como temporal)
+    int valor = top->dato;
     Pila* temp = top;
 
-    int valor = top->dato;
-
+    //Y se mueve el top al siguiente elemento 
     top = top->next;
 
+    //Elimina lo que estaba antes para liberar memoria
     delete temp;
 
     cout << "Elemento " << valor << " removido de la pila." << endl;
 }
 
 // DESPLEGAR TODA LA PILA
-void desplegarTodaLaPila() {
+void mostrarPila() {
 
     if (top == nullptr) {
 
@@ -123,11 +121,10 @@ void desplegarTodaLaPila() {
         cout << "Pop: " << top->dato << endl;
 
         Pila* temp = top;
-
         top = top->next;
-
         delete temp;
     }
+
     cout << "Pila completamente vaciada." << endl;
 }
 
@@ -166,7 +163,7 @@ int main() {
             break;
 
         case 3:
-            desplegarTodaLaPila();
+            mostrarPila();
             break;
 
         case 4:
