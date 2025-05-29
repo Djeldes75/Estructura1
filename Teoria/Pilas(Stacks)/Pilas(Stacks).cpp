@@ -45,76 +45,59 @@ struct Pila {
     Pila* next; //Puntero a una estructura Pila
 };
 
+//Validacion para el intendo o entrada numerica
+int leerEntero() {
+    int numero;
+    cout << "Ingrese un numero: ";
+
+    //Dame un nuemro valido
+    while (!(cin >> numero)) {
+        
+        cout << "ERROR: Debe ingresar un numero entero valido." << endl;
+        cout << "Intente de nuevo: ";
+
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    return numero;
+}
+
 // Variable global para el tope de la pila
 Pila* top = nullptr;
 
-// OPERACI�N PUSH - Agregar elemento a la pila
+// OPERACIoN PUSH - Agregar elemento a la pila
 void push() {
 
     int valor;
 
     cout << "Ingrese el valor a agregar: ";
 
-    cin >> valor; //Lee el valor que ingreso el usuario
-
-    //Validacion de que el usuario no ingrese letras/simbolos ya que puede entrar en un bucle infinito
+    cin >> valor;
 
     Pila* nuevo = new Pila;
 
-    /*
-        new Pila: Reserva espacio de 12-16 bytes para el heap(un nodo de manera auxiliar para poder entrar al nuevo valor)
-
-        Pila* nuevo  : Se crea un puntero local llamado "nuevo" y almacena la direccion devuelta por "new"
-
-    */
-
     nuevo->dato = valor;
 
-    /*
-        -> : Operador de acceso a miembro(valor, etc) via el puntero.
-    */
-
     nuevo->next = top;
-
-    /*
-        Copia lo que esta en "top" , y ahora el nodo ahora "apunta" al nodo anterior
-        por ej:
-
-        nuevo -> [50]->[60]->[70]->nullptr
-        top ----> [60]->[70]->nullptr
-    */
 
     top = nuevo;
 
     cout << "Elemento " << valor << " agregado a la pila." << endl;
 }
 
-//OPERACI�N POP - Quitar elemento de la pila
-//Analizar mejor en verdad
-//LIFO = (Last In, First Out)
-//Analizar mejor en verdad
-
 void pop() {
 
-    // Verificar si la pila está vacía
     if (top == nullptr) {
 
         cout << "Empty Stack" << endl;
 
         return;
+
     } //Evita para acceder a memoria invalida
 
     Pila* temp = top;
 
-    /*
-       Guarda la referencia al nodo que sera eliminado
-    */
-
     int valor = top->dato;
-
-    /*
-        El valor que sera para mostrarlo despues
-    */
 
     top = top->next;
 
@@ -123,7 +106,7 @@ void pop() {
     cout << "Elemento " << valor << " removido de la pila." << endl;
 }
 
-// DESPLEGAR TODA LA PILA - Hacer Pops hasta el �ltimo nodo
+// DESPLEGAR TODA LA PILA
 void desplegarTodaLaPila() {
 
     if (top == nullptr) {
@@ -166,13 +149,6 @@ int main() {
     int opcion;
 
     cout << "PROGRAMA SIMULADOR DE PILA (STACK)" << endl;
-
-    /*while (!(cin >> opcion) {
-        
-        cout << "ERROR: Ingrese un numero valido: ";
-        cin.clear();
-        cin.ignore(1000,'\n');
-    }*/
 
     do {
         mostrarMenu();
