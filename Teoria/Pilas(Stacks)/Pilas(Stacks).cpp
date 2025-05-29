@@ -35,17 +35,144 @@ Fecha: 28/05/2025
 */
 
 #include <iostream>
-#include <stack>
 
 using namespace std;
 
+struct Pila {
+
+    int dato;
+
+    Pila* next;
+};
+
+// Variable global para el tope de la pila
+Pila* top = nullptr;
+
+// OPERACIÓN PUSH - Agregar elemento a la pila
+void push() {
+
+    int valor;
+
+    cout << "Ingrese el valor a agregar: ";
+
+    cin >> valor;
+
+    Pila* nuevo = new Pila;
+
+    nuevo->dato = valor;
+
+    nuevo->next = top;
+
+    top = nuevo;
+
+    cout << "Elemento " << valor << " agregado a la pila." << endl;
+}
+
+// OPERACIÓN POP - Quitar elemento de la pila
+void pop() {
+
+    // Verificar si la pila está vacía
+    if (top == nullptr) {
+
+        cout << "Empty Stack" << endl;
+
+        return;
+    }
+
+    Pila* temp = top;
+
+    int valor = top->dato;
+
+    top = top->next;
+
+    delete temp;
+
+    cout << "Elemento " << valor << " removido de la pila." << endl;
+}
+
+// DESPLEGAR TODA LA PILA - Hacer Pops hasta el último nodo
+void desplegarTodaLaPila() {
+
+    if (top == nullptr) {
+
+        cout << "Empty Stack" << endl;
+
+        return;
+    }
+
+    cout << "\nDesplegando toda la pila:" << endl;
+
+    while (top != nullptr) {
+
+        cout << "Pop: " << top->dato << endl;
+
+        Pila* temp = top;
+
+        top = top->next;
+
+        delete temp;
+    }
+    cout << "Pila completamente vaciada." << endl;
+}
+
+// MENÚ PRINCIPAL
+void mostrarMenu() {
+
+    cout << "\n=== SIMULADOR DE PILA ===" << endl;
+    cout << "1. Push (Agregar elemento)" << endl;
+    cout << "2. Pop (Quitar elemento)" << endl;
+    cout << "3. Desplegar toda la pila" << endl;
+    cout << "4. Salir\n" << endl;
+    cout << "Seleccione una opcion: ";
+}
+
 int main() {
 
-    //Funcion pincipal
+    int opcion;
 
-    //
+    cout << "PROGRAMA SIMULADOR DE PILA (STACK)" << endl;
 
-    //Fin lol
+    do {
+        mostrarMenu();
+
+        cin >> opcion;
+
+        switch (opcion) {
+
+        case 1:
+            push();
+            break;
+
+        case 2:
+            pop();
+            break;
+
+        case 3:
+            desplegarTodaLaPila();
+            break;
+
+        case 4:
+            cout << "\nSaliendo del programa..." << endl;
+
+            // Liberar memoria restante antes de salir
+            while (top != nullptr) {
+
+                Pila* temp = top;
+
+                top = top->next;
+
+                delete temp;
+            }
+            break;
+
+        default:
+
+            cout << "\nERROR: Opcion invalida. Seleccione del 1 al 4." << endl;
+
+            break;
+        }
+
+    } while (opcion != 4);
+
     return 0;
-
 }
