@@ -3,7 +3,7 @@
 Tarea: #2 - Pilas (Stacks)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------
-Una pila (stack) es una estructura de datos en donde el  ltimo en entrar es el primero en salir.
+Una pila (stack) es una estructura de datos en donde el último en entrar es el primero en salir.
 Construir un programa C++ que simule una pila, utilizando una estructura de datos como la que
 sigue para los nodos:
 
@@ -14,10 +14,10 @@ struct Pila {
 
 RESTRICCIONES:
 A. La pila debe poder realizar las operaciones de Push y Pop.
-B. Tener en consideraci n de desplegar un mensaje de  Empty Stack , cuando se trate de
-hacer un Pop cuando la pila este vac a.
-C. El programa debe tener un men  para realizar las operaciones de Push, Pop y Desplegar
-toda la pila realizando Pops hasta el  ltimo nodo. Adem s, debe tener una opci n de
+B. Tener en consideración de desplegar un mensaje de "Empty Stack", cuando se trate de
+hacer un Pop cuando la pila este vacía.
+C. El programa debe tener un menú para realizar las operaciones de Push, Pop y Desplegar
+toda la pila realizando Pops hasta el último nodo. Además, debe tener una opción de
 salir del programa.
 
 Nota: Este programa valida correctamente las entradas del usuario y maneja escenarios de errores para garantizar su robustez.
@@ -39,36 +39,33 @@ using namespace std;
 
 //Estructura base
 struct Pila {
-
     int dato; //Tipo de dato y nombre
-
     Pila* next; //Puntero a una estructura Pila
 };
 
 // Variable global para el tope de la pila
 Pila* top = nullptr;
 
-//Validacion para el intendo o entrada numerica
+//Validación para el ingreso de entrada numérica
 int NumPedido() {
     int numero;
     cout << "Ingrese un numero: ";
 
-    //Dame un nuemro valido
+    //Dame un número válido
     while (!(cin >> numero)) {
-
         cout << "ERROR: Debe ingresar un numero entero valido." << endl;
         cout << "Intente de nuevo: ";
 
         cin.clear();
         cin.ignore(1000, '\n');
     }
+
     return numero;
 }
 
-// OPERACIoN PUSH - Agregar elemento a la pila
+// OPERACIÓN PUSH - Agregar elemento a la pila
 void push() {
-
-    //Se ingresa el num. y dentro de esa funcion se valida
+    //Se ingresa el num. y dentro de esa función se valida
     int valor = NumPedido();
 
     //Se crea un nuevo nodo
@@ -83,9 +80,9 @@ void push() {
     cout << "Elemento " << valor << " agregado a la pila." << endl;
 }
 
+// OPERACIÓN POP - Quitar elemento de la pila
 void pop() {
-
-    //Valida que no este vacio
+    //Valida que no esté vacío
     if (top == nullptr) {
         cout << "Empty Stack" << endl;
         return;
@@ -106,7 +103,6 @@ void pop() {
 
 // DESPLEGAR TODA LA PILA
 void DesplegarTodaPila() {
-
     if (top == nullptr) {
         cout << "Empty Stack" << endl;
         return;
@@ -115,7 +111,6 @@ void DesplegarTodaPila() {
     cout << "\nDesplegando toda la pila:" << endl;
 
     while (top != nullptr) {
-
         cout << "Pop: " << top->dato << endl;
 
         Pila* temp = top;
@@ -127,33 +122,32 @@ void DesplegarTodaPila() {
     cout << "Pila completamente vaciada." << endl;
 }
 
-// MEN  PRINCIPAL
+// MENÚ PRINCIPAL
 void mostrarMenu() {
-
     cout << "\n=== SIMULADOR DE PILA ===" << endl;
     cout << "1. Push (Agregar elemento)" << endl;
     cout << "2. Pop (Quitar elemento)" << endl;
     cout << "3. Desplegar toda la pila" << endl;
-    cout << "4. Salir\n" << endl;
+    cout << "4. Salir" << endl;
     cout << "Seleccione una opcion: ";
 }
 
-//Validacion
+//Validación del menú
 int validarOpcionMenu() {
-
     int opcion;
-    cin >> opcion;
 
-    if (cin.fail())
-    {
+    while (!(cin >> opcion)) {
+        cout << "ERROR: Debe ingresar un numero entero valido." << endl;
+        cout << "Seleccione una opcion: ";
+
         cin.clear();
         cin.ignore(1000, '\n');
-        return -1;
     }
+
+    return opcion;
 }
 
 int main() {
-
     int opcion;
 
     cout << "PROGRAMA SIMULADOR DE PILA (STACK)" << endl;
@@ -163,7 +157,6 @@ int main() {
         opcion = validarOpcionMenu();
 
         switch (opcion) {
-
         case 1:
             push();
             break;
@@ -181,24 +174,18 @@ int main() {
 
             // Liberar memoria restante antes de salir
             while (top != nullptr) {
-
                 Pila* temp = top;
-
                 top = top->next;
-
                 delete temp;
             }
             break;
 
         default:
-
             cout << "\nERROR: Opcion invalida. Seleccione del 1 al 4." << endl;
-
             break;
         }
 
     } while (opcion != 4);
 
     return 0;
-
 }
