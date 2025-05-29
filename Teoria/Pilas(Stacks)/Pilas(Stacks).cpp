@@ -105,12 +105,10 @@ void pop() {
 }
 
 // DESPLEGAR TODA LA PILA
-void mostrarPila() {
+void DesplegarTodaPila() {
 
     if (top == nullptr) {
-
         cout << "Empty Stack" << endl;
-
         return;
     }
 
@@ -122,6 +120,7 @@ void mostrarPila() {
 
         Pila* temp = top;
         top = top->next;
+
         delete temp;
     }
 
@@ -140,6 +139,18 @@ void mostrarMenu() {
 }
 
 //Validacion
+int validarOpcionMenu() {
+
+    int opcion;
+    cin >> opcion;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        return -1;
+    }
+}
 
 int main() {
 
@@ -149,8 +160,7 @@ int main() {
 
     do {
         mostrarMenu();
-
-        cin >> opcion;
+        opcion = validarOpcionMenu();
 
         switch (opcion) {
 
@@ -163,7 +173,7 @@ int main() {
             break;
 
         case 3:
-            mostrarPila();
+            DesplegarTodaPila();
             break;
 
         case 4:
