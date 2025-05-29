@@ -3,7 +3,7 @@
 Tarea: #2 - Pilas (Stacks)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------
-Una pila (stack) es una estructura de datos en donde el último en entrar es el primero en salir.
+Una pila (stack) es una estructura de datos en donde el ï¿½ltimo en entrar es el primero en salir.
 Construir un programa C++ que simule una pila, utilizando una estructura de datos como la que
 sigue para los nodos:
 
@@ -14,10 +14,10 @@ struct Pila {
 
 RESTRICCIONES:
 A. La pila debe poder realizar las operaciones de Push y Pop.
-B. Tener en consideración de desplegar un mensaje de “Empty Stack”, cuando se trate de
-hacer un Pop cuando la pila este vacía.
-C. El programa debe tener un menú para realizar las operaciones de Push, Pop y Desplegar
-toda la pila realizando Pops hasta el último nodo. Además, debe tener una opción de
+B. Tener en consideraciï¿½n de desplegar un mensaje de ï¿½Empty Stackï¿½, cuando se trate de
+hacer un Pop cuando la pila este vacï¿½a.
+C. El programa debe tener un menï¿½ para realizar las operaciones de Push, Pop y Desplegar
+toda la pila realizando Pops hasta el ï¿½ltimo nodo. Ademï¿½s, debe tener una opciï¿½n de
 salir del programa.
 
 Nota: Este programa valida correctamente las entradas del usuario y maneja escenarios de errores para garantizar su robustez.
@@ -49,7 +49,7 @@ struct Pila {
 // Variable global para el tope de la pila
 Pila* top = nullptr;
 
-// OPERACIÓN PUSH - Agregar elemento a la pila
+// OPERACIï¿½N PUSH - Agregar elemento a la pila
 void push() {
 
     int valor;
@@ -69,11 +69,11 @@ void push() {
     cout << "Elemento " << valor << " agregado a la pila." << endl;
 }
 
-// OPERACIÓN POP - Quitar elemento de la pila
+// OPERACIï¿½N POP - Quitar elemento de la pila
 //Analizar mejor en verdad
 void pop() {
 
-    // Verificar si la pila está vacía
+    // Verificar si la pila estÃ¡ vacÃ­a
     if (top == nullptr) {
 
         cout << "Empty Stack" << endl;
@@ -92,7 +92,7 @@ void pop() {
     cout << "Elemento " << valor << " removido de la pila." << endl;
 }
 
-// DESPLEGAR TODA LA PILA - Hacer Pops hasta el último nodo
+// DESPLEGAR TODA LA PILA - Hacer Pops hasta el ï¿½ltimo nodo
 void desplegarTodaLaPila() {
 
     if (top == nullptr) {
@@ -117,7 +117,7 @@ void desplegarTodaLaPila() {
     cout << "Pila completamente vaciada." << endl;
 }
 
-// MENÚ PRINCIPAL
+// MENï¿½ PRINCIPAL
 void mostrarMenu() {
 
     cout << "\n=== SIMULADOR DE PILA ===" << endl;
