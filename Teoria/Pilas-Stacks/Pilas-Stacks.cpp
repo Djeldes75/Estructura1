@@ -43,25 +43,64 @@ struct Pila {
     Pila* next; //Puntero a una estructura Pila
 };
 
-// Variable global para el tope de la pila
+//Variable:
 Pila* top = nullptr;
 
-//Validación para el ingreso de entrada numérica
-int NumPedido() {
-    int numero;
-    cout << "Ingrese un numero: ";
+#pragma region Validacion
 
-    //Dame un número válido
-    while (!(cin >> numero)) {
+// Validación para el ingreso de entrada
+int NumPedido() {
+
+    double numero;
+    int numeroEntero;
+
+    cout << "\nIngrese un numero: ";
+
+    while (true) {
+        if (cin >> numero) {
+            
+            //Compara el numero(double) con su parte entera, si mismo
+            if (numero == (int)numero) {
+                //Si el numero no tiene decimales, lo convierte en ENTERO y lo guarda
+                numeroEntero = (int)numero;
+                break;
+            }
+            else {
+                cout << "\nERROR: No se permiten decimales. Solo numeros enteros." << endl;
+            }
+        }
+        else {
+            cout << "\nERROR: Entrada invalida. Solo numeros." << endl;
+        }
+
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "\nIngrese un numero: ";
+    }
+
+    return numeroEntero;
+}
+
+
+// Validación del menú
+int validarOpcionMenu() {
+
+    int opcion;
+
+    while (!(cin >> opcion)) {
         cout << "ERROR: Debe ingresar un numero entero valido." << endl;
-        cout << "Intente de nuevo: ";
+        cout << "Seleccione una opcion: ";
 
         cin.clear();
         cin.ignore(1000, '\n');
     }
 
-    return numero;
+    return opcion;
 }
+
+#pragma endregion
+
+#pragma region Push/Pop/Desplegar
 
 // OPERACIÓN PUSH - Agregar elemento a la pila
 void push() {
@@ -123,30 +162,19 @@ void DesplegarTodaPila() {
     cout << "Pila completamente vaciada." << endl;
 }
 
+#pragma endregion
+
 // MENÚ PRINCIPAL
 void mostrarMenu() {
     cout << "\n=== SIMULADOR DE PILA ===" << endl;
     cout << "1. Push (Agregar elemento)" << endl;
     cout << "2. Pop (Quitar elemento)" << endl;
     cout << "3. Desplegar toda la pila" << endl;
-    cout << "4. Salir" << endl;
-    cout << "\nSeleccione una opcion: ";
+    cout << "4. Salir\n" << endl;
+    cout << "Seleccione una opcion: ";
 }
 
-//Validación del menú
-int validarOpcionMenu() {
-    int opcion;
-
-    while (!(cin >> opcion)) {
-        cout << "ERROR: Debe ingresar un numero entero valido." << endl;
-        cout << "Seleccione una opcion: ";
-
-        cin.clear();
-        cin.ignore(1000, '\n');
-    }
-
-    return opcion;
-}
+#pragma region Programa Principal
 
 int main() {
     int opcion;
@@ -190,3 +218,5 @@ int main() {
 
     return 0;
 }
+
+#pragma endregion
