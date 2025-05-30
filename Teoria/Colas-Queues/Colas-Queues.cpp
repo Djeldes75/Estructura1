@@ -61,58 +61,48 @@ void inicializar() {
     }
 }
 
-/// <summary>
-/// Verifica si todas las colas de prioridad están vacías.
-/// Recorre todas las colas y retorna false si encuentra alguna con elementos.
-/// </summary>
-/// <returns>true si todas las colas están vacías, false en caso contrario</returns>
+// Verifica si todas las colas de prioridad están vacías
+// Recorre todas las colas, y retorna false si encuentra alguna con elementos. Porque obvio NO ESTA VACIA LAJSJKS
 bool estaVacia() {
-    // Revisa cada una de las 17 colas
+
     for (int i = 0; i < 17; i++) {
-        if (colas[i] != nullptr) return false;  // Si encuentra una cola con elementos, no está vacía
+        if (colas[i] != nullptr) return false;
     }
-    return true;  // Todas las colas están vacías
+    return true;
 }
 
-/// <summary>
-/// Solicita al usuario que ingrese un número entero con validación de entrada.
-/// Maneja errores de entrada y rechaza caracteres no numéricos.
-/// Si se ingresa un decimal, toma solo la parte entera automáticamente.
-/// </summary>
-/// <returns>Número entero válido ingresado por el usuario</returns>
+//Numero que el usuario ingresa
 int pedirNumero() {
+
     int valor;
     cout << "Ingrese un numero entero: ";
 
-    // Ciclo de validación: repite hasta obtener un número válido
     while (!(cin >> valor)) {
         cout << "Error: Solo numeros enteros permitidos.\n";
-        cin.clear();              // Limpia el estado de error de cin
-        cin.ignore(1000, '\n');   // Descarta la entrada inválida del buffer
+        cin.clear();
+        cin.ignore(1000, '\n');
         cout << "Ingrese un numero entero: ";
     }
-    cin.ignore(1000, '\n');  // Limpia el buffer después de leer correctamente
+    cin.ignore(1000, '\n');
 
     return valor;
 }
 
-/// <summary>
-/// Solicita al usuario que ingrese un valor de prioridad (0-16) con validación.
-/// Similar a pedirNumero() pero específico para prioridades.
-/// </summary>
-/// <returns>Número entero que representa la prioridad deseada</returns>
+//PRIORIDAD de ps la cola pe'
 int pedirPrioridad() {
+
     int prioridad;
     cout << "Prioridad (0-16): ";
 
     // Ciclo de validación para la prioridad
     while (!(cin >> prioridad)) {
+
         cout << "Error: Solo numeros enteros permitidos.\n";
-        cin.clear();              // Limpia el estado de error
-        cin.ignore(1000, '\n');   // Descarta entrada inválida
+        cin.clear();
+        cin.ignore(1000, '\n');
         cout << "Prioridad (0-16): ";
     }
-    cin.ignore(1000, '\n');  // Limpia el buffer
+    cin.ignore(1000, '\n');
 
     return prioridad;
 }
@@ -121,57 +111,49 @@ int pedirPrioridad() {
 
 #pragma region OPERACIONES PRINCIPALES
 
-/// <summary>
-/// Operación Enqueue: Inserta un nuevo elemento en la cola con prioridad especificada.
-/// Crea un nuevo nodo, solicita datos al usuario y lo inserta en la cola correspondiente.
-/// Si la prioridad está fuera del rango 0-16, usa prioridad 16 (default/final).
-/// </summary>
 void enqueue() {
-    // Crear nuevo nodo dinámicamente
+
     Queue* nuevo = new Queue;
 
-    // Solicitar datos al usuario
     cout << "Dato: ";
     nuevo->dato = pedirNumero();
 
-    // Solicitar prioridad
     int prioridad = pedirPrioridad();
 
-    // Validar rango de prioridad (0-16)
+    //Valida la prioridad y se asegura de qeu sea valida
     if (prioridad < 0 || prioridad > 16) {
+
         cout << "Prioridad invalida. Usando 16 (final).\n";
-        prioridad = 16;  // Usar prioridad default
+        prioridad = 16;  // Si no es valida, le pone la ult. prioridad.
     }
 
     nuevo->next = nullptr;  // El nuevo nodo no apunta a nada inicialmente
 
     // Insertar en la cola correspondiente a la prioridad
     if (colas[prioridad] == nullptr) {
+
         // Si la cola está vacía, el nuevo nodo es el primero
         colas[prioridad] = nuevo;
     }
     else {
+
         // Si la cola tiene elementos, agregar al final (FIFO dentro de la misma prioridad)
         Queue* temp = colas[prioridad];
+
         // Buscar el último nodo de esta cola
         while (temp->next != nullptr) {
             temp = temp->next;
         }
-        // Conectar el nuevo nodo al final
+        //nuevo nodo al final
         temp->next = nuevo;
     }
 
-    // Confirmar la inserción al usuario
     cout << "Insertado: " << nuevo->dato << " (Prioridad " << prioridad << ")\n";
 }
 
-/// <summary>
-/// Operación Dequeue: Elimina el elemento con mayor prioridad de la cola.
 /// Busca la primera cola no vacía (menor índice = mayor prioridad) y elimina su primer elemento.
-/// Libera la memoria del nodo eliminado para evitar memory leaks.
-/// </summary>
 void dequeue() {
-    // Verificar si hay elementos que eliminar
+
     if (estaVacia()) {
         cout << "Cola vacia. No se puede eliminar.\n";
         return;
@@ -179,33 +161,29 @@ void dequeue() {
 
     // Buscar la primera cola con elementos (mayor prioridad)
     for (int i = 0; i < 17; i++) {
+
         if (colas[i] != nullptr) {
-            // Guardar referencia al nodo a eliminar
+
             Queue* temp = colas[i];
 
-            // Informar al usuario qué se está eliminando
             cout << "Eliminado: " << temp->dato << " (Prioridad " << i << ")\n";
 
-            // Actualizar el puntero de la cola para que apunte al siguiente
+            //Next
             colas[i] = colas[i]->next;
 
-            // Liberar la memoria del nodo eliminado
             delete temp;
-            return;  // Salir después de eliminar un elemento
+            return;
         }
     }
 }
 
 #pragma endregion
 
-#pragma region VISUALIZACION
+#pragma region Mostrar y Vaciar Queues(Colas)
 
-/// <summary>
 /// Muestra todos los elementos de todas las colas organizados por prioridad.
-/// Recorre cada cola desde la prioridad 0 hasta la 16 y muestra su contenido.
-/// No elimina elementos, solo los visualiza.
-/// </summary>
 void mostrar() {
+
     // Verificar si hay elementos que mostrar
     if (estaVacia()) {
         cout << "Cola vacia.\n";
@@ -217,23 +195,21 @@ void mostrar() {
 
     // Recorrer todas las colas de prioridad
     for (int i = 0; i < 17; i++) {
+
         Queue* temp = colas[i];  // Puntero temporal para recorrer la cola
 
         // Recorrer todos los nodos de esta cola específica
         while (temp != nullptr) {
+
             cout << contador << ". Dato: " << temp->dato << " | Prioridad: " << i << "\n";
             temp = temp->next;  // Avanzar al siguiente nodo
-            contador++;         // Incrementar numeración
+            contador++;
         }
     }
     cout << "============================\n";
 }
 
-/// <summary>
 /// Vacía completamente todas las colas eliminando todos los elementos en orden de prioridad.
-/// Simula múltiples operaciones Dequeue hasta que todas las colas estén vacías.
-/// Muestra cada elemento eliminado para que el usuario vea el proceso.
-/// </summary>
 void vaciarTodo() {
     // Verificar si hay elementos que eliminar
     if (estaVacia()) {
@@ -242,12 +218,14 @@ void vaciarTodo() {
     }
 
     cout << "\n=== VACIANDO COLA COMPLETA ===\n";
-    int contador = 1;  // Contador de elementos eliminados
+    int contador = 1;
 
     // Continuar eliminando hasta que todas las colas estén vacías
     while (!estaVacia()) {
+
         // Buscar la primera cola con elementos (mayor prioridad)
         for (int i = 0; i < 17; i++) {
+
             if (colas[i] != nullptr) {
                 // Mostrar qué se está eliminando
                 cout << contador << ". Eliminando: " << colas[i]->dato << " (Prioridad " << i << ")\n";
@@ -273,10 +251,6 @@ void vaciarTodo() {
 
 #pragma region MENU
 
-/// <summary>
-/// Muestra el menú principal del programa con todas las opciones disponibles.
-/// Presenta una interfaz clara y organizada para que el usuario elija la operación deseada.
-/// </summary>
 void menu() {
     cout << "=================================\n";
     cout << "       Cola con Prioridad\n";
@@ -292,22 +266,19 @@ void menu() {
     cout << "Opcion: ";
 }
 
-/// <summary>
-/// Solicita al usuario que seleccione una opción del menú con validación de entrada.
 /// Maneja entradas inválidas y asegura que se ingrese un número entero.
-/// </summary>
-/// <returns>Número entero representando la opción seleccionada por el usuario</returns>
 int pedirOpcion() {
 
     int opcion;
+
     // Validar entrada hasta obtener un número válido
     while (!(cin >> opcion)) {
         cout << "Error: Solo numeros enteros permitidos.\n";
-        cin.clear();              // Limpiar estado de error
-        cin.ignore(1000, '\n');   // Descartar entrada inválida
+        cin.clear();
+        cin.ignore(1000, '\n');
         cout << "Opcion: ";
     }
-    cin.ignore(1000, '\n');  // Limpiar buffer
+    cin.ignore(1000, '\n');
     return opcion;
 }
 
