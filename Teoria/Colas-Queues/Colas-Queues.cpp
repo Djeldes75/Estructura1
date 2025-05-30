@@ -40,6 +40,7 @@ Fecha: 30/05/2025
 */
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -53,48 +54,61 @@ Queue* colas[17];  // 17 colas para prioridades 0-16
 #pragma region FUNCIONES AUXILIARES
 
 void inicializar() {
-
     for (int i = 0; i < 17; i++) {
-
         colas[i] = nullptr;
     }
 }
 
 bool estaVacia() {
-
     for (int i = 0; i < 17; i++) {
-
         if (colas[i] != nullptr) return false;
     }
     return true;
 }
 
-int leerNumero(const char* mensaje) {
-
+int pedirNumero() {
     int valor;
-
-    cout << mensaje;
+    cout << "Ingrese un numero entero: ";
 
     while (!(cin >> valor)) {
-
-        cout << "Error: Ingrese un numero valido.\n" << mensaje;
+        cout << "Error: Solo numeros enteros permitidos.\n";
         cin.clear();
-
-        while (cin.get() != '\n');
+        cin.ignore(1000, '\n');
+        cout << "Ingrese un numero entero: ";
     }
-    while (cin.get() != '\n');
+    cin.ignore(1000, '\n');
 
     return valor;
 }
+
+int pedirPrioridad() {
+    int prioridad;
+    cout << "Prioridad (0-16): ";
+
+    while (!(cin >> prioridad)) {
+        cout << "Error: Solo numeros enteros permitidos.\n";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Prioridad (0-16): ";
+    }
+    cin.ignore(1000, '\n');
+
+    return prioridad;
+}
+
 #pragma endregion
 
 #pragma region OPERACIONES PRINCIPALES
-void enqueue() {
-    // Crear nuevo nodo
-    Queue* nuevo = new Queue;
-    nuevo->dato = leerNumero("Dato: ");
 
-    int prioridad = leerNumero("Prioridad (0-16): ");
+void enqueue() {
+    Queue* nuevo = new Queue;
+
+    cout << "Dato: ";
+    nuevo->dato = pedirNumero();
+
+    int prioridad = pedirPrioridad();
+
+    // Si la prioridad es inválida, usar 16 (default)
     if (prioridad < 0 || prioridad > 16) {
         cout << "Prioridad invalida. Usando 16 (final).\n";
         prioridad = 16;
@@ -118,12 +132,14 @@ void enqueue() {
 }
 
 void dequeue() {
+    
     if (estaVacia()) {
+
         cout << "Cola vacia. No se puede eliminar.\n";
         return;
     }
 
-    // Buscar primera cola con elementos (mayor prioridad)
+    // Buscar primera cola con elementos (mayor prioridad = menor número)
     for (int i = 0; i < 17; i++) {
         if (colas[i] != nullptr) {
             Queue* temp = colas[i];
@@ -134,9 +150,11 @@ void dequeue() {
         }
     }
 }
+
 #pragma endregion
 
 #pragma region VISUALIZACION
+
 void mostrar() {
     if (estaVacia()) {
         cout << "Cola vacia.\n";
@@ -180,12 +198,12 @@ void vaciarTodo() {
     }
     cout << "Cola completamente vacia.\n";
 }
+
 #pragma endregion
 
 #pragma region MENU
 
 void menu() {
-
     cout << "=================================\n";
     cout << "       Cola con Prioridad\n";
     cout << "---------------------------------\n";
@@ -199,9 +217,22 @@ void menu() {
     cout << "=================================\n";
     cout << "Opcion: ";
 }
-#pragma endregion
 
-#pragma region 
+int pedirOpcion() {
+
+    int opcion;
+
+    while (!(cin >> opcion)) {
+        cout << "Error: Solo numeros enteros permitidos.\n";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Opcion: ";
+    }
+    cin.ignore(1000, '\n');
+    return opcion;
+}
+
+#pragma endregion
 
 int main() {
 
@@ -210,30 +241,44 @@ int main() {
 
     do {
         menu();
-        opcion = leerNumero("");
+        opcion = pedirOpcion();
 
         switch (opcion) {
-        case 1: enqueue(); break;
-        case 2: dequeue(); break;
-        case 3: mostrar(); break;
-        case 4: vaciarTodo(); break;
+        case 1:
+            enqueue();
+            break;
+        case 2:
+            dequeue();
+            break;
+        case 3:
+            mostrar();
+            break;
+        case 4:
+            vaciarTodo();
+            break;
         case 5:
-            // Limpiar memoria
+
+            // Limpiar memoria antes de salir
+
             for (int i = 0; i < 17; i++) {
+
                 while (colas[i] != nullptr) {
+
                     Queue* temp = colas[i];
+
                     colas[i] = colas[i]->next;
                     delete temp;
                 }
             }
             cout << "Programa terminado.\n";
             break;
+
         default:
-            cout << "Opcion invalida.\n";
+            cout << "Opcion invalida. Intente de nuevo.\n";
         }
 
         if (opcion != 5) {
-            cout << "\nPresione Enter...";
+            cout << "\nPresione Enter para continuar...";
             cin.get();
         }
 
@@ -241,4 +286,3 @@ int main() {
 
     return 0;
 }
-#pragma endregion
