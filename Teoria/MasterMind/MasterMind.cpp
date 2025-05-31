@@ -3,22 +3,22 @@
 Tarea: MasterMind para Principiantes (C++)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------
-DescripciÛn:
-    Master Mind es un juego que consiste en adivinar 4 n˙meros ocultos. Los n˙meros est·n en un
-    rango de 1 a 6. Tendr· 10 intentos para adivinar a clave oculta de 4 n˙meros (o dÌgitos) entre 1
-    y 6. La mejor calificaciÛn se obtendr· haciendo el mÌnimo de intentos para adivinar la clave.
+Descripci√≥n:
+    Master Mind es un juego que consiste en adivinar 4 n√∫meros ocultos. Los n√∫meros est√°n en un
+    rango de 1 a 6. Tendr√° 10 intentos para adivinar a clave oculta de 4 n√∫meros (o d√≠gitos) entre 1
+    y 6. La mejor calificaci√≥n se obtendr√° haciendo el m√≠nimo de intentos para adivinar la clave.
 
 RESTRICCIONES:
     A. El algoritmo puede generar la clave de manera aleatoria, sin embargo, no debe repetirse
-    ning˙n n˙mero en celdas distintas, pues de ser asÌ, el nivel no serÌa para beginners.
+    ning√∫n n√∫mero en celdas distintas, pues de ser as√≠, el nivel no ser√≠a para beginners.
 
-    B. El algoritmo debe validar la entrada de datos del usuario para indicar si no es v·lida o si
+    B. El algoritmo debe validar la entrada de datos del usuario para indicar si no es v√°lida o si
     esta fuera de rango.
 
-    C. El programa en cada paso deber· colocar las pistas adecuadas:
-        a. X si el digito no est· en la clave seleccionada
-        b. C si el digito est· en la misma posiciÛn que la clave, es decir, frente a frente.
-        c. F si el digito est· en la clave seleccionada pero no en la posiciÛn correcta.
+    C. El programa en cada paso deber√° colocar las pistas adecuadas:
+        a. X si el digito no est√° en la clave seleccionada
+        b. C si el digito est√° en la misma posici√≥n que la clave, es decir, frente a frente.
+        c. F si el digito est√° en la clave seleccionada pero no en la posici√≥n correcta.
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467        
@@ -29,6 +29,7 @@ INTEGRANTES (Grupo 6):
     Elianyer Gomez - 1118021        
 
 Fecha: 21/05/2025
+
 */
 
 #include <iostream>
@@ -48,7 +49,7 @@ int main() {
     int intentosAnteriores[10][4];
     int numIntentos = 0;
 
-    //INICIALIZACI”N
+    //INICIALIZACI√ìN
     srand(time(0));
 
     cout << "===    MASTERMIND  ===\n" << endl;
@@ -86,7 +87,7 @@ int main() {
 
         bool entradaValida = false;
 
-        //LEER ENTRADA HASTA QUE SEA V¡LIDA
+        //LEER ENTRADA HASTA QUE SEA V√ÅLIDA
         while (!entradaValida) {
 
             cout << "Escribe 4 numeros del 1 al 6 (Ej: 1234 o 1 2 3 4): ";
@@ -198,11 +199,11 @@ int main() {
             }
             if (esDuplicado) continue;
 
-            //ENTRADA V¡LIDA
+            //ENTRADA V√ÅLIDA
             entradaValida = true;
         }
 
-        //GUARDAR INTENTO V¡LIDO
+        //GUARDAR INTENTO V√ÅLIDO
         for (int pos = 0; pos < 4; pos++) {
 
             intentosAnteriores[numIntentos][pos] = jugadas[pos];
@@ -246,7 +247,7 @@ int main() {
         }
         cout << endl;
 
-        //VERIFICAR SI GAN”
+        //VERIFICAR SI GAN√ì
         if (aciertos == 4) {
 
             cout << "*** FELICIDADES GANASTE ***\n" << endl;
@@ -268,7 +269,7 @@ int main() {
             return 0;
         }
 
-        //SI ES EL ⁄LTIMO INTENTO
+        //SI ES EL √öLTIMO INTENTO
         if (i == 9) {
 
             cout << "*** SE ACABARON LOS INTENTOS ***\n" << endl;
