@@ -4,14 +4,12 @@ TAREA: Asteriscos (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
 Descripcion:
-
-    Hacer un programa en C++ que genere un patrón de asteriscos con 7 filas,
-    donde cada fila tiene la cantidad de asteriscos correspondiente a su número de fila.
+    Hacer un programa en C++ que genere un patrÃ³n de asteriscos con 7 filas,
+    donde cada fila tiene la cantidad de asteriscos correspondiente a su nÃºmero de fila.
 
     Fila 1: 1 asterisco.
     Fila 2: 2 asteriscos.
-    Fila 3: 3 asteriscos.
-    Y así hasta la fila 7 con 7 asteriscos.
+    Y asÃ­ hasta la fila 7 con 7 asteriscos.
 
     Resultado:
 
@@ -31,15 +29,18 @@ Descripcion:
 INTEGRANTE:
     Dominique Jeldes - 1121623
 
-Fecha: 23/May/2025
+Fecha: 31/May/2025
+
 */
 
-
 #include <iostream>
+
 using namespace std;
 
 int main() {
+    
     for (int i = 1; i <= 7; i++) {
+        
         for (int asteriscos = 1; asteriscos <= i; asteriscos++) {
             cout << "*";
             //cout.flush();
