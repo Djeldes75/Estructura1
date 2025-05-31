@@ -39,16 +39,16 @@ using namespace std;
 
 //Estructura base
 struct Pila {
-    int dato; //Tipo de dato y nombre
-    Pila* next; //Puntero a una estructura Pila
+    int dato; //Son 4 bytes en un sis. de 64
+    Pila* next; //puntero llamado next, pesa 8 bytes.
 };
 
-//Variable:
+//Variable global:
 Pila* top = nullptr;
 
 #pragma region Validacion
 
-// Validación para el ingreso de entrada
+//Valida el numero pedido
 int NumPedido() {
 
     double numero;
@@ -82,7 +82,7 @@ int NumPedido() {
 }
 
 
-// Validación del menú
+// Validación del menu EN CASO de que el usuario escoga (0) o un numero mayor a (4)
 int validarOpcionMenu() {
 
     int opcion;
@@ -107,7 +107,7 @@ void push() {
     //Se ingresa el num. y dentro de esa función se valida
     int valor = NumPedido();
 
-    //Se crea un nuevo nodo
+    //Se crea un nuevo nodo COSA que se ocupa reservar un espacio dentro de la memoria, o llamado HEAP,
     Pila* nuevo = new Pila;
 
     nuevo->dato = valor;
@@ -121,7 +121,7 @@ void push() {
 
 // OPERACIÓN POP - Quitar elemento de la pila
 void pop() {
-    //Valida que no esté vacío
+
     if (top == nullptr) {
         cout << "Empty Stack" << endl;
         return;
@@ -177,6 +177,7 @@ void mostrarMenu() {
 #pragma region Programa Principal
 
 int main() {
+
     int opcion;
 
     cout << "PROGRAMA SIMULADOR DE PILA (STACK)" << endl;
