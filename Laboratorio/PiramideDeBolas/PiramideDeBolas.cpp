@@ -5,13 +5,13 @@ Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
 Descripción:
     Con un grupo de 10,000 bolas se forma una pirámide de base cuadrada, con una única bola
-en su vértice superior y un número cuadrado perfecto de ellas en cada capa.
-¿Cuántas capas pueden hacerse? Y ¿Cuántas bolas sobrarán?
+    en su vértice superior y un número cuadrado perfecto de ellas en cada capa.
+    ¿Cuántas capas pueden hacerse? Y ¿Cuántas bolas sobrarán?
 
-INTEGRANTES:
+INTEGRANTE:
     Dominique Jeldes - 1121623
 
-Fecha: 23/May/2025
+Fecha: 29/May/2025
 
 */
 
