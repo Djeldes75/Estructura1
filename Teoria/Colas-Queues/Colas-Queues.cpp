@@ -4,7 +4,7 @@ Tarea: #4 - Colas (Queues)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------------------------
 Una Cola (Queue) es una estructura de datos en donde el primero en entrar es el primero en salir. Para
-nuestro caso, haremos el problema un poco mas complejo aÒadiÈndole lo que se conoce como
+nuestro caso, haremos el problema un poco mas complejo a√±adi√©ndole lo que se conoce como
 prioridad. En los casos en que una Cola tiene prioridad se considera esta al momento de insertar un
 nuevo nodo a la estructura. La Cola tiene la siguiente forma para los nodos:
 
@@ -16,16 +16,16 @@ struct Queue {
 RESTRICCIONES:
     A. La Cola debe poder realizar las operaciones Enqueue y Dequeue.
 
-    B. Las prioridades van de 0 a 16. En los casos que el usuario decida una prioridad m·s alta que 16 se
+    B. Las prioridades van de 0 a 16. En los casos que el usuario decida una prioridad m√°s alta que 16 se
     considerara la default, y se insertara el nuevo nodo al final de la estructura.
 
-    C. El programa deber· tener un menu con las opciones para Enqueue y Dequeue, adem·s de poder
+    C. El programa deber√° tener un menu con las opciones para Enqueue y Dequeue, adem√°s de poder
     desplegar todos los elementos de la cola, provocando Dequeue de toda la estructura Cola.
 
     D. Las entradas de datos del usuario deben ser debidamente validas.
 
     E. El programas debe ser lo suficientemente especializado para informar al usuario cuando la cola esta
-    vacÌa.
+    vac√≠a.
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
@@ -35,7 +35,7 @@ INTEGRANTES (Grupo 6):
     Sebastian Ventura - 1128066
     Elianyer Gomez - 1118021
 
-Fecha: 30/05/2025
+Fecha: 31/May/2025
 
 */
 
@@ -61,7 +61,7 @@ void inicializar() {
     }
 }
 
-// Verifica si todas las colas de prioridad est·n vacÌas
+// Verifica si todas las colas de prioridad est√°n vac√≠as
 // Recorre todas las colas, y retorna false si encuentra alguna con elementos. Porque obvio NO ESTA VACIA LAJSJKS
 bool estaVacia() {
 
@@ -94,7 +94,7 @@ int pedirPrioridad() {
     int prioridad;
     cout << "Prioridad (0-16): ";
 
-    // Ciclo de validaciÛn para la prioridad
+    // Ciclo de validaci√≥n para la prioridad
     while (!(cin >> prioridad)) {
 
         cout << "Error: Solo numeros enteros permitidos.\n";
@@ -132,7 +132,7 @@ void enqueue() {
     // Insertar en la cola correspondiente a la prioridad
     if (colas[prioridad] == nullptr) {
 
-        // Si la cola est· vacÌa, el nuevo nodo es el primero
+        // Si la cola est√° vac√≠a, el nuevo nodo es el primero
         colas[prioridad] = nuevo;
     }
     else {
@@ -140,7 +140,7 @@ void enqueue() {
         // Si la cola tiene elementos, agregar al final (FIFO dentro de la misma prioridad)
         Queue* temp = colas[prioridad];
 
-        // Buscar el ˙ltimo nodo de esta cola
+        // Buscar el √∫ltimo nodo de esta cola
         while (temp->next != nullptr) {
             temp = temp->next;
         }
@@ -151,7 +151,7 @@ void enqueue() {
     cout << "Insertado: " << nuevo->dato << " (Prioridad " << prioridad << ")\n";
 }
 
-/// Busca la primera cola no vacÌa (menor Ìndice = mayor prioridad) y elimina su primer elemento.
+/// Busca la primera cola no vac√≠a (menor √≠ndice = mayor prioridad) y elimina su primer elemento.
 void dequeue() {
 
     if (estaVacia()) {
@@ -191,14 +191,14 @@ void mostrar() {
     }
 
     cout << "\n=== CONTENIDO DE LA COLA ===\n";
-    int contador = 1;  // NumeraciÛn secuencial de elementos
+    int contador = 1;  // Numeraci√≥n secuencial de elementos
 
     // Recorrer todas las colas de prioridad
     for (int i = 0; i < 17; i++) {
 
         Queue* temp = colas[i];  // Puntero temporal para recorrer la cola
 
-        // Recorrer todos los nodos de esta cola especÌfica
+        // Recorrer todos los nodos de esta cola espec√≠fica
         while (temp != nullptr) {
 
             cout << contador << ". Dato: " << temp->dato << " | Prioridad: " << i << "\n";
@@ -209,7 +209,7 @@ void mostrar() {
     cout << "============================\n";
 }
 
-/// VacÌa completamente todas las colas eliminando todos los elementos en orden de prioridad.
+/// Vac√≠a completamente todas las colas eliminando todos los elementos en orden de prioridad.
 void vaciarTodo() {
     // Verificar si hay elementos que eliminar
     if (estaVacia()) {
@@ -220,14 +220,14 @@ void vaciarTodo() {
     cout << "\n=== VACIANDO COLA COMPLETA ===\n";
     int contador = 1;
 
-    // Continuar eliminando hasta que todas las colas estÈn vacÌas
+    // Continuar eliminando hasta que todas las colas est√©n vac√≠as
     while (!estaVacia()) {
 
         // Buscar la primera cola con elementos (mayor prioridad)
         for (int i = 0; i < 17; i++) {
 
             if (colas[i] != nullptr) {
-                // Mostrar quÈ se est· eliminando
+                // Mostrar qu√© se est√° eliminando
                 cout << contador << ". Eliminando: " << colas[i]->dato << " (Prioridad " << i << ")\n";
 
                 // Guardar referencia al nodo a eliminar
@@ -266,12 +266,12 @@ void menu() {
     cout << "Opcion: ";
 }
 
-/// Maneja entradas inv·lidas y asegura que se ingrese un n˙mero entero.
+/// Maneja entradas inv√°lidas y asegura que se ingrese un n√∫mero entero.
 int pedirOpcion() {
 
     int opcion;
 
-    // Validar entrada hasta obtener un n˙mero v·lido
+    // Validar entrada hasta obtener un n√∫mero v√°lido
     while (!(cin >> opcion)) {
         cout << "Error: Solo numeros enteros permitidos.\n";
         cin.clear();
@@ -337,7 +337,7 @@ int main() {
             cout << "Opcion invalida. Intente de nuevo.\n";
         }
 
-        // Pausa para que el usuario vea los resultados antes del siguiente men˙
+        // Pausa para que el usuario vea los resultados antes del siguiente men√∫
         if (opcion != 5) {
             cout << "\nPresione Enter para continuar...";
             cin.get();
