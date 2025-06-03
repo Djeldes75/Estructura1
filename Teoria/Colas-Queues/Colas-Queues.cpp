@@ -62,7 +62,7 @@ void inicializar() {
 }
 
 // Verifica si todas las colas de prioridad están vacías
-// Recorre todas las colas, y retorna false si encuentra alguna con elementos. Porque obvio NO ESTA VACIA LAJSJKS
+// Recorre todas las colas, y retorna false si encuentra alguna con elementos. Porque obvio NO ESTA VACIA 
 bool estaVacia() {
 
     for (int i = 0; i < 17; i++) {
