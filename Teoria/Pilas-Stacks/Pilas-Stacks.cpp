@@ -45,7 +45,7 @@ struct Pila {
 
 //Variable:
 Pila* top = nullptr;
-
+// "top" es el puntero que apunta al elemento superior de la pila (el último agregado)
 #pragma region Validacion
 
 // Validación para el ingreso de entrada
