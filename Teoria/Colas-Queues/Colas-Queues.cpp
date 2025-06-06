@@ -51,26 +51,26 @@ struct Queue {
 // Array de 17 punteros a Queue que representa las colas de diferentes prioridades.
 Queue* colas[17];
 
+#pragma region Funciones Auxiliares
 
-
-#pragma region Func. Auxi.
-
-//Recorre e inicializa las 17(16) colas, y las inicia vacias
+//Inicializar Array de Colas
 void inicializar() {
     for (int i = 0; i < 17; i++) {
         colas[i] = nullptr;
     }
 }
+//Fin de Func. inicializar
 
-// Verifica si todas las colas de prioridad están vacías. Agarra y recorre todas las colas, y retorna false si encuentra alguna con elementos.
+//Verificar si Todas las Colas Estan Vacias
 bool estaVacia() {
     for (int i = 0; i < 17; i++) {
         if (colas[i] != nullptr) return false;
     }
     return true;
 }
+//Fin de Func. estaVacia
 
-//Numero que el usuario ingresa
+//Validar Input del Usuario - Numero Entero
 int pedirNumero() {
 
     double numero;
@@ -81,9 +81,7 @@ int pedirNumero() {
     while (true) {
         if (cin >> numero) {
 
-            //Compara el numero(double) con su parte entera, si mismo
             if (numero == (int)numero) {
-                //Si el numero no tiene decimales, lo convierte en ENTERO y lo guarda
                 numeroEntero = (int)numero;
                 break;
             }
@@ -102,8 +100,9 @@ int pedirNumero() {
 
     return numeroEntero;
 }
+//Fin de Func. pedirNumero
 
-//PRIORIDAD
+//Validar Input del Usuario - Prioridad
 int pedirPrioridad() {
 
     double prioridad;
@@ -118,7 +117,7 @@ int pedirPrioridad() {
             if (prioridad == (int)prioridad) {
                 numeroPrioridad = (int)prioridad;
 
-                // Validar rango
+                //Validar que la prioridad este en el rango correcto
                 if (numeroPrioridad >= 0 && numeroPrioridad <= 16) {
                     break;
                 }
@@ -141,12 +140,13 @@ int pedirPrioridad() {
 
     return numeroPrioridad;
 }
+//Fin de Func. pedirPrioridad
 
 #pragma endregion
 
 #pragma region OPERACIONES PRINCIPALES
 
-//Función enqueue() simplificada
+//Insertar Elemento en Cola con Prioridad
 void enqueue() {
 
     Queue* nuevo = new Queue;
@@ -156,10 +156,12 @@ void enqueue() {
 
     nuevo->next = nullptr;
 
+    //Si la cola de esta prioridad esta vacia
     if (colas[prioridad] == nullptr) {
         colas[prioridad] = nuevo;
     }
     else {
+        //Buscar el final de la cola para insertar (FIFO)
         Queue* temp = colas[prioridad];
         while (temp->next != nullptr) {
             temp = temp->next;
@@ -169,9 +171,9 @@ void enqueue() {
 
     cout << "\n{Dato: " << nuevo->dato << "} - " << "{Prioridad: " << prioridad << "}\n\n";
 }
+//Fin de Func. Enqueue
 
-
-/// Busca la primera cola no vacía (menor índice = mayor prioridad) y elimina su primer elemento.
+//Eliminar Elemento de Mayor Prioridad
 void dequeue() {
 
     if (estaVacia()) {
@@ -179,7 +181,7 @@ void dequeue() {
         return;
     }
 
-    // Buscar la primera cola con elementos (mayor prioridad)
+    //Buscar la primera cola con elementos (indice menor = mayor prioridad)
     for (int i = 0; i < 17; i++) {
 
         if (colas[i] != nullptr) {
@@ -188,7 +190,7 @@ void dequeue() {
 
             cout << "\nEliminado: " << temp->dato << " (Prioridad " << i << ")\n";
 
-            //Next
+            //Actualizar puntero de la cola
             colas[i] = colas[i]->next;
 
             delete temp;
@@ -196,42 +198,42 @@ void dequeue() {
         }
     }
 }
+//Fin de Func. dequeue
 
 #pragma endregion
 
 #pragma region Mostrar y Vaciar Queues(Colas)
 
-/// Muestra todos los elementos de todas las colas organizados por prioridad.
+//Mostrar Todos los Elementos por Prioridad
 void mostrar() {
 
-    // Verificar si hay elementos que mostrar
     if (estaVacia()) {
         cout << "Cola vacia.\n\n";
         return;
     }
 
     cout << "\n=== CONTENIDO DE LA COLA ===\n";
-    int contador = 1;  // Numeración secuencial de elementos
+    int contador = 1;
 
-    // Recorrer todas las colas de prioridad
+    //Recorrer todas las colas desde la mayor prioridad (0) hasta la menor (16)
     for (int i = 0; i < 17; i++) {
 
-        Queue* temp = colas[i];  // Puntero temporal para recorrer la cola
+        Queue* temp = colas[i];
 
-        // Recorrer todos los nodos de esta cola específica
+        //Recorrer todos los nodos de esta cola especifica
         while (temp != nullptr) {
 
             cout << contador << ". Dato: " << temp->dato << " | Prioridad: " << i << "\n";
-            temp = temp->next;  // Avanzar al siguiente nodo
+            temp = temp->next;
             contador++;
         }
     }
     cout << "============================\n\n";
 }
+//Fin de Func. mostrar
 
-/// Vacía completamente todas las colas eliminando todos los elementos en orden de prioridad.
+//Vaciar Completamente Todas las Colas
 void vaciarTodo() {
-    // Verificar si hay elementos que eliminar
     if (estaVacia()) {
         cout << "Cola vacia.\n\n";
         return;
@@ -240,20 +242,17 @@ void vaciarTodo() {
     cout << "\n=== VACIANDO COLA COMPLETA ===\n";
     int contador = 1;
 
-    // Continuar eliminando hasta que todas las colas estén vacías
+    //Eliminar elementos respetando prioridad hasta que todo este vacio
     while (!estaVacia()) {
 
-        // Buscar la primera cola con elementos (mayor prioridad)
+        //Buscar la primera cola con elementos (mayor prioridad)
         for (int i = 0; i < 17; i++) {
 
             if (colas[i] != nullptr) {
 
                 cout << contador << ". Eliminando: " << colas[i]->dato << " (Prioridad " << i << ")\n";
 
-                // Guardar referencia al nodo a eliminar
                 Queue* temp = colas[i];
-
-                // Actualizar puntero de la cola
                 colas[i] = colas[i]->next;
 
                 delete temp;
@@ -265,11 +264,13 @@ void vaciarTodo() {
     }
     cout << "\nCola completamente vacia.\n\n";
 }
+//Fin de Func. vaciarTodo
 
 #pragma endregion
 
 #pragma region MENU
 
+//Mostrar Menu Principal
 void menu() {
     cout << "=================================\n";
     cout << "       Cola con Prioridad\n";
@@ -282,8 +283,9 @@ void menu() {
     cout << "=================================\n";
     cout << "Opcion: ";
 }
+//Fin de Func. Menu
 
-//Función pedirOpcion() corregida (quitar cin.ignore extra)
+//Validar Input del Usuario - Opcion de Menu
 int pedirOpcion() {
 
     double opcion;
@@ -312,6 +314,7 @@ int pedirOpcion() {
     }
     return opcionEntera;
 }
+//Fin de Func. pedirOpcion
 
 #pragma endregion
 
@@ -327,7 +330,6 @@ int main() {
 
         menu();
         opcion = pedirOpcion();
-
 
         switch (opcion) {
 
@@ -349,7 +351,6 @@ int main() {
 
         case 5:
 
-            //Limpia la memory por que no esta de grati'
             for (int i = 0; i < 17; i++) {
 
                 while (colas[i] != nullptr) {
