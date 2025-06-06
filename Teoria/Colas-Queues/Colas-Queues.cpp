@@ -51,6 +51,8 @@ struct Queue {
 // Array de 17 punteros a Queue que representa las colas de diferentes prioridades.
 Queue* colas[17];
 
+
+
 #pragma region Func. Auxi.
 
 //Recorre e inicializa las 17(16) colas, y las inicia vacias
@@ -101,7 +103,7 @@ int pedirNumero() {
     return numeroEntero;
 }
 
-//PRIORIDAD, de PS la cola pe'
+//PRIORIDAD
 int pedirPrioridad() {
 
     double prioridad;
@@ -110,12 +112,19 @@ int pedirPrioridad() {
     cout << "Ingrese la prioridad [ 0 (Alta) - 16 (Baja) ]: ";
 
     while (true) {
-        if (cin >> prioridad) {
-            //Comparacion parte entera con la entrada del usuario
-            if (prioridad == (int)prioridad) {
 
+        if (cin >> prioridad) {
+
+            if (prioridad == (int)prioridad) {
                 numeroPrioridad = (int)prioridad;
-                break;
+
+                // Validar rango
+                if (numeroPrioridad >= 0 && numeroPrioridad <= 16) {
+                    break;
+                }
+                else {
+                    cout << "ERROR: La prioridad debe estar entre 0 y 16." << endl;
+                }
             }
             else {
                 cout << "ERROR: No se permiten decimales. Solo numeros enteros." << endl;
@@ -137,44 +146,30 @@ int pedirPrioridad() {
 
 #pragma region OPERACIONES PRINCIPALES
 
+//Función enqueue() simplificada
 void enqueue() {
 
     Queue* nuevo = new Queue;
 
     nuevo->dato = pedirNumero();
-
     int prioridad = pedirPrioridad();
 
-    //Valida la prioridad y se asegura de qeu sea valida
-    if (prioridad < 0 || prioridad > 16) {
+    nuevo->next = nullptr;
 
-        cout << "ERROR: Prioridad invalida. Usando 16 (final).\n\n";
-        prioridad = 16;  // Si no es valida, le pone la ult. prioridad.
-    }
-
-    nuevo->next = nullptr;  // El nuevo nodo no apunta a nada inicialmente
-
-    // Insertar en la cola correspondiente a la prioridad
     if (colas[prioridad] == nullptr) {
-
-        // Si la cola está vacía, el nuevo nodo es el primero
         colas[prioridad] = nuevo;
     }
     else {
-
-        // Si la cola tiene elementos, agregar al final (FIFO dentro de la misma prioridad)
         Queue* temp = colas[prioridad];
-
-        // Buscar el último nodo de esta cola
         while (temp->next != nullptr) {
             temp = temp->next;
         }
-        //nuevo nodo al final
         temp->next = nuevo;
     }
 
     cout << "\n{Dato: " << nuevo->dato << "} - " << "{Prioridad: " << prioridad << "}\n\n";
 }
+
 
 /// Busca la primera cola no vacía (menor índice = mayor prioridad) y elimina su primer elemento.
 void dequeue() {
@@ -288,14 +283,14 @@ void menu() {
     cout << "Opcion: ";
 }
 
-/// Maneja entradas inválidas y asegura que se ingrese un número entero.
+//Función pedirOpcion() corregida (quitar cin.ignore extra)
 int pedirOpcion() {
 
     double opcion;
     int opcionEntera;
 
-    // Validar entrada hasta obtener un número válido
     while (true) {
+
         if (cin >> opcion) {
 
             if (opcion == (int)opcion) {
@@ -313,9 +308,8 @@ int pedirOpcion() {
         cin.clear();
         cin.ignore(1000, '\n');
         cout << "\nVuelva a ingresar una opcion: ";
-    }
-    cin.ignore(1000, '\n');
 
+    }
     return opcionEntera;
 }
 
@@ -367,7 +361,6 @@ int main() {
                     delete temp;
                 }
             }
-            cout << "Programa terminado.\n";
             break;
 
         default:
