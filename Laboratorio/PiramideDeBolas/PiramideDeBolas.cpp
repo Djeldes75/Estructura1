@@ -45,9 +45,9 @@ int main() {
     int bolasSobrantes = totalBolas - bolasUsadas;
 
     //Resultados
-    cout << "¿Cuantas capas pueden hacerse?: " << capas << endl;
-    cout << "¿Cuantas bolas sobraran?: " << bolasSobrantes << endl;
-    cout << "Se usaron en total " << bolasUsadas << " bolas" << endl;
+    cout << "1. Cuantas capas pueden hacerse?: " << capas << endl;
+    cout << "\n2. Cuantas bolas sobraran?: " << bolasSobrantes << endl;
+    cout << "\n3. Total de bolas usadas: " << bolasUsadas << " bolas" << endl;
 
     return 0;
 

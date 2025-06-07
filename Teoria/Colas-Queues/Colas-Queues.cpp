@@ -152,6 +152,7 @@ void enqueue() {
     Queue* nuevo = new Queue;
 
     nuevo->dato = pedirNumero();
+
     int prioridad = pedirPrioridad();
 
     nuevo->next = nullptr;

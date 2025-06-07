@@ -41,15 +41,16 @@ int main() {
     
     for (int i = 1; i <= 7; i++) {
         
-        for (int asteriscos = 1; asteriscos <= i; asteriscos++) {
+        for (int aste = 1; aste <= i; aste++) {
             cout << "*";
             //cout.flush();
             //Si no se ve la animacion, descomentar el "cout.flush();". Se utilia para forzar que se vea el asterisco
 
-            for (int pausa = 0; pausa < 1000000000; pausa++) {
+            for (int pausa = 0; pausa < 250000000; pausa++) {
             }//Para que se vea bonito nomas, y simplemente lo  imprima 1a1
         }
         cout << "\n";
     }
+
     return 0;
 }
