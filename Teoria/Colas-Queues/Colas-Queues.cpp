@@ -144,7 +144,7 @@ int pedirPrioridad() {
 
 #pragma endregion
 
-#pragma region OPERACIONES PRINCIPALES
+#pragma region Engueue y Dequeue
 
 //Insertar Elemento en Cola con Prioridad
 void enqueue() {
@@ -178,6 +178,7 @@ void enqueue() {
 void dequeue() {
 
     if (estaVacia()) {
+
         cout << "Cola vacia.\n\n";
         return;
     }
@@ -209,6 +210,7 @@ void dequeue() {
 void mostrar() {
 
     if (estaVacia()) {
+
         cout << "Cola vacia.\n\n";
         return;
     }
@@ -235,6 +237,7 @@ void mostrar() {
 
 //Vaciar Completamente Todas las Colas
 void vaciarTodo() {
+
     if (estaVacia()) {
         cout << "Cola vacia.\n\n";
         return;

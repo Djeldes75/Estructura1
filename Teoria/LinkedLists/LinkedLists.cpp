@@ -1,13 +1,13 @@
 /*
 -------------------------------------------------------------------------------------------------------
-Tarea: #4 - Listas Enlazadas (Linked List)
+Tarea: #4 - Lista Enlazada (Linked List)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------------------------
-Una Lista Enlazada (Linked List) es una estructura de datos en donde cada nodo apunta a uno siguiente y
-de esta manera se mantiene un enlace entre los nodos. Para nuestro caso, haremos el problema un poco
+Una Lista Enlazada (Linked List) es una estructura de datos en donde cada nodo apunta a uno siguiente
+y de esta manera se mantiene un enlace entre los nodos. Para nuestro caso, haremos el problema un poco
 más real exigiendo que al insertar cada nodo, este se inserte de manera ordenada (ascendente) de modo
-que los nodos se indexen según su dato. La Lista Enlazada (Linked List) tiene la siguiente forma para los
-nodos:
+que los nodos se indexen según su dato. La Lista Enlazada (Linked List) tiene la siguiente forma
+para los nodos:
 
 struct LinkedList {
  int dato;
@@ -15,19 +15,19 @@ struct LinkedList {
 };
 
 RESTRICCIONES:
-    A. La Lista Enlazada (Linked List) debe poder realizar las operaciones Insertar, Buscar, Eliminar y 
-       Mostrar la Lista Enlazada.
+    A. La Lista Enlazada (Linked List) debe poder realizar las operaciones Insertar, Buscar,
+       Eliminar y Mostrar la Lista Enlazada.
 
     B. Al insertar un nuevo nodo el programa debe contemplar realizar la inserción del nodo donde le
        corresponda, ya que la lista debe estar ordenada en forma ascendente según su dato.
 
-    C. El programa deberá tener un menú con las opciones para Insertar, Buscar, Eliminar y Mostrar la Lista
-       Enlazada y Salir.
+    C. El programa deberá tener un menú con las opciones para Insertar, Buscar, Eliminar y
+       Mostrar la Lista Enlazada y Salir.
 
     D. Las entradas de datos del usuario deben ser debidamente validas.
 
-    E. El programa debe ser lo suficientemente especializado para informar al usuario cuando la lista esta
-       vacía.
+    E. El programa debe ser lo suficientemente especializado para informar al usuario cuando la
+       Lista Enlazada (Linked List) está vacía.
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
@@ -37,7 +37,7 @@ INTEGRANTES (Grupo 6):
     Sebastian Ventura - 1128066
     Elianyer Gomez - 1118021
 
-Fecha: 5/Diciembre/2025
+Fecha: 5/Diciembre/2022
 
 */
 
@@ -47,10 +47,10 @@ using namespace std;
 
 struct LinkedList {
     int dato;
-    LinkedList* next;   // Puntero al siguiente nodo en la lista
+    LinkedList* next;
 };
 
-// Puntero al primer nodo de la lista enlazada
+// Puntero al primer nodo de la lista
 LinkedList* cabeza = nullptr;
 
 #pragma region Funciones Auxiliares
@@ -59,7 +59,6 @@ LinkedList* cabeza = nullptr;
 bool estaVacia() {
     return cabeza == nullptr;
 }
-//Fin de Func. estaVacia
 
 //Validar Input del Usuario - Numero Entero
 int pedirNumero() {
@@ -74,6 +73,7 @@ int pedirNumero() {
 
             if (numero == (int)numero) {
                 numeroEntero = (int)numero;
+                cin.ignore(1000, '\n'); // Limpiar buffer
                 break;
             }
             else {
@@ -91,11 +91,10 @@ int pedirNumero() {
 
     return numeroEntero;
 }
-//Fin de Func. pedirNumero
 
 #pragma endregion
 
-#pragma region OPERACIONES PRINCIPALES
+#pragma region Operaciones de Lista Enlazada
 
 //Insertar Elemento de Manera Ordenada (Ascendente)
 void insertar() {
@@ -105,10 +104,10 @@ void insertar() {
     nuevo->next = nullptr;
 
     // Si la lista está vacía o el nuevo dato es menor que el primer elemento
-    if (cabeza == nullptr || nuevo->dato < cabeza->dato) {
+    if (estaVacia() || nuevo->dato < cabeza->dato) {
         nuevo->next = cabeza;
         cabeza = nuevo;
-        cout << "\n{Dato: " << nuevo->dato << "} insertado al inicio de la lista.\n\n";
+        cout << "\nElemento " << nuevo->dato << " insertado al inicio de la lista.\n\n";
         return;
     }
 
@@ -121,9 +120,9 @@ void insertar() {
         actual = actual->next;
     }
 
-    // Verificar si el dato ya existe
+    // Verificar si el elemento ya existe
     if (actual != nullptr && actual->dato == nuevo->dato) {
-        cout << "\nERROR: El dato " << nuevo->dato << " ya existe en la lista.\n\n";
+        cout << "\nERROR: El elemento " << nuevo->dato << " ya existe en la lista.\n\n";
         delete nuevo;
         return;
     }
@@ -132,7 +131,7 @@ void insertar() {
     anterior->next = nuevo;
     nuevo->next = actual;
 
-    cout << "\n{Dato: " << nuevo->dato << "} insertado correctamente en la lista ordenada.\n\n";
+    cout << "\nElemento " << nuevo->dato << " insertado correctamente en la lista.\n\n";
 }
 //Fin de Func. insertar
 
@@ -140,24 +139,24 @@ void insertar() {
 void buscar() {
 
     if (estaVacia()) {
-        cout << "Lista vacia.\n\n";
+        cout << "\nLista vacia.\n\n";
         return;
     }
 
-    int valorBuscado = pedirNumero();
+    int valor = pedirNumero();
     LinkedList* temp = cabeza;
     int posicion = 1;
 
     while (temp != nullptr) {
-        if (temp->dato == valorBuscado) {
-            cout << "\nElemento ENCONTRADO: " << valorBuscado << " en la posicion " << posicion << "\n\n";
+        if (temp->dato == valor) {
+            cout << "\nElemento " << valor << " encontrado en la posicion " << posicion << ".\n\n";
             return;
         }
         temp = temp->next;
         posicion++;
     }
 
-    cout << "\nElemento NO ENCONTRADO: " << valorBuscado << " no existe en la lista.\n\n";
+    cout << "\nElemento " << valor << " no encontrado en la lista.\n\n";
 }
 //Fin de Func. buscar
 
@@ -165,52 +164,47 @@ void buscar() {
 void eliminar() {
 
     if (estaVacia()) {
-        cout << "Lista vacia.\n\n";
+        cout << "\nLista vacia.\n\n";
         return;
     }
 
-    int valorEliminar = pedirNumero();
+    int valor = pedirNumero();
 
     // Si el elemento a eliminar es el primero
-    if (cabeza->dato == valorEliminar) {
+    if (cabeza->dato == valor) {
         LinkedList* temp = cabeza;
         cabeza = cabeza->next;
-        cout << "\nEliminado: " << temp->dato << " (era el primer elemento)\n\n";
         delete temp;
+        cout << "\nElemento " << valor << " eliminado de la lista.\n\n";
         return;
     }
 
-    // Buscar el elemento a eliminar
+    // Buscar el elemento en el resto de la lista
     LinkedList* actual = cabeza;
     LinkedList* anterior = nullptr;
 
-    while (actual != nullptr && actual->dato != valorEliminar) {
+    while (actual != nullptr && actual->dato != valor) {
         anterior = actual;
         actual = actual->next;
     }
 
-    // Si no se encontró el elemento
     if (actual == nullptr) {
-        cout << "\nERROR: El elemento " << valorEliminar << " no existe en la lista.\n\n";
+        cout << "\nElemento " << valor << " no encontrado en la lista.\n\n";
         return;
     }
 
-    // Eliminar el nodo
+    // Eliminar el nodo encontrado
     anterior->next = actual->next;
-    cout << "\nEliminado: " << actual->dato << " correctamente de la lista.\n\n";
     delete actual;
+    cout << "\nElemento " << valor << " eliminado de la lista.\n\n";
 }
 //Fin de Func. eliminar
-
-#pragma endregion
-
-#pragma region Mostrar Lista
 
 //Mostrar Todos los Elementos de la Lista
 void mostrar() {
 
     if (estaVacia()) {
-        cout << "Lista vacia.\n\n";
+        cout << "\nLista vacia.\n\n";
         return;
     }
 
@@ -219,36 +213,12 @@ void mostrar() {
     int contador = 1;
 
     while (temp != nullptr) {
-        cout << contador << ". Dato: " << temp->dato << "\n";
+        cout << contador << ". " << temp->dato << "\n";
         temp = temp->next;
         contador++;
     }
     cout << "=====================================\n\n";
 }
-//Fin de Func. mostrar
-
-//Vaciar Completamente la Lista
-void vaciarLista() {
-    if (estaVacia()) {
-        cout << "Lista vacia.\n\n";
-        return;
-    }
-
-    cout << "\n=== VACIANDO LISTA COMPLETA ===\n";
-    int contador = 1;
-
-    while (cabeza != nullptr) {
-        cout << contador << ". Eliminando: " << cabeza->dato << "\n";
-        
-        LinkedList* temp = cabeza;
-        cabeza = cabeza->next;
-        delete temp;
-        
-        contador++;
-    }
-    cout << "\nLista completamente vacia.\n\n";
-}
-//Fin de Func. vaciarLista
 
 #pragma endregion
 
@@ -256,16 +226,15 @@ void vaciarLista() {
 
 //Mostrar Menu Principal
 void menu() {
-    cout << "=================================\n";
-    cout << "      Lista Enlazada Ordenada\n";
-    cout << "=================================\n";
-    cout << "1. Insertar (Ordenado)\n";
-    cout << "2. Buscar elemento\n";
-    cout << "3. Eliminar elemento\n";
-    cout << "4. Mostrar lista\n";
-    cout << "5. Vaciar lista completa\n";
-    cout << "6. Salir\n";
-    cout << "=================================\n";
+    cout << "=======================================\n";
+    cout << "       Lista Enlazada (Linked List)\n";
+    cout << "=======================================\n";
+    cout << "1. Insertar\n";
+    cout << "2. Buscar\n";
+    cout << "3. Eliminar\n";
+    cout << "4. Mostrar Lista\n";
+    cout << "5. Salir\n";
+    cout << "=======================================\n";
     cout << "Opcion: ";
 }
 //Fin de Func. Menu
@@ -282,6 +251,7 @@ int pedirOpcion() {
 
             if (opcion == (int)opcion) {
                 opcionEntera = (int)opcion;
+                cin.ignore(1000, '\n');
                 break;
             }
             else {
@@ -333,11 +303,7 @@ int main() {
             break;
 
         case 5:
-            vaciarLista();
-            break;
-
-        case 6:
-
+            // Limpiar memoria antes de salir
             while (cabeza != nullptr) {
                 LinkedList* temp = cabeza;
                 cabeza = cabeza->next;
@@ -347,10 +313,10 @@ int main() {
             break;
 
         default:
-            cout << "ERROR: Opcion invalida. Intente de nuevamente.\n\n";
+            cout << "ERROR: Opcion invalida. Intente nuevamente.\n\n";
         }
 
-    } while (opcion != 6);
+    } while (opcion != 5);
 
     return 0;
 }

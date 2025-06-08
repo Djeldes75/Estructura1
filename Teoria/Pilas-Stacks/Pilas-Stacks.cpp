@@ -45,6 +45,7 @@ struct Pila {
 
 //Variable global:
 Pila* top = nullptr;
+
 // "top" es el puntero que apunta al elemento superior de la pila (el último agregado)
 #pragma region Validacion
 
@@ -88,8 +89,8 @@ int validarOpcionMenu() {
     int opcion;
 
     while (!(cin >> opcion)) {
-        cout << "ERROR: Debe ingresar un numero entero valido." << endl;
-        cout << "Seleccione una opcion: ";
+        cout << "ERROR: Debe ingresar un numero entero valido.\n" << endl;
+        cout << "\nSeleccione una opcion: ";
 
         cin.clear();
         cin.ignore(1000, '\n');
@@ -116,7 +117,7 @@ void push() {
     //Se actualiza el nodo con el valor
     top = nuevo;
 
-    cout << "Elemento " << valor << " agregado a la pila." << endl;
+    cout << "Elemento " << valor << " agregado a la pila.\n" << endl;
 }
 
 // OPERACIÓN POP - Quitar elemento de la pila
@@ -166,7 +167,7 @@ void DesplegarTodaPila() {
 
 // MENÚ PRINCIPAL
 void mostrarMenu() {
-    cout << "\n=== SIMULADOR DE PILA ===" << endl;
+    cout << "=== Simulador De Stack ===" << endl;
     cout << "1. Push (Agregar elemento)" << endl;
     cout << "2. Pop (Quitar elemento)" << endl;
     cout << "3. Desplegar toda la pila" << endl;
@@ -179,8 +180,6 @@ void mostrarMenu() {
 int main() {
 
     int opcion;
-
-    cout << "PROGRAMA SIMULADOR DE PILA (STACK)" << endl;
 
     do {
         mostrarMenu();
@@ -211,7 +210,7 @@ int main() {
             break;
 
         default:
-            cout << "\nERROR: Opcion invalida. Seleccione del 1 al 4." << endl;
+            cout << "\nERROR: Opcion invalida. Seleccione del 1 al 4.\n" << endl;
             break;
         }
 
