@@ -45,11 +45,85 @@ using namespace std;
 
 struct Queue {
     int dato;
-    Queue* next;   // Puntero al siguiente nodo en la cola
+    Queue* next;
 };
 
 // Array de 17 punteros a Queue que representa las colas de diferentes prioridades.
 Queue* colas[17];
+
+#pragma region Validaciones
+
+//Validacion Universal para Enteros
+int validarEntero(const char* mensaje) {
+
+    int enteroValido;
+    char siguienteChar;
+
+    cout << mensaje;
+
+    while (true) {
+
+        if (cin >> enteroValido) {
+
+            // Verificar que despues del numero no haya otros caracteres (excepto espacios y salto de linea)
+            siguienteChar = cin.peek();
+
+            if (siguienteChar == '\n' || siguienteChar == ' ' || siguienteChar == EOF) {
+
+                while (cin.get() != '\n');
+                return enteroValido;
+            }
+            else {
+                //Invalido
+                cout << "ERROR: Entrada invalida.\n";
+                cin.clear();
+
+                while (cin.get() != '\n');
+                cout << "\nIntente nuevamente: ";
+            }
+        }
+        else {
+            cout << "ERROR: Entrada invalida.\n";
+            cin.clear();
+            // Limpiar el buffer - version simple
+            while (cin.get() != '\n');
+            cout << "\nIntente nuevamente: ";
+        }
+    }
+}
+
+//Validar Opcion del Menu
+int leerOpcionMenu() {
+    int opcion;
+    opcion = validarEntero("");
+
+    while (opcion < 1 || opcion > 5) {
+        cout << "ERROR: Opcion invalida. Opciones: 1-5. \nIntente nuevamente: ";
+        opcion = validarEntero("");
+    }
+
+    return opcion;
+}
+
+//Validar Prioridad
+int leerPrioridad() {
+
+    int prioridad = validarEntero("Ingrese la prioridad (0-16): ");
+
+    if (prioridad > 16 || prioridad < 0) {
+        cout << "Prioridad fuera de rango. Usando prioridad por defecto (16).\n";
+        return 16;
+    }
+
+    return prioridad;
+}
+
+//Validar Dato
+int leerDato() {
+    return validarEntero("Ingrese un numero: ");
+}
+
+#pragma endregion
 
 #pragma region Funciones Auxiliares
 
@@ -59,127 +133,54 @@ void inicializar() {
         colas[i] = nullptr;
     }
 }
-//Fin de Func. inicializar
 
 //Verificar si Todas las Colas Estan Vacias
 bool estaVacia() {
+
     for (int i = 0; i < 17; i++) {
         if (colas[i] != nullptr) return false;
     }
     return true;
 }
-//Fin de Func. estaVacia
-
-//Validar Input del Usuario - Numero Entero
-int pedirNumero() {
-
-    double numero;
-    int numeroEntero;
-
-    cout << "Ingrese un numero: ";
-
-    while (true) {
-        if (cin >> numero) {
-
-            if (numero == (int)numero) {
-                numeroEntero = (int)numero;
-                break;
-            }
-            else {
-                cout << "ERROR: No se permiten decimales. Solo numeros enteros." << endl;
-            }
-        }
-        else {
-            cout << "ERROR: Entrada invalida. Solo numeros." << endl;
-        }
-
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "\nVuelva a ingresar un numero: ";
-    }
-
-    return numeroEntero;
-}
-//Fin de Func. pedirNumero
-
-//Validar Input del Usuario - Prioridad
-int pedirPrioridad() {
-
-    double prioridad;
-    int numeroPrioridad;
-
-    cout << "Ingrese la prioridad [ 0 (Alta) - 16 (Baja) ]: ";
-
-    while (true) {
-
-        if (cin >> prioridad) {
-
-            if (prioridad == (int)prioridad) {
-                numeroPrioridad = (int)prioridad;
-
-                //Validar que la prioridad este en el rango correcto
-                if (numeroPrioridad >= 0 && numeroPrioridad <= 16) {
-                    break;
-                }
-                else {
-                    cout << "ERROR: La prioridad debe estar entre 0 y 16." << endl;
-                }
-            }
-            else {
-                cout << "ERROR: No se permiten decimales. Solo numeros enteros." << endl;
-            }
-        }
-        else {
-            cout << "ERROR: Entrada invalida. Solo numeros." << endl;
-        }
-
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "\nVuelva a ingresar la prioridad: ";
-    }
-
-    return numeroPrioridad;
-}
-//Fin de Func. pedirPrioridad
 
 #pragma endregion
 
-#pragma region Engueue y Dequeue
+#pragma region Enqueue y Dequeue
 
 //Insertar Elemento en Cola con Prioridad
 void enqueue() {
-
     Queue* nuevo = new Queue;
 
-    nuevo->dato = pedirNumero();
+    nuevo->dato = leerDato();
 
-    int prioridad = pedirPrioridad();
+    int prioridad = leerPrioridad();
 
     nuevo->next = nullptr;
 
     //Si la cola de esta prioridad esta vacia
     if (colas[prioridad] == nullptr) {
+
         colas[prioridad] = nuevo;
     }
     else {
         //Buscar el final de la cola para insertar (FIFO)
-        Queue* temp = colas[prioridad];
-        while (temp->next != nullptr) {
-            temp = temp->next;
+        Queue* nodoActual = colas[prioridad];
+
+        while (nodoActual->next != nullptr) {
+
+            nodoActual = nodoActual->next;
         }
-        temp->next = nuevo;
+        nodoActual->next = nuevo;
     }
 
-    cout << "\n{Dato: " << nuevo->dato << "} - " << "{Prioridad: " << prioridad << "}\n\n";
+    cout << "\nIngresado: {Dato: " << nuevo->dato << "} - {Prioridad: " << prioridad << "}\n\n";
 }
-//Fin de Func. Enqueue
 
 //Eliminar Elemento de Mayor Prioridad
 void dequeue() {
 
     if (estaVacia()) {
-
-        cout << "Cola vacia.\n\n";
+        cout << "\nCola vacia.\n\n";
         return;
     }
 
@@ -188,30 +189,28 @@ void dequeue() {
 
         if (colas[i] != nullptr) {
 
-            Queue* temp = colas[i];
+            Queue* nodoAEliminar = colas[i];
 
-            cout << "\nEliminado: " << temp->dato << " (Prioridad " << i << ")\n";
+            cout << "\nEliminado: " << nodoAEliminar->dato << " (Prioridad " << i << ")\n\n";
 
             //Actualizar puntero de la cola
             colas[i] = colas[i]->next;
 
-            delete temp;
+            delete nodoAEliminar;
             return;
         }
     }
 }
-//Fin de Func. dequeue
 
 #pragma endregion
 
-#pragma region Mostrar y Vaciar Queues(Colas)
+#pragma region Mostrar y Vaciar
 
 //Mostrar Todos los Elementos por Prioridad
 void mostrar() {
 
     if (estaVacia()) {
-
-        cout << "Cola vacia.\n\n";
+        cout << "\nCola vacia.\n\n";
         return;
     }
 
@@ -220,26 +219,23 @@ void mostrar() {
 
     //Recorrer todas las colas desde la mayor prioridad (0) hasta la menor (16)
     for (int i = 0; i < 17; i++) {
-
-        Queue* temp = colas[i];
+        Queue* nodoActual = colas[i];
 
         //Recorrer todos los nodos de esta cola especifica
-        while (temp != nullptr) {
-
-            cout << contador << ". Dato: " << temp->dato << " | Prioridad: " << i << "\n";
-            temp = temp->next;
+        while (nodoActual != nullptr) {
+            cout << contador << ". Dato: " << nodoActual->dato << " | Prioridad: " << i << "\n";
+            nodoActual = nodoActual->next;
             contador++;
         }
     }
     cout << "============================\n\n";
 }
-//Fin de Func. mostrar
 
 //Vaciar Completamente Todas las Colas
 void vaciarTodo() {
 
     if (estaVacia()) {
-        cout << "Cola vacia.\n\n";
+        cout << "\nCola vacia.\n\n";
         return;
     }
 
@@ -253,29 +249,26 @@ void vaciarTodo() {
         for (int i = 0; i < 17; i++) {
 
             if (colas[i] != nullptr) {
-
                 cout << contador << ". Eliminando: " << colas[i]->dato << " (Prioridad " << i << ")\n";
 
-                Queue* temp = colas[i];
+                Queue* nodoAEliminar = colas[i];
                 colas[i] = colas[i]->next;
-
-                delete temp;
+                delete nodoAEliminar;
 
                 contador++;
-                break;       // Salir del for para buscar el siguiente elemento de mayor prioridad
+                break;
             }
         }
     }
     cout << "\nCola completamente vacia.\n\n";
 }
-//Fin de Func. vaciarTodo
 
 #pragma endregion
 
-#pragma region MENU
+#pragma region Menu
 
 //Mostrar Menu Principal
-void menu() {
+void mostrarMenu() {
     cout << "=================================\n";
     cout << "       Cola con Prioridad\n";
     cout << "=================================\n";
@@ -287,61 +280,28 @@ void menu() {
     cout << "=================================\n";
     cout << "Opcion: ";
 }
-//Fin de Func. Menu
-
-//Validar Input del Usuario - Opcion de Menu
-int pedirOpcion() {
-
-    double opcion;
-    int opcionEntera;
-
-    while (true) {
-
-        if (cin >> opcion) {
-
-            if (opcion == (int)opcion) {
-                opcionEntera = (int)opcion;
-                break;
-            }
-            else {
-                cout << "Error: Solo numeros enteros permitidos.\n";
-            }
-        }
-        else {
-            cout << "Error: Entrada invalida. Solo numeros.\n";
-        }
-
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "\nVuelva a ingresar una opcion: ";
-
-    }
-    return opcionEntera;
-}
-//Fin de Func. pedirOpcion
 
 #pragma endregion
 
-#pragma region MAIN
+#pragma region Main
 
 int main() {
 
     inicializar();
-
     int opcion;
 
     do {
-
-        menu();
-        opcion = pedirOpcion();
+        mostrarMenu();
+        opcion = leerOpcionMenu();
 
         switch (opcion) {
-
         case 1:
+            cout << "\n--- INSERTAR ELEMENTO ---\n";
             enqueue();
             break;
 
         case 2:
+            cout << "\n--- ELIMINAR ELEMENTO ---\n";
             dequeue();
             break;
 
@@ -356,20 +316,14 @@ int main() {
         case 5:
 
             for (int i = 0; i < 17; i++) {
-
                 while (colas[i] != nullptr) {
-
-                    Queue* temp = colas[i];
-
+                    Queue* nodoAEliminar = colas[i];
                     colas[i] = colas[i]->next;
-
-                    delete temp;
+                    delete nodoAEliminar;
                 }
             }
+            cout << "\nFin del programa.\n";
             break;
-
-        default:
-            cout << "ERROR: Opcion invalida. Intente de nuevamente.\n\n";
         }
 
     } while (opcion != 5);
