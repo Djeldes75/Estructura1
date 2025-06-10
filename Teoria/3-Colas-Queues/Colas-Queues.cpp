@@ -94,6 +94,7 @@ int validarEntero(const char* mensaje) {
 
 //Validar Opcion del Menu
 int leerOpcionMenu() {
+
     int opcion;
     opcion = validarEntero("");
 
@@ -129,6 +130,7 @@ int leerDato() {
 
 //Inicializar Array de Colas
 void inicializar() {
+
     for (int i = 0; i < 17; i++) {
         colas[i] = nullptr;
     }
