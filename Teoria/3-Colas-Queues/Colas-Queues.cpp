@@ -69,7 +69,7 @@ int validarEntero(const char* mensaje) {
             siguienteChar = cin.peek();
 
             if (siguienteChar == '\n' || siguienteChar == ' ' || siguienteChar == EOF) {
-
+                 
                 while (cin.get() != '\n');
                 return enteroValido;
             }
@@ -151,6 +151,7 @@ bool estaVacia() {
 
 //Insertar Elemento en Cola con Prioridad
 void enqueue() {
+
     Queue* nuevo = new Queue;
 
     nuevo->dato = leerDato();
