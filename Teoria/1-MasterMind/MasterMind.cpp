@@ -70,13 +70,11 @@ int main() {
         int numero;
 
         do {
-
             numero = rand() % 6 + 1;
-
+            
         } while (usado[numero]);
 
         clave[i] = numero;
-
         usado[numero] = true;
     }
 
