@@ -85,7 +85,7 @@ int validarEntero(const char* mensaje) {
         else {
             cout << "ERROR: Entrada invalida.\n";
             cin.clear();
-            // Limpiar el buffer - version simple
+
             while (cin.get() != '\n');
             cout << "\nIntente nuevamente: ";
         }
