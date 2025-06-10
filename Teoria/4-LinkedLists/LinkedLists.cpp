@@ -255,7 +255,7 @@ void mostrar() {
 //Mostrar Menu Principal
 void mostrarMenu() {
     cout << "=================================\n";
-    cout << "      Lista Enlazada Ordenada\n";
+    cout << "          Lista Enlazada\n";
     cout << "=================================\n";
     cout << "1. Insertar elemento\n";
     cout << "2. Buscar elemento\n";
