@@ -3,7 +3,7 @@
 Tarea: #2 - Pilas (Stacks)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------
-Una pila (stack) es una estructura de datos en donde el último en entrar es el primero en salir.
+Una pila (stack) es una estructura de datos en donde el Ãºltimo en entrar es el primero en salir.
 Construir un programa C++ que simule una pila, utilizando una estructura de datos como la que
 sigue para los nodos:
 
@@ -14,10 +14,10 @@ struct Pila {
 
 RESTRICCIONES:
 A. La pila debe poder realizar las operaciones de Push y Pop.
-B. Tener en consideración de desplegar un mensaje de "Empty Stack", cuando se trate de
-hacer un Pop cuando la pila este vacía.
-C. El programa debe tener un menú para realizar las operaciones de Push, Pop y Desplegar
-toda la pila realizando Pops hasta el último nodo. Además, debe tener una opción de
+B. Tener en consideraciÃ³n de desplegar un mensaje de "Empty Stack", cuando se trate de
+hacer un Pop cuando la pila este vacÃ­a.
+C. El programa debe tener un menÃº para realizar las operaciones de Push, Pop y Desplegar
+toda la pila realizando Pops hasta el Ãºltimo nodo. AdemÃ¡s, debe tener una opciÃ³n de
 salir del programa.
 
 Nota: Este programa valida correctamente las entradas del usuario y maneja escenarios de errores para garantizar su robustez.
@@ -31,6 +31,7 @@ INTEGRANTES (Grupo 6):
     Elianyer Gomez - 1118021
 
 Fecha: 28/05/2025
+
 */
 
 #include <iostream>
@@ -46,7 +47,7 @@ struct Pila {
 //Variable global:
 Pila* top = nullptr;
 
-// "top" es el puntero que apunta al elemento superior de la pila (el último agregado)
+// "top" es el puntero que apunta al elemento superior de la pila (el Ãºltimo agregado)
 #pragma region Validacion
 
 //Valida el numero pedido
@@ -78,12 +79,11 @@ int NumPedido() {
         cin.ignore(1000, '\n');
         cout << "\nIngrese un numero: ";
     }
-
     return numeroEntero;
 }
 
 
-// Validación del menu EN CASO de que el usuario escoga (0) o un numero mayor a (4)
+// ValidaciÃ³n del menu EN CASO de que el usuario escoga (0) o un numero mayor a (4)
 int validarOpcionMenu() {
 
     int opcion;
@@ -103,9 +103,9 @@ int validarOpcionMenu() {
 
 #pragma region Push/Pop/Desplegar
 
-// OPERACIÓN PUSH - Agregar elemento a la pila
+// OPERACIÃ“N PUSH - Agregar elemento a la pila
 void push() {
-    //Se ingresa el num. y dentro de esa función se valida
+    //Se ingresa el num. y dentro de esa funciÃ³n se valida
     int valor = NumPedido();
 
     //Se crea un nuevo nodo COSA que se ocupa reservar un espacio dentro de la memoria, o llamado HEAP,
@@ -120,7 +120,7 @@ void push() {
     cout << "Elemento " << valor << " agregado a la pila.\n" << endl;
 }
 
-// OPERACIÓN POP - Quitar elemento de la pila
+// OPERACIÃ“N POP - Quitar elemento de la pila
 void pop() {
 
     if (top == nullptr) {
@@ -165,7 +165,7 @@ void DesplegarTodaPila() {
 
 #pragma endregion
 
-// MENÚ PRINCIPAL
+// MENÃš PRINCIPAL
 void mostrarMenu() {
     cout << "=== Simulador De Stack ===" << endl;
     cout << "1. Push (Agregar elemento)" << endl;
@@ -201,7 +201,7 @@ int main() {
         case 4:
             cout << "\nSaliendo del programa..." << endl;
 
-            // Liberar memoria restante antes de salir
+            // Liberar memoria
             while (top != nullptr) {
                 Pila* temp = top;
                 top = top->next;
