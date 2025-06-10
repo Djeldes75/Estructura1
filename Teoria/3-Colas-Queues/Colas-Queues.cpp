@@ -24,7 +24,7 @@ RESTRICCIONES:
 
     D. Las entradas de datos del usuario deben ser debidamente validas.
 
-    E. El programas debe ser lo suficientemente especializado para informar al usuario cuando la cola esta
+    E. El programa debe ser lo suficientemente especializado para informar al usuario cuando la cola esta
     vacía.
 
 INTEGRANTES (Grupo 6):
