@@ -41,3 +41,277 @@ Fecha: 5/Diciembre/2022
 
 */
 
+#include <iostream>
+
+using namespace std;
+
+struct LinkedList {
+    int dato;
+    LinkedList* next;
+};
+
+// Puntero al primer nodo de la lista enlazada
+LinkedList* cabeza = nullptr;
+
+#pragma region Validaciones
+
+//Validacion Universal para Enteros
+int validarEntero(const char* mensaje) {
+
+    int enteroValido;
+    char siguienteChar;
+
+    cout << mensaje;
+
+    while (true) {
+
+        if (cin >> enteroValido) {
+
+            // Verificar que despues del numero no haya otros caracteres (excepto espacios y salto de linea)
+            siguienteChar = cin.peek();
+
+            if (siguienteChar == '\n' || siguienteChar == ' ' || siguienteChar == EOF) {
+
+                while (cin.get() != '\n');
+                return enteroValido;
+            }
+            else {
+                //Invalido
+                cout << "ERROR: Entrada invalida.\n";
+                cin.clear();
+
+                while (cin.get() != '\n');
+                cout << "\nIntente nuevamente: ";
+            }
+        }
+        else {
+            cout << "ERROR: Entrada invalida.\n";
+            cin.clear();
+            // Limpiar el buffer - version simple
+            while (cin.get() != '\n');
+            cout << "\nIntente nuevamente: ";
+        }
+    }
+}
+
+//Validar Opcion del Menu
+int leerOpcionMenu() {
+
+    int opcion;
+    opcion = validarEntero("");
+
+    while (opcion < 1 || opcion > 5) {
+        cout << "ERROR: Opcion invalida. Opciones: 1-5. \nIntente nuevamente: ";
+        opcion = validarEntero("");
+    }
+
+    return opcion;
+}
+
+//Validar Dato
+int leerDato() {
+    return validarEntero("Ingrese un numero: ");
+}
+
+#pragma endregion
+
+#pragma region Funciones Auxiliares
+
+//Verificar si la Lista Esta Vacia
+bool estaVacia() {
+    return cabeza == nullptr;
+}
+
+#pragma endregion
+
+#pragma region Operaciones de Lista Enlazada
+
+//Insertar Elemento en Orden Ascendente
+void insertar() {
+
+    LinkedList* nuevo = new LinkedList;
+    nuevo->dato = leerDato();
+    nuevo->next = nullptr;
+
+    // Si la lista esta vacia o el nuevo dato es menor que el primer elemento
+    if (cabeza == nullptr || nuevo->dato < cabeza->dato) {
+        nuevo->next = cabeza;
+        cabeza = nuevo;
+        cout << "\nElemento " << nuevo->dato << " insertado al inicio de la lista.\n\n";
+        return;
+    }
+
+    // Buscar la posicion correcta para insertar
+    LinkedList* actual = cabeza;
+    LinkedList* anterior = nullptr;
+
+    while (actual != nullptr && actual->dato < nuevo->dato) {
+        anterior = actual;
+        actual = actual->next;
+    }
+
+    // Verificar si el dato ya existe
+    if (actual != nullptr && actual->dato == nuevo->dato) {
+        cout << "\nERROR: El elemento " << nuevo->dato << " ya existe en la lista.\n\n";
+        delete nuevo;
+        return;
+    }
+
+    // Insertar el nuevo nodo en la posicion correcta
+    anterior->next = nuevo;
+    nuevo->next = actual;
+
+    cout << "\nElemento " << nuevo->dato << " insertado correctamente en la lista.\n\n";
+}
+
+//Buscar Elemento en la Lista
+void buscar() {
+
+    if (estaVacia()) {
+        cout << "\nLista vacia.\n\n";
+        return;
+    }
+
+    int datoABuscar = leerDato();
+    LinkedList* actual = cabeza;
+    int posicion = 1;
+
+    while (actual != nullptr) {
+        if (actual->dato == datoABuscar) {
+            cout << "\nElemento " << datoABuscar << " encontrado en la posicion " << posicion << ".\n\n";
+            return;
+        }
+        actual = actual->next;
+        posicion++;
+    }
+
+    cout << "\nElemento " << datoABuscar << " no encontrado en la lista.\n\n";
+}
+
+//Eliminar Elemento de la Lista
+void eliminar() {
+
+    if (estaVacia()) {
+        cout << "\nLista vacia.\n\n";
+        return;
+    }
+
+    int datoAEliminar = leerDato();
+
+    // Si el elemento a eliminar es el primero
+    if (cabeza->dato == datoAEliminar) {
+        LinkedList* nodoAEliminar = cabeza;
+        cabeza = cabeza->next;
+        delete nodoAEliminar;
+        cout << "\nElemento " << datoAEliminar << " eliminado de la lista.\n\n";
+        return;
+    }
+
+    // Buscar el elemento en el resto de la lista
+    LinkedList* actual = cabeza;
+    LinkedList* anterior = nullptr;
+
+    while (actual != nullptr && actual->dato != datoAEliminar) {
+        anterior = actual;
+        actual = actual->next;
+    }
+
+    // Si no se encontro el elemento
+    if (actual == nullptr) {
+        cout << "\nElemento " << datoAEliminar << " no encontrado en la lista.\n\n";
+        return;
+    }
+
+    // Eliminar el nodo
+    anterior->next = actual->next;
+    delete actual;
+    cout << "\nElemento " << datoAEliminar << " eliminado de la lista.\n\n";
+}
+
+//Mostrar Todos los Elementos de la Lista
+void mostrar() {
+
+    if (estaVacia()) {
+        cout << "\nLista vacia.\n\n";
+        return;
+    }
+
+    cout << "\n=== CONTENIDO DE LA LISTA ENLAZADA ===\n";
+    LinkedList* actual = cabeza;
+    int posicion = 1;
+
+    while (actual != nullptr) {
+        cout << posicion << ". " << actual->dato << "\n";
+        actual = actual->next;
+        posicion++;
+    }
+    cout << "=====================================\n\n";
+}
+
+#pragma endregion
+
+#pragma region Menu
+
+//Mostrar Menu Principal
+void mostrarMenu() {
+    cout << "=================================\n";
+    cout << "      Lista Enlazada Ordenada\n";
+    cout << "=================================\n";
+    cout << "1. Insertar elemento\n";
+    cout << "2. Buscar elemento\n";
+    cout << "3. Eliminar elemento\n";
+    cout << "4. Mostrar lista\n";
+    cout << "5. Salir\n";
+    cout << "=================================\n";
+    cout << "Opcion: ";
+}
+
+#pragma endregion
+
+#pragma region Main
+
+int main() {
+
+    int opcion;
+
+    do {
+        mostrarMenu();
+        opcion = leerOpcionMenu();
+
+        switch (opcion) {
+        case 1:
+            cout << "\n--- INSERTAR ELEMENTO ---\n";
+            insertar();
+            break;
+
+        case 2:
+            cout << "\n--- BUSCAR ELEMENTO ---\n";
+            buscar();
+            break;
+
+        case 3:
+            cout << "\n--- ELIMINAR ELEMENTO ---\n";
+            eliminar();
+            break;
+
+        case 4:
+            mostrar();
+            break;
+
+        case 5:
+            // Limpiar memoria antes de salir
+            while (cabeza != nullptr) {
+                LinkedList* nodoAEliminar = cabeza;
+                cabeza = cabeza->next;
+                delete nodoAEliminar;
+            }
+            cout << "\nFin del programa.\n";
+            break;
+        }
+
+    } while (opcion != 5);
+
+    return 0;
+}
+
+#pragma endregion
