@@ -32,7 +32,7 @@ INTEGRANTES (Grupo 6):
     Sebastian Ventura - 1128066
     Elianyer Gomez - 1118021
 
-Fecha: 28/05/2025
+Fecha: 28/May/2025
 
 */
 
