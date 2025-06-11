@@ -13,12 +13,14 @@ struct Pila {
 };
 
 RESTRICCIONES:
-A. La pila debe poder realizar las operaciones de Push y Pop.
-B. Tener en consideración de desplegar un mensaje de "Empty Stack", cuando se trate de
-hacer un Pop cuando la pila este vacía.
-C. El programa debe tener un menú para realizar las operaciones de Push, Pop y Desplegar
-toda la pila realizando Pops hasta el último nodo. Además, debe tener una opción de
-salir del programa.
+    A. La pila debe poder realizar las operaciones de Push y Pop.
+
+    B. Tener en consideración de desplegar un mensaje de "Empty Stack", cuando se trate de
+    hacer un Pop cuando la pila este vacía.
+
+    C. El programa debe tener un menú para realizar las operaciones de Push, Pop y Desplegar
+    toda la pila realizando Pops hasta el último nodo. Además, debe tener una opción de
+    salir del programa.
 
 Nota: Este programa valida correctamente las entradas del usuario y maneja escenarios de errores para garantizar su robustez.
 
@@ -40,112 +42,114 @@ using namespace std;
 
 //Estructura base
 struct Pila {
-    int dato; //Son 4 bytes en un sis. de 64
-    Pila* next; //puntero llamado next, pesa 8 bytes.
+    int dato;
+    Pila* next;
 };
 
 //Variable global:
 Pila* top = nullptr;
 
-// "top" es el puntero que apunta al elemento superior de la pila (el último agregado)
 #pragma region Validacion
 
-//Valida el numero pedido
-int NumPedido() {
+int validarEntero(const char* mensaje) {
 
-    double numero;
-    int numeroEntero;
+    int valor;
+    char caracterSiguiente;
+    bool entradaValida = false;
 
-    cout << "\nIngrese un numero: ";
+    cout << mensaje;
 
-    while (true) {
-        if (cin >> numero) {
-            
-            //Compara el numero(double) con su parte entera, si mismo
-            if (numero == (int)numero) {
-                //Si el numero no tiene decimales, lo convierte en ENTERO y lo guarda
-                numeroEntero = (int)numero;
-                break;
+    while (!entradaValida) {
+
+        if (cin >> valor) {
+
+            caracterSiguiente = cin.peek();
+
+            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
+                cin.ignore(10000, '\n');
+                entradaValida = true;
             }
             else {
-                cout << "\nERROR: No se permiten decimales. Solo numeros enteros." << endl;
+                cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
+                cin.clear();
+                cin.ignore(10000, '\n');
             }
         }
         else {
-            cout << "\nERROR: Entrada invalida. Solo numeros." << endl;
+            cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
+            cin.clear();
+            cin.ignore(10000, '\n');
         }
-
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "\nIngrese un numero: ";
     }
-    return numeroEntero;
-}
 
+    return valor;
+}//FIN
 
-// Validación del menu EN CASO de que el usuario escoga (0) o un numero mayor a (4)
-int validarOpcionMenu() {
+int leerDato() {
+    return validarEntero("\nIngrese un numero: ");
+}//FIN
+
+int leerOpcionMenu() {
 
     int opcion;
+    bool opcionValida = false;
 
-    while (!(cin >> opcion)) {
-        cout << "ERROR: Debe ingresar un numero entero valido.\n" << endl;
-        cout << "\nSeleccione una opcion: ";
+    while (!opcionValida) {
 
-        cin.clear();
-        cin.ignore(1000, '\n');
+        opcion = validarEntero("");
+
+        if (opcion >= 1 && opcion <= 4) {
+            opcionValida = true;
+        }
+        else {
+            cout << "ERROR: Opcion invalida. Intente nuevamente (1-4): ";
+        }
     }
 
     return opcion;
-}
+}//FIN
+
+//Esta vacia? Si o No
+bool estaVacia() {
+    return top == nullptr;
+}//FIN
 
 #pragma endregion
 
 #pragma region Push/Pop/Desplegar
 
-// OPERACIÓN PUSH - Agregar elemento a la pila
 void push() {
-    //Se ingresa el num. y dentro de esa función se valida
-    int valor = NumPedido();
+    int valor = leerDato();
 
-    //Se crea un nuevo nodo COSA que se ocupa reservar un espacio dentro de la memoria, o llamado HEAP,
     Pila* nuevo = new Pila;
-
     nuevo->dato = valor;
-    nuevo->next = top; //El nuevo nodo literalmente "apunta" al que era el tope o "top"
+    nuevo->next = top;
 
-    //Se actualiza el nodo con el valor
     top = nuevo;
 
-    cout << "Elemento " << valor << " agregado a la pila.\n" << endl;
-}
+    cout << "\nElemento " << valor << " agregado a la pila.\n" << endl;
+}//FIN
 
-// OPERACIÓN POP - Quitar elemento de la pila
 void pop() {
 
-    if (top == nullptr) {
-        cout << "Empty Stack" << endl;
+    if (estaVacia()) {
+        cout << "Empty Stack\n" << endl;
         return;
     }
 
-    //Se guarda el valor que se quita (como temporal)
     int valor = top->dato;
     Pila* temp = top;
 
-    //Y se mueve el top al siguiente elemento 
     top = top->next;
-
-    //Elimina lo que estaba antes para liberar memoria
     delete temp;
 
-    cout << "Elemento " << valor << " removido de la pila." << endl;
-}
+    cout << "\nElemento " << valor << " removido de la pila.\n" << endl;
+}//FIN
 
-// DESPLEGAR TODA LA PILA
-void DesplegarTodaPila() {
+void desplegarTodaPila() {
 
-    if (top == nullptr) {
-        cout << "Empty Stack" << endl;
+    if (estaVacia()) {
+        cout << "Empty Stack\n" << endl;
         return;
     }
 
@@ -156,26 +160,31 @@ void DesplegarTodaPila() {
 
         Pila* temp = top;
         top = top->next;
-
         delete temp;
     }
 
-    cout << "Pila completamente vaciada." << endl;
+    cout << "Pila completamente vaciada.\n" << endl;
+}//FIN
+
+#pragma endregion
+
+#pragma region Menu
+
+void mostrarMenu() {
+    cout << "=================================\n";
+    cout << "       Simulador De Stack\n";
+    cout << "=================================\n";
+    cout << "1. Push (Agregar)" << endl;
+    cout << "2. Pop (Quitar)" << endl;
+    cout << "3. Desplegar toda la pila" << endl;
+    cout << "4. Salir" << endl;
+    cout << "=================================\n";
+    cout << "Seleccione una opcion: ";
 }
 
 #pragma endregion
 
-// MENÚ PRINCIPAL
-void mostrarMenu() {
-    cout << "=== Simulador De Stack ===" << endl;
-    cout << "1. Push (Agregar elemento)" << endl;
-    cout << "2. Pop (Quitar elemento)" << endl;
-    cout << "3. Desplegar toda la pila" << endl;
-    cout << "4. Salir\n" << endl;
-    cout << "Seleccione una opcion: ";
-}
-
-#pragma region Programa Principal
+#pragma region Main
 
 int main() {
 
@@ -183,7 +192,7 @@ int main() {
 
     do {
         mostrarMenu();
-        opcion = validarOpcionMenu();
+        opcion = leerOpcionMenu();
 
         switch (opcion) {
         case 1:
@@ -195,22 +204,17 @@ int main() {
             break;
 
         case 3:
-            DesplegarTodaPila();
+            desplegarTodaPila();
             break;
 
         case 4:
             cout << "\nSaliendo del programa..." << endl;
 
-            // Liberar memoria
             while (top != nullptr) {
                 Pila* temp = top;
                 top = top->next;
                 delete temp;
             }
-            break;
-
-        default:
-            cout << "\nERROR: Opcion invalida. Seleccione del 1 al 4.\n" << endl;
             break;
         }
 
