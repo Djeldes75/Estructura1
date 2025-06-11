@@ -1,27 +1,27 @@
 /*
 -------------------------------------------------------------------------------------------------------
-Tarea: #5 - Gestión de un Árbol Binario de Búsqueda
+Tarea: #5 - GestiÃ³n de un Ãrbol Binario de BÃºsqueda
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
 -------------------------------------------------------------------------------------------------------
-    Realizar un programa C++ que permita gestionar un Árbol Binario de Búsqueda. El programa
-    debe permitir insertar, buscar y eliminar un nodo; además de presentar (utilizando cualquiera
-    de los recorridos) el árbol de acuerdo a las reglas que existen para el árbol binario de búsqueda.
+    Realizar un programa C++ que permita gestionar un Ãrbol Binario de BÃºsqueda. El programa
+    debe permitir insertar, buscar y eliminar un nodo; ademÃ¡s de presentar (utilizando cualquiera
+    de los recorridos) el Ã¡rbol de acuerdo a las reglas que existen para el Ã¡rbol binario de bÃºsqueda.
 
     RESTRICCIONES:
-    A. El primer nodo siempre será el root.
+    A. El primer nodo siempre serÃ¡ el root.
 
-    B. Al presentar el árbol debe ser de un modo intuitivo, que muestre la topología de forma
-    que represente en árbol.
+    B. Al presentar el Ã¡rbol debe ser de un modo intuitivo, que muestre la topologÃ­a de forma
+    que represente en Ã¡rbol.
 
     C. Puede utilizar cualquiera de los recorridos para arboles (InOrden, PreOrden o
     PostOrden).
 
-    D. Al eliminar un nodo debe observar las reglas para la sustitución del nodo, permitiendo
-    así que el árbol se reconstruya.
+    D. Al eliminar un nodo debe observar las reglas para la sustituciÃ³n del nodo, permitiendo
+    asÃ­ que el Ã¡rbol se reconstruya.
 
-    E. Al insertar un nodo deben observarse las reglas para arboles binarios de búsqueda, es
-    decir, los nodos cuyo valor sea mayor que el nodo raíz a la derecha (en el subárbol
-    derecho), en caso contrario a la izquierda (en el subárbol izquierdo). Rec
+    E. Al insertar un nodo deben observarse las reglas para arboles binarios de bÃºsqueda, es
+    decir, los nodos cuyo valor sea mayor que el nodo raÃ­z a la derecha (en el subÃ¡rbol
+    derecho), en caso contrario a la izquierda (en el subÃ¡rbol izquierdo). Rec
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
@@ -39,19 +39,17 @@ Fecha: 14/Jun/2025
 
 using namespace std;
 
-struct ArboLBST {
+struct ArbolBST {
     int dato;
-    ArboLBST* izquierda;
-    ArboLBST* derecha;
+    ArbolBST* izquierdo;
+    ArbolBST* derecho;
 };
 
-//Variable global
-ArboLBST* root = nullptr;
-
+// Puntero a la raiz del arbol
+ArbolBST* raiz = nullptr;
 
 #pragma region Validaciones
 
-//Validacion Universal para Enteros
 int validarEntero(const char* mensaje) {
 
     int valor;
@@ -86,21 +84,18 @@ int validarEntero(const char* mensaje) {
     return valor;
 }//FIN
 
-//Validar Opcion del Menu
 int leerOpcionMenu() {
 
     int opcion;
     bool opcionValida = false;
 
     while (!opcionValida) {
-
         opcion = validarEntero("");
-
-        if (opcion >= 1 && opcion <= 4) {
+        if (opcion >= 1 && opcion <= 6) {
             opcionValida = true;
         }
         else {
-            cout << "ERROR: Opcion invalida. Intente nuevamente (1-4): ";
+            cout << "ERROR: Opcion invalida. Intente nuevamente (1-6): ";
         }
     }
 
@@ -116,89 +111,272 @@ int leerDato() {
 
 #pragma region Funciones Auxiliares
 
-//Verificar si la Lista Esta Vacia
-bool estaVacia() {
+//Verificar si el Arbol Esta Vacio
+bool estaVacio() {
+    return raiz == nullptr;
+}//FIN
 
-    return root == nullptr;
-
-    ArboLBST* nuevo = new ArboLBST;
-    nuevo->dato = leerDato();
-    nuevo->izquierda = nullptr;
-    nuevo->derecha = nullptr;
+//Crear Nuevo Nodo
+ArbolBST* crearNodo(int valor) {
+    ArbolBST* nuevo = new ArbolBST;
+    nuevo->dato = valor;
+    nuevo->izquierdo = nullptr;
+    nuevo->derecho = nullptr;
     return nuevo;
+}//FIN
 
-    //Para encontrar el valor minimo del arbol
-    ArboLBST* encontrarMinimo();
-        //
-        //
-
-
+//Buscar Valor Minimo en Subarbol
+ArbolBST* encontrarMinimo(ArbolBST* nodo) {
+    while (nodo->izquierdo != nullptr) {
+        nodo = nodo->izquierdo;
+    }
+    return nodo;
 }//FIN
 
 #pragma endregion
 
-#pragma region Insertar/Eliminar/Buscar/Mostrar
+#pragma region Insertar/Buscar/Eliminar/Mostrar
 
+//Insertar Elemento en el Arbol BST (Recursivo)
+ArbolBST* insertarRecursivo(ArbolBST* nodo, int valor) {
+    
+    if (nodo == nullptr) {
+        return crearNodo(valor);
+    }
+    
+    if (valor < nodo->dato) {
+        nodo->izquierdo = insertarRecursivo(nodo->izquierdo, valor);
+    }
+    else if (valor > nodo->dato) {
+        nodo->derecho = insertarRecursivo(nodo->derecho, valor);
+    }
+    
+    return nodo;
+}//FIN
+
+//Insertar Elemento
 void insertar() {
+    int valor = leerDato();
+    
+    // Verificar si el elemento ya existe
+    if (buscarRecursivo(raiz, valor)) {
+        cout << "\nERROR: El elemento " << valor << " ya existe en el arbol.\n\n";
+        return;
+    }
+    
+    raiz = insertarRecursivo(raiz, valor);
+    cout << "\nElemento " << valor << " insertado correctamente en el arbol.\n\n";
+}//FIN
 
+//Buscar Elemento en el Arbol (Recursivo)
+bool buscarRecursivo(Nodo* nodo, int valor) {
+    
+    if (nodo == nullptr) {
+        return false;
+    }
+    
+    if (valor == nodo->dato) {
+        return true;
+    }
+    else if (valor < nodo->dato) {
+        return buscarRecursivo(nodo->izquierdo, valor);
+    }
+    else {
+        return buscarRecursivo(nodo->derecho, valor);
+    }
+}//FIN
 
-};
-//FIN
-
-void eliminar() {
-
-
-};
-//FIN
-
+//Buscar Elemento
 void buscar() {
+    
+    if (estaVacio()) {
+        cout << "Arbol vacio.\n\n";
+        return;
+    }
+    
+    int valor = leerDato();
+    
+    if (buscarRecursivo(raiz, valor)) {
+        cout << "\nElemento " << valor << " encontrado en el arbol.\n\n";
+    }
+    else {
+        cout << "\nElemento " << valor << " no encontrado en el arbol.\n\n";
+    }
+}//FIN
 
+//Eliminar Elemento del Arbol (Recursivo)
+Nodo* eliminarRecursivo(Nodo* nodo, int valor) {
+    
+    if (nodo == nullptr) {
+        return nodo;
+    }
+    
+    if (valor < nodo->dato) {
+        nodo->izquierdo = eliminarRecursivo(nodo->izquierdo, valor);
+    }
+    else if (valor > nodo->dato) {
+        nodo->derecho = eliminarRecursivo(nodo->derecho, valor);
+    }
+    else {
+        // Nodo encontrado - casos de eliminacion
+        if (nodo->izquierdo == nullptr) {
+            Nodo* temp = nodo->derecho;
+            delete nodo;
+            return temp;
+        }
+        else if (nodo->derecho == nullptr) {
+            Nodo* temp = nodo->izquierdo;
+            delete nodo;
+            return temp;
+        }
+        
+        // Nodo con dos hijos
+        Nodo* temp = encontrarMinimo(nodo->derecho);
+        nodo->dato = temp->dato;
+        nodo->derecho = eliminarRecursivo(nodo->derecho, temp->dato);
+    }
+    return nodo;
+}//FIN
 
-};
-//FIN
+//Eliminar Elemento
+void eliminar() {
+    
+    if (estaVacio()) {
+        cout << "Arbol vacio.\n\n";
+        return;
+    }
+    
+    int valor = leerDato();
+    
+    if (!buscarRecursivo(raiz, valor)) {
+        cout << "\nElemento " << valor << " no encontrado en el arbol.\n\n";
+        return;
+    }
+    
+    raiz = eliminarRecursivo(raiz, valor);
+    cout << "\nElemento " << valor << " eliminado del arbol.\n\n";
+}//FIN
 
-void mostrar() {
+//Recorrido InOrden (Recursivo)
+void inOrdenRecursivo(Nodo* nodo) {
+    if (nodo != nullptr) {
+        inOrdenRecursivo(nodo->izquierdo);
+        cout << nodo->dato << " ";
+        inOrdenRecursivo(nodo->derecho);
+    }
+}//FIN
 
+//Recorrido PreOrden (Recursivo)
+void preOrdenRecursivo(Nodo* nodo) {
+    if (nodo != nullptr) {
+        cout << nodo->dato << " ";
+        preOrdenRecursivo(nodo->izquierdo);
+        preOrdenRecursivo(nodo->derecho);
+    }
+}//FIN
 
-};
-//FIN
+//Recorrido PostOrden (Recursivo)
+void postOrdenRecursivo(Nodo* nodo) {
+    if (nodo != nullptr) {
+        postOrdenRecursivo(nodo->izquierdo);
+        postOrdenRecursivo(nodo->derecho);
+        cout << nodo->dato << " ";
+    }
+}//FIN
+
+//Mostrar Recorridos del Arbol
+void mostrarRecorridos() {
+    
+    if (estaVacio()) {
+        cout << "Arbol vacio.\n\n";
+        return;
+    }
+    
+    cout << "\n=== RECORRIDOS DEL ARBOL BST ===\n";
+    
+    cout << "InOrden:   ";
+    inOrdenRecursivo(raiz);
+    cout << "\n";
+    
+    cout << "PreOrden:  ";
+    preOrdenRecursivo(raiz);
+    cout << "\n";
+    
+    cout << "PostOrden: ";
+    postOrdenRecursivo(raiz);
+    cout << "\n";
+    
+    cout << "=================================\n\n";
+}//FIN
+
+//Mostrar Arbol de Forma Visual (Recursivo)
+void mostrarArbolRecursivo(Nodo* nodo, string prefijo, bool esUltimo) {
+    if (nodo != nullptr) {
+        cout << prefijo;
+        cout << (esUltimo ? "â””â”€â”€ " : "â”œâ”€â”€ ");
+        cout << nodo->dato << "\n";
+        
+        string nuevoPrefijo = prefijo + (esUltimo ? "    " : "â”‚   ");
+        
+        if (nodo->izquierdo != nullptr || nodo->derecho != nullptr) {
+            if (nodo->derecho != nullptr) {
+                mostrarArbolRecursivo(nodo->derecho, nuevoPrefijo, nodo->izquierdo == nullptr);
+            }
+            if (nodo->izquierdo != nullptr) {
+                mostrarArbolRecursivo(nodo->izquierdo, nuevoPrefijo, true);
+            }
+        }
+    }
+}//FIN
+
+//Mostrar Estructura del Arbol
+void mostrarArbol() {
+    
+    if (estaVacio()) {
+        cout << "Arbol vacio.\n\n";
+        return;
+    }
+    
+    cout << "\n=== ESTRUCTURA DEL ARBOL BST ===\n";
+    mostrarArbolRecursivo(raiz, "", true);
+    cout << "=================================\n\n";
+}//FIN
 
 #pragma endregion
 
 #pragma region Menu
 
+//Mostrar Menu Principal
 void mostrarMenu() {
-    cout << "============================" << endl;
-    cout << "   Arbol Binario de Busqueda" << endl;
-    cout << "============================" << endl;
-    cout << "1.Insertar" << endl;
-    cout << "2.Eliminar" << endl;
-    cout << "3.Buscar" << endl;
-    cout << "4.Salir" << endl;
-    cout << "============================" << endl;
+    cout << "=================================\n";
+    cout << "      Arbol Binario de Busqueda\n";
+    cout << "=================================\n";
+    cout << "1. Insertar elemento\n";
+    cout << "2. Buscar elemento\n";
+    cout << "3. Eliminar elemento\n";
+    cout << "4. Mostrar recorridos\n";
+    cout << "5. Mostrar arbol\n";
+    cout << "6. Salir\n";
+    cout << "=================================\n";
     cout << "Opcion: ";
-}
+}//FIN
 
 #pragma endregion
 
+#pragma region Main
+
 int main() {
 
-    int opcion = leerOpcionMenu();
+    int opcion;
 
-    mostrarMenu();
+    do {
+        mostrarMenu();
+        opcion = leerOpcionMenu();
 
-    do
-    {
         switch (opcion) {
-
-        case 0:
+        case 1:
             cout << "\n--- INSERTAR ELEMENTO ---\n";
             insertar();
-            break;
-
-        case 1:
-            cout << "\n--- ELIMINAR ELEMENTO ---\n";
-            eliminar();
             break;
 
         case 2:
@@ -206,19 +384,27 @@ int main() {
             buscar();
             break;
 
+        case 3:
+            cout << "\n--- ELIMINAR ELEMENTO ---\n";
+            eliminar();
+            break;
+
         case 4:
-            cout << "\n--- Mostrar ELEMENTO(S) ---\n";
-            mostrar();
+            mostrarRecorridos();
             break;
 
         case 5:
-            // Limpiar memoria antes de salir
+            mostrarArbol();
+            break;
 
+        case 6:
             cout << "\nFin del programa.\n";
             break;
         }
-    }
-    while (opcion != 4);
+
+    } while (opcion != 6);
 
     return 0;
-}
+}//FIN
+
+#pragma endregion
