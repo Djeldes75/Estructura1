@@ -22,13 +22,22 @@ Fecha: 11/Jun/2025
 using namespace std;
 
 int main() {
+    // Buscar en el rango 1-999 para cubrir todos los números de hasta 3 dígitos
+    for (int n = 1; n <= 999; n++) {
 
-    for (int n = 1; n <= 500; n++) {
+        int s = 0; int t = n; // s =Acumulador para la suma de los cubos; t = Copia de n para procesar
 
-        int s = 0, t = n;
+        // Calcular la suma de los cubos de los dígitos
+        while (t != 0) {
+            int digito = t % 10;       // Obtener el último dígito
+            s += digito * digito * digito; // Sumar el cubo del dígito
+            t /= 10;                   // Eliminar el último dígito
+        }
 
-        while (t) s += (t % 10) * (t % 10) * (t % 10), t /= 10;
-
-        if (n == s) cout << n << endl;
+        // Si n es igual a la suma de los cubos de sus dígitos, imprimirlo
+        if (n == s) {
+            cout << n << endl;
+        }
     }
+    return 0;
 }
