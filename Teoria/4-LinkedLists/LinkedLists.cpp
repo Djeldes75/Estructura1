@@ -58,51 +58,52 @@ LinkedList* cabeza = nullptr;
 //Validacion Universal para Enteros
 int validarEntero(const char* mensaje) {
 
-    int enteroValido;
-    char siguienteChar;
+    int valor;
+    char caracterSiguiente;
+    bool entradaValida = false;
 
     cout << mensaje;
 
-    while (true) { //mala practica
+    while (!entradaValida) {
 
-        if (cin >> enteroValido) {
+        if (cin >> valor) {
 
-            // Verificar que despues del numero no haya otros caracteres (excepto espacios y salto de linea)
-            siguienteChar = cin.peek();
+            caracterSiguiente = cin.peek();
 
-            if (siguienteChar == '\n' || siguienteChar == ' ' || siguienteChar == EOF) {
-
-                while (cin.get() != '\n');
-                return enteroValido;
+            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
+                cin.ignore(10000, '\n');
+                entradaValida = true;
             }
             else {
-                //Invalido
-                cout << "ERROR: Entrada invalida.\n";
+                cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
                 cin.clear();
-
-                while (cin.get() != '\n');
-                cout << "\nIntente nuevamente: ";
+                cin.ignore(10000, '\n');
             }
         }
         else {
-            cout << "ERROR: Entrada invalida.\n";
+            cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
             cin.clear();
-            // Limpiar el buffer - version simple
-            while (cin.get() != '\n');
-            cout << "\nIntente nuevamente: ";
+            cin.ignore(10000, '\n');
         }
     }
+
+    return valor;
 }
 
 //Validar Opcion del Menu
 int leerOpcionMenu() {
 
     int opcion;
-    opcion = validarEntero("");
+    bool opcionValida = false;
 
-    while (opcion < 1 || opcion > 5) {
-        cout << "ERROR: Opcion invalida. Opciones: 1-5. \nIntente nuevamente: ";
+    while (!opcionValida) {
         opcion = validarEntero("");
+        if (opcion >= 1 && opcion <= 5) {
+            opcionValida = true;
+        }
+        else {
+            cout << "ERROR: Opcion invalida. Intente nuevamente (1-5): ";
+        }
     }
 
     return opcion;
@@ -124,7 +125,7 @@ bool estaVacia() {
 
 #pragma endregion
 
-#pragma region Operaciones de Lista Enlazada
+#pragma region  Insertar/Buscar/Eliminar/Mostrar
 
 //Insertar Elemento en Orden Ascendente
 void insertar() {
@@ -168,7 +169,7 @@ void insertar() {
 void buscar() {
 
     if (estaVacia()) {
-        cout << "\nLista vacia.\n\n";
+        cout << "Lista vacia.\n\n";
         return;
     }
 
@@ -192,7 +193,7 @@ void buscar() {
 void eliminar() {
 
     if (estaVacia()) {
-        cout << "\nLista vacia.\n\n";
+        cout << "Lista vacia.\n\n";
         return;
     }
 
@@ -232,7 +233,7 @@ void eliminar() {
 void mostrar() {
 
     if (estaVacia()) {
-        cout << "\nLista vacia.\n\n";
+        cout << "Lista vacia.\n\n";
         return;
     }
 
