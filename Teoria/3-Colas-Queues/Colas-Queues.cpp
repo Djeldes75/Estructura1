@@ -57,7 +57,7 @@ int validarEntero(const char* mensaje) {
     char c;
     cout << mensaje;
 
-    while (true) { //p dijo que es mala practica usar eso, ya que
+    while (true) { //ARREGLAR ESTE BUCLE, YA QUE ES MALA PRACTICA. - Y cambiar el nombre de la variable "char c;" a algo mas legible     
         if (cin >> valor) {
             c = cin.peek();
             if (c == '\n' || c == ' ') {
@@ -96,6 +96,7 @@ bool estaVacia() {
 }
 
 void enqueue() {
+ 
     int dato = leerDato();
     int prioridad = leerPrioridad();
 
@@ -127,6 +128,7 @@ void enqueue() {
 }
 
 void dequeue() {
+ 
     if (estaVacia()) {
         cout << "\nCola vacia.\n\n";
         return;
@@ -140,6 +142,7 @@ void dequeue() {
 }
 
 void mostrar() {
+ 
     if (estaVacia()) {
         cout << "\nCola vacia.\n\n";
         return;
@@ -156,13 +159,16 @@ void mostrar() {
 }
 
 void vaciarTodo() {
+ 
     if (estaVacia()) {
         cout << "\nCola vacia.\n\n";
         return;
     }
-
+ 
     int i = 1;
+ 
     while (frente != nullptr) {
+     
         Queue* temp = frente;
         cout << i++ << ". Eliminando: " << frente->dato << " (Prioridad " << frente->prioridad << ")\n";
         frente = frente->next;
@@ -185,7 +191,9 @@ void mostrarMenu() {
 }
 
 int leerOpcionMenu() {
+ 
     int opcion = validarEntero("");
+ 
     while (opcion < 1 || opcion > 5) {
         cout << "ERROR: Opcion invalida. Intente nuevamente (1-5): ";
         opcion = validarEntero("");
@@ -194,6 +202,7 @@ int leerOpcionMenu() {
 }
 
 int main() {
+ 
     int opcion;
 
     do {
