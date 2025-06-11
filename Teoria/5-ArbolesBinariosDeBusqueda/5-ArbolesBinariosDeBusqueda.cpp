@@ -45,8 +45,8 @@ struct ArbolBST {
     ArbolBST* derecho;
 };
 
-// Puntero a la raiz del arbol
-ArbolBST* raiz = nullptr;
+// Puntero a la root del arbol
+ArbolBST* root = nullptr;
 
 #pragma region Validaciones
 
@@ -115,11 +115,12 @@ int leerDato() {
 
 //Verificar si el Arbol Esta Vacio
 bool estaVacio() {
-    return raiz == nullptr;
+    return root == nullptr;
 }//FIN
 
 //Crear Nuevo Nodo
 ArbolBST* crearNodo(int valor) {
+
     ArbolBST* nuevo = new ArbolBST;
     nuevo->dato = valor;
     nuevo->izquierdo = nullptr;
@@ -129,6 +130,7 @@ ArbolBST* crearNodo(int valor) {
 
 //Buscar Valor Minimo en Subarbol
 ArbolBST* encontrarMinimo(ArbolBST* nodo) {
+
     while (nodo->izquierdo != nullptr) {
         nodo = nodo->izquierdo;
     }
@@ -160,13 +162,9 @@ ArbolBST* insertarRecursivo(ArbolBST* nodo, int valor) {
 void insertar() {
     int valor = leerDato();
     
-    // Verificar si el elemento ya existe
-    if (buscarRecursivo(raiz, valor)) {
-        cout << "\nERROR: El elemento " << valor << " ya existe en el arbol.\n\n";
-        return;
-    }
+    //revisar si ya existe en una funcion no volver a hacer el agoritmo para hacerlo funcion por funcion
     
-    raiz = insertarRecursivo(raiz, valor);
+    root = insertarRecursivo(root, valor);
     cout << "\nElemento " << valor << " insertado correctamente en el arbol.\n\n";
 }//FIN
 
@@ -198,7 +196,7 @@ void buscar() {
     
     int valor = leerDato();
     
-    if (buscarRecursivo(raiz, valor)) {
+    if (buscarRecursivo(root, valor)) {
         cout << "\nElemento " << valor << " encontrado en el arbol.\n\n";
     }
     else {
@@ -250,12 +248,12 @@ void eliminar() {
     
     int valor = leerDato();
     
-    if (!buscarRecursivo(raiz, valor)) {
+    if (!buscarRecursivo(root, valor)) {
         cout << "\nElemento " << valor << " no encontrado en el arbol.\n\n";
         return;
     }
     
-    raiz = eliminarRecursivo(raiz, valor);
+    root = eliminarRecursivo(root, valor);
     cout << "\nElemento " << valor << " eliminado del arbol.\n\n";
 }//FIN
 
@@ -297,39 +295,20 @@ void mostrarRecorridos() {
     cout << "\n=== RECORRIDOS DEL ARBOL BST ===\n";
     
     cout << "InOrden:   ";
-    inOrdenRecursivo(raiz);
+    inOrdenRecursivo(root);
     cout << "\n";
     
     cout << "PreOrden:  ";
-    preOrdenRecursivo(raiz);
+    preOrdenRecursivo(root);
     cout << "\n";
     
     cout << "PostOrden: ";
-    postOrdenRecursivo(raiz);
+    postOrdenRecursivo(root);
     cout << "\n";
     
     cout << "=================================\n\n";
 }//FIN
 
-//Mostrar Arbol de Forma Visual (Recursivo)
-void mostrarArbolRecursivo(Nodo* nodo, string prefijo, bool esUltimo) {
-    if (nodo != nullptr) {
-        cout << prefijo;
-        cout << (esUltimo ? "└── " : "├── ");
-        cout << nodo->dato << "\n";
-        
-        string nuevoPrefijo = prefijo + (esUltimo ? "    " : "│   ");
-        
-        if (nodo->izquierdo != nullptr || nodo->derecho != nullptr) {
-            if (nodo->derecho != nullptr) {
-                mostrarArbolRecursivo(nodo->derecho, nuevoPrefijo, nodo->izquierdo == nullptr);
-            }
-            if (nodo->izquierdo != nullptr) {
-                mostrarArbolRecursivo(nodo->izquierdo, nuevoPrefijo, true);
-            }
-        }
-    }
-}//FIN
 
 //Mostrar Estructura del Arbol
 void mostrarArbol() {
@@ -340,7 +319,7 @@ void mostrarArbol() {
     }
     
     cout << "\n=== ESTRUCTURA DEL ARBOL BST ===\n";
-    mostrarArbolRecursivo(raiz, "", true);
+
     cout << "=================================\n\n";
 }//FIN
 
@@ -400,7 +379,10 @@ int main() {
             break;
 
         case 6:
-            cout << "\nFin del programa.\n";
+            cout << "Fin del programa.\n";
+
+            //liberar memoria
+
             break;
         }
 
