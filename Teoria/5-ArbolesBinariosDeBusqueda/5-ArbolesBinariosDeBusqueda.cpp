@@ -50,6 +50,7 @@ ArbolBST* raiz = nullptr;
 
 #pragma region Validaciones
 
+//Validacion Universal para Enteros
 int validarEntero(const char* mensaje) {
 
     int valor;
@@ -84,6 +85,7 @@ int validarEntero(const char* mensaje) {
     return valor;
 }//FIN
 
+//Validar Opcion del Menu
 int leerOpcionMenu() {
 
     int opcion;
@@ -169,7 +171,7 @@ void insertar() {
 }//FIN
 
 //Buscar Elemento en el Arbol (Recursivo)
-bool buscarRecursivo(Nodo* nodo, int valor) {
+bool buscarRecursivo(ArbolBST* nodo, int valor) {
     
     if (nodo == nullptr) {
         return false;
@@ -205,7 +207,7 @@ void buscar() {
 }//FIN
 
 //Eliminar Elemento del Arbol (Recursivo)
-Nodo* eliminarRecursivo(Nodo* nodo, int valor) {
+ArbolBST* eliminarRecursivo(ArbolBST* nodo, int valor) {
     
     if (nodo == nullptr) {
         return nodo;
@@ -220,18 +222,18 @@ Nodo* eliminarRecursivo(Nodo* nodo, int valor) {
     else {
         // Nodo encontrado - casos de eliminacion
         if (nodo->izquierdo == nullptr) {
-            Nodo* temp = nodo->derecho;
+            ArbolBST* temp = nodo->derecho;
             delete nodo;
             return temp;
         }
         else if (nodo->derecho == nullptr) {
-            Nodo* temp = nodo->izquierdo;
+            ArbolBST* temp = nodo->izquierdo;
             delete nodo;
             return temp;
         }
         
         // Nodo con dos hijos
-        Nodo* temp = encontrarMinimo(nodo->derecho);
+        ArbolBST* temp = encontrarMinimo(nodo->derecho);
         nodo->dato = temp->dato;
         nodo->derecho = eliminarRecursivo(nodo->derecho, temp->dato);
     }
@@ -258,7 +260,7 @@ void eliminar() {
 }//FIN
 
 //Recorrido InOrden (Recursivo)
-void inOrdenRecursivo(Nodo* nodo) {
+void inOrdenRecursivo(ArbolBST* nodo) {
     if (nodo != nullptr) {
         inOrdenRecursivo(nodo->izquierdo);
         cout << nodo->dato << " ";
@@ -267,7 +269,7 @@ void inOrdenRecursivo(Nodo* nodo) {
 }//FIN
 
 //Recorrido PreOrden (Recursivo)
-void preOrdenRecursivo(Nodo* nodo) {
+void preOrdenRecursivo(ArbolBST* nodo) {
     if (nodo != nullptr) {
         cout << nodo->dato << " ";
         preOrdenRecursivo(nodo->izquierdo);
@@ -276,7 +278,7 @@ void preOrdenRecursivo(Nodo* nodo) {
 }//FIN
 
 //Recorrido PostOrden (Recursivo)
-void postOrdenRecursivo(Nodo* nodo) {
+void postOrdenRecursivo(ArbolBST* nodo) {
     if (nodo != nullptr) {
         postOrdenRecursivo(nodo->izquierdo);
         postOrdenRecursivo(nodo->derecho);
