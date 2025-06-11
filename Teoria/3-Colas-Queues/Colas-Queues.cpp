@@ -87,11 +87,11 @@ int validarEntero(const char* mensaje) {
     }
 
     return valor;
-}
+}//FIN
 
 int leerDato() {
     return validarEntero("Ingrese un numero: ");
-}
+}//FIN
 
 int leerPrioridad() {
 
@@ -102,7 +102,7 @@ int leerPrioridad() {
         return 16;
     }
     return prioridad;
-}
+}//FIN
 
 int leerOpcionMenu() {
 
@@ -120,11 +120,11 @@ int leerOpcionMenu() {
     }
 
     return opcion;
-}
+}//FIN
 
 bool estaVacia() {
     return frente == nullptr;
-}
+}//FIN
 
 #pragma endregion
 
@@ -150,7 +150,7 @@ void enqueue() {
     }
 
     cout << "\nIngresado: {Dato: " << dato << "} - {Prioridad: " << prioridad << "}\n\n";
-}
+}//FIN
 
 void dequeue() {
 
@@ -169,7 +169,7 @@ void dequeue() {
 
     cout << "\nEliminado: " << temp->dato << " (Prioridad " << temp->prioridad << ")\n\n";
     delete temp;
-}
+}//FIN
 
 #pragma endregion
 
@@ -191,7 +191,7 @@ void mostrar() {
         actual = actual->next;
     }
     cout << "====================================\n\n";
-}
+}//FIN
 
 void vaciarTodo() {
 
@@ -212,7 +212,7 @@ void vaciarTodo() {
 
     final = nullptr;  // Resetear el puntero final
     cout << "\nCola completamente vacia.\n\n";
-}
+}//FIN
 
 #pragma endregion
 
@@ -229,7 +229,7 @@ void mostrarMenu() {
     cout << "5. Salir\n";
     cout << "=================================\n";
     cout << "Opcion: ";
-}
+}//FIN
 
 #pragma endregion
 
@@ -266,6 +266,6 @@ int main() {
     } while (opcion != 5);
 
     return 0;
-}
+}//FIN
 
 #pragma endregion

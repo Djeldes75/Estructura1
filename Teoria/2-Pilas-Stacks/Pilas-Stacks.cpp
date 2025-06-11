@@ -54,26 +54,21 @@ Pila* top = nullptr;
 int validarEntero(const char* mensaje) {
 
     int valor;
-    char caracterSiguiente;
     bool entradaValida = false;
 
     cout << mensaje;
 
     while (!entradaValida) {
 
+        // Limpiar todos los saltos de línea pendientes
+        while (cin.peek() == '\n') {
+            cin.ignore();
+        }
+
         if (cin >> valor) {
-
-            caracterSiguiente = cin.peek();
-
-            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
-                cin.ignore(10000, '\n');
-                entradaValida = true;
-            }
-            else {
-                cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }
+            // Verificar que después del número solo haya espacios o salto de línea
+            cin.ignore(10000, '\n');
+            entradaValida = true;
         }
         else {
             cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
@@ -86,7 +81,7 @@ int validarEntero(const char* mensaje) {
 }//FIN
 
 int leerDato() {
-    return validarEntero("\nIngrese un numero: ");
+    return validarEntero("Ingrese un numero: ");
 }//FIN
 
 int leerOpcionMenu() {
@@ -119,6 +114,8 @@ bool estaVacia() {
 #pragma region Push/Pop/Desplegar
 
 void push() {
+
+    cout << endl;
     int valor = leerDato();
 
     Pila* nuevo = new Pila;
@@ -127,13 +124,13 @@ void push() {
 
     top = nuevo;
 
-    cout << "\nElemento " << valor << " agregado a la pila.\n" << endl;
+    cout << "Elemento " << valor << " agregado a la pila." << endl;
 }//FIN
 
 void pop() {
 
     if (estaVacia()) {
-        cout << "Empty Stack\n" << endl;
+        cout << "Empty Stack" << endl;
         return;
     }
 
@@ -143,27 +140,30 @@ void pop() {
     top = top->next;
     delete temp;
 
-    cout << "\nElemento " << valor << " removido de la pila.\n" << endl;
+    cout << "Elemento " << valor << " removido de la pila." << endl;
 }//FIN
 
 void desplegarTodaPila() {
 
     if (estaVacia()) {
-        cout << "Empty Stack\n" << endl;
+        cout << "Empty Stack" << endl;
         return;
     }
 
-    cout << "\nDesplegando toda la pila:" << endl;
+    int contador = 1;
+
+    cout << "Desplegando toda la pila:" << endl;
 
     while (top != nullptr) {
-        cout << "Pop: " << top->dato << endl;
+        cout << contador << ". " << top->dato << endl;
 
         Pila* temp = top;
         top = top->next;
         delete temp;
+        contador++;
     }
 
-    cout << "Pila completamente vaciada.\n" << endl;
+    cout << "Pila completamente vaciada." << endl;
 }//FIN
 
 #pragma endregion
@@ -208,7 +208,7 @@ int main() {
             break;
 
         case 4:
-            cout << "\nSaliendo del programa..." << endl;
+            cout << "Saliendo del programa..." << endl;
 
             while (top != nullptr) {
                 Pila* temp = top;

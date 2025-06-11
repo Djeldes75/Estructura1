@@ -76,7 +76,7 @@ int main() {
 
         clave[i] = numero;
         usado[numero] = true;
-    }
+    }//FIN
 
     //JUEGO PRINCIPAL
     for (i = 0; i < 10; i++) {
@@ -114,7 +114,8 @@ int main() {
                     }
                 }
                 if (!todoNumeros) continue;
-            }
+            }//FIN
+
             //VALIDAR ENTRADA SEPARADA (1 2 3 4)
             else {
 
@@ -128,7 +129,7 @@ int main() {
                     cout << "ERROR: Solo numeros del 1 al 6.\n" << endl;
 
                     continue;
-                }
+                }//FIN
 
                 bool errorLectura = false;
 
@@ -148,7 +149,7 @@ int main() {
                     }
                 }
                 if (errorLectura) continue;
-            }
+            }//FIN
 
             //VALIDAR SIN DUPLICADOS
             bool sinRepetir = true;
@@ -169,6 +170,7 @@ int main() {
                 if (!sinRepetir) break;
             }
             if (!sinRepetir) continue;
+            //FIN
 
             //VALIDAR NO REPETIR INTENTOS ANTERIORES
             bool esDuplicado = false;
@@ -199,7 +201,8 @@ int main() {
 
             //ENTRADA VÁLIDA
             entradaValida = true;
-        }
+
+        }//FIN
 
         //GUARDAR INTENTO VÁLIDO
         for (int pos = 0; pos < 4; pos++) {
@@ -207,6 +210,7 @@ int main() {
             intentosAnteriores[numIntentos][pos] = jugadas[pos];
         }
         numIntentos++;
+        //FIN
 
         //GENERAR PISTAS
         aciertos = 0;
@@ -214,7 +218,7 @@ int main() {
         for (j = 0; j < 4; j++) {
 
             pista[j] = 'X';
-        }
+        }//FIN
 
         for (int pos1 = 0; pos1 < 4; pos1++) {
 
@@ -234,7 +238,7 @@ int main() {
                     }
                 }
             }
-        }
+        }//FIN
 
         //MOSTRAR PISTAS
         cout << "Pistas:   ";
@@ -244,6 +248,7 @@ int main() {
             cout << pista[j] << " ";
         }
         cout << endl;
+        //FIN
 
         //VERIFICAR SI GANÓ
         if (aciertos == 4) {
@@ -265,7 +270,7 @@ int main() {
             cout << "Tu puntuacion es: " << puntuacion << " puntos" << endl;
 
             return 0;
-        }
+        }//FIN
 
         //SI ES EL ÚLTIMO INTENTO
         if (i == 9) {
@@ -279,8 +284,8 @@ int main() {
             }
             cout << endl;
             cout << "Mejor suerte la proxima vez!\n" << endl;
-        }
+        }//FIN
     }
 
     return 0;
-}
+}//FIN
