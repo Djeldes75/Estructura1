@@ -63,7 +63,7 @@ int validarEntero(const char* mensaje) {
 
     cout << mensaje;
 
-    while (true) {
+    while (true) { //mala practica
 
         if (cin >> enteroValido) {
 

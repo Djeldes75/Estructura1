@@ -50,32 +50,43 @@ struct Queue {
 };
 
 Queue* frente = nullptr;
+Queue* final = nullptr;  // Agregamos puntero al final para inserción FIFO eficiente
+
+#pragma region Validacion
 
 // Validar entero
 int validarEntero(const char* mensaje) {
+
     int valor;
-    char c;
+    char caracterSiguiente;
+    bool entradaValida = false;
+
     cout << mensaje;
 
-    while (true) { //ARREGLAR ESTE BUCLE, YA QUE ES MALA PRACTICA. - Y cambiar el nombre de la variable "char c;" a algo mas legible     
+    while (!entradaValida) {
+
         if (cin >> valor) {
-            c = cin.peek();
-            if (c == '\n' || c == ' ') {
-                while (cin.get() != '\n');
-                return valor;
+
+            caracterSiguiente = cin.peek();
+
+            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
+                cin.ignore(10000, '\n');
+                entradaValida = true;
             }
             else {
                 cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
                 cin.clear();
-                while (cin.get() != '\n');
+                cin.ignore(10000, '\n');
             }
         }
         else {
             cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
             cin.clear();
-            while (cin.get() != '\n');
+            cin.ignore(10000, '\n');
         }
     }
+
+    return valor;
 }
 
 int leerDato() {
@@ -83,7 +94,9 @@ int leerDato() {
 }
 
 int leerPrioridad() {
+
     int prioridad = validarEntero("Ingrese la prioridad (0-16): ");
+
     if (prioridad < 0 || prioridad > 16) {
         cout << "Prioridad fuera de rango. Se asigna prioridad por defecto (16).\n";
         return 16;
@@ -91,95 +104,123 @@ int leerPrioridad() {
     return prioridad;
 }
 
+int leerOpcionMenu() {
+
+    int opcion;
+    bool opcionValida = false;
+
+    while (!opcionValida) {
+        opcion = validarEntero("");
+        if (opcion >= 1 && opcion <= 5) {
+            opcionValida = true;
+        }
+        else {
+            cout << "ERROR: Opcion invalida. Intente nuevamente (1-5): ";
+        }
+    }
+
+    return opcion;
+}
+
 bool estaVacia() {
     return frente == nullptr;
 }
 
+#pragma endregion
+
+#pragma region Enqueue/Dequeue
+
 void enqueue() {
- 
+
     int dato = leerDato();
     int prioridad = leerPrioridad();
 
     Queue* nuevo = new Queue{ dato, prioridad, nullptr };
 
-    if (frente == nullptr) {
-        // Primer elemento insertado
+    // Inserción FIFO - siempre al final
+    if (estaVacia()) {
+        // Primer elemento
         frente = nuevo;
-    }
-    else if (prioridad == 0) {
-        // Insertar al frente si es prioridad 0
-        nuevo->next = frente;
-        frente = nuevo;
+        final = nuevo;
     }
     else {
-        // Insertar según prioridad después del front
-        Queue* actual = frente;
-
-        // Evitamos mover el front, así que empezamos desde el segundo nodo
-        while (actual->next != nullptr && actual->next->prioridad <= prioridad) {
-            actual = actual->next;
-        }
-
-        nuevo->next = actual->next;
-        actual->next = nuevo;
+        // Insertar al final (FIFO)
+        final->next = nuevo;
+        final = nuevo;
     }
 
     cout << "\nIngresado: {Dato: " << dato << "} - {Prioridad: " << prioridad << "}\n\n";
 }
 
 void dequeue() {
- 
+
     if (estaVacia()) {
-        cout << "\nCola vacia.\n\n";
+        cout << "Cola vacia.\n\n";
         return;
     }
 
     Queue* temp = frente;
     frente = frente->next;
 
+    // Si la cola queda vacía, también actualizamos el final
+    if (frente == nullptr) {
+        final = nullptr;
+    }
+
     cout << "\nEliminado: " << temp->dato << " (Prioridad " << temp->prioridad << ")\n\n";
     delete temp;
 }
 
+#pragma endregion
+
+#pragma region Mostrar/Vaciar
+
 void mostrar() {
- 
+
     if (estaVacia()) {
-        cout << "\nCola vacia.\n\n";
+        cout << "Cola vacia.\n\n";
         return;
     }
 
-    cout << "\n=== CONTENIDO DE LA COLA ===\n";
-    int i = 1;
+    cout << "=== ORDEN REAL EN LA COLA (FIFO) ===\n";
+    int num = 1;
     Queue* actual = frente;
+
     while (actual != nullptr) {
-        cout << i++ << ". Dato: " << actual->dato << " | Prioridad: " << actual->prioridad << "\n";
+        cout << num++ << ". Dato: " << actual->dato << " | Prioridad: " << actual->prioridad << "\n";
         actual = actual->next;
     }
-    cout << "============================\n\n";
+    cout << "====================================\n\n";
 }
 
 void vaciarTodo() {
- 
+
     if (estaVacia()) {
-        cout << "\nCola vacia.\n\n";
+        cout << "Cola vacia.\n\n";
         return;
     }
- 
-    int i = 1;
- 
+
+    int contador = 1;
+
     while (frente != nullptr) {
-     
+
         Queue* temp = frente;
-        cout << i++ << ". Eliminando: " << frente->dato << " (Prioridad " << frente->prioridad << ")\n";
+        cout << contador++ << ". Eliminando: " << frente->dato << " (Prioridad " << frente->prioridad << ")\n";
         frente = frente->next;
         delete temp;
     }
+
+    final = nullptr;  // Resetear el puntero final
     cout << "\nCola completamente vacia.\n\n";
 }
 
+#pragma endregion
+
+#pragma region Menu
+
 void mostrarMenu() {
     cout << "=================================\n";
-    cout << "       Cola con Prioridad\n";
+    cout << "    Cola FIFO con Prioridad\n";
     cout << "=================================\n";
     cout << "1. Enqueue (Insertar)\n";
     cout << "2. Dequeue (Eliminar)\n";
@@ -190,19 +231,12 @@ void mostrarMenu() {
     cout << "Opcion: ";
 }
 
-int leerOpcionMenu() {
- 
-    int opcion = validarEntero("");
- 
-    while (opcion < 1 || opcion > 5) {
-        cout << "ERROR: Opcion invalida. Intente nuevamente (1-5): ";
-        opcion = validarEntero("");
-    }
-    return opcion;
-}
+#pragma endregion
+
+#pragma region Main
 
 int main() {
- 
+
     int opcion;
 
     do {
@@ -231,5 +265,7 @@ int main() {
         }
     } while (opcion != 5);
 
-    return 0;
+    return 0;
 }
+
+#pragma endregion
