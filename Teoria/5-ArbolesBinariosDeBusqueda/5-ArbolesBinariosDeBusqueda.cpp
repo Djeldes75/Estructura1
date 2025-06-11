@@ -364,7 +364,7 @@ void mostrarMenu() {
     cout << "2. Buscar elemento\n";
     cout << "3. Eliminar elemento\n";
     cout << "4. Mostrar recorridos\n";
-    cout << "5. Mostrar arbol\n";
+    cout << "5. Desplegar\n";
     cout << "6. Salir\n";
     cout << "=================================\n";
     cout << "Opcion: ";
