@@ -319,7 +319,9 @@ void mostrarArbol() {
     }
     
     cout << "\n=== ESTRUCTURA DEL ARBOL BST ===\n";
-
+    //Como se imprimiria?
+    //el mostrar solo es de 1 manera?
+    //Al mostrar el arbol tiene que ser de manera intuitiva, dicho que lo muestre como un arbol perse
     cout << "=================================\n\n";
 }//FIN
 
