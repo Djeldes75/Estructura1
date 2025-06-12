@@ -1,27 +1,25 @@
 /*
 -------------------------------------------------------------------------------------------------------
-Tarea: #5 - Gestión de un Árbol Binario de Búsqueda
-Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I (6-8pm)
+Tarea: #7 - Gestión de un Árbol Binario de Búsqueda
+Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -------------------------------------------------------------------------------------------------------
-    Realizar un programa C++ que permita gestionar un Árbol Binario de Búsqueda. El programa
-    debe permitir insertar, buscar y eliminar un nodo; además de presentar (utilizando cualquiera
-    de los recorridos) el árbol de acuerdo a las reglas que existen para el árbol binario de búsqueda.
+Un Árbol Binario de Búsqueda (BST) es una estructura de datos jerárquica donde cada nodo tiene
+como máximo dos hijos (izquierdo y derecho). Los valores menores van al subárbol izquierdo y
+los valores mayores van al subárbol derecho.
 
-    RESTRICCIONES:
+Estructura del nodo:
+struct ArbolBST {
+    int dato;
+    ArbolBST *izquierdo;
+    ArbolBST *derecho;
+};
+
+RESTRICCIONES:
     A. El primer nodo siempre será el root.
-
-    B. Al presentar el árbol debe ser de un modo intuitivo, que muestre la topología de forma
-    que represente en árbol.
-
-    C. Puede utilizar cualquiera de los recorridos para arboles (InOrden, PreOrden o
-    PostOrden).
-
-    D. Al eliminar un nodo debe observar las reglas para la sustitución del nodo, permitiendo
-    así que el árbol se reconstruya.
-
-    E. Al insertar un nodo deben observarse las reglas para arboles binarios de búsqueda, es
-    decir, los nodos cuyo valor sea mayor que el nodo raíz a la derecha (en el subárbol
-    derecho), en caso contrario a la izquierda (en el subárbol izquierdo). Rec
+    B. Presentar el árbol de modo intuitivo mostrando la topología.
+    C. Utilizar recorridos InOrden, PreOrden o PostOrden.
+    D. Al eliminar observar las reglas de sustitución del nodo.
+    E. Al insertar observar las reglas del BST (menores izquierda, mayores derecha).
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
@@ -31,7 +29,7 @@ INTEGRANTES (Grupo 6):
     Sebastian Ventura - 1128066
     Elianyer Gomez - 1118021
 
-Fecha: 14/Jun/2025
+Fecha: 11/Jun/2025
 
 */
 
@@ -45,11 +43,12 @@ struct ArbolBST {
     ArbolBST* derecho;
 };
 
-// Puntero a la root del arbol
+// Puntero al nodo raíz del árbol
 ArbolBST* root = nullptr;
 
 #pragma region Validaciones
 
+//Validacion Universal para Enteros
 int validarEntero(const char* mensaje) {
 
     int valor;
@@ -84,6 +83,7 @@ int validarEntero(const char* mensaje) {
     return valor;
 }//FIN
 
+//Validar Opcion del Menu
 int leerOpcionMenu() {
 
     int opcion;
@@ -91,17 +91,18 @@ int leerOpcionMenu() {
 
     while (!opcionValida) {
         opcion = validarEntero("");
-        if (opcion >= 1 && opcion <= 6) {
+        if (opcion >= 1 && opcion <= 5) {
             opcionValida = true;
         }
         else {
-            cout << "ERROR: Opcion invalida. Intente nuevamente (1-6): ";
+            cout << "ERROR: Opcion invalida. Intente nuevamente (1-5): ";
         }
     }
 
     return opcion;
 }//FIN
 
+//Validar Dato
 int leerDato() {
     return validarEntero("Ingrese un numero: ");
 }//FIN
@@ -110,14 +111,13 @@ int leerDato() {
 
 #pragma region Funciones Auxiliares
 
-//Verificar si el Arbol Esta Vacio
+//Verificar si el Árbol Esta Vacío
 bool estaVacio() {
     return root == nullptr;
 }//FIN
 
-//Crear Nuevo Nodo
+//Crear un nuevo nodo
 ArbolBST* crearNodo(int valor) {
-
     ArbolBST* nuevo = new ArbolBST;
     nuevo->dato = valor;
     nuevo->izquierdo = nullptr;
@@ -125,56 +125,50 @@ ArbolBST* crearNodo(int valor) {
     return nuevo;
 }//FIN
 
-//Buscar Valor Minimo en Subarbol
+//Encontrar el nodo con valor mínimo (más a la izquierda)
 ArbolBST* encontrarMinimo(ArbolBST* nodo) {
-
-    while (nodo->izquierdo != nullptr) {
+    while (nodo && nodo->izquierdo != nullptr) {
         nodo = nodo->izquierdo;
     }
     return nodo;
 }//FIN
 
-//Limpiar memoria
-void liberarArbol(ArbolBST* nodo) {
-    if (nodo != nullptr) {
-        liberarArbol(nodo->izquierdo);
-        liberarArbol(nodo->derecho);
-        delete nodo;
-    }
-}//FIN
-
 #pragma endregion
 
-#pragma region Insertar/Buscar/Eliminar/Mostrar
+#pragma region Insertar/Buscar/Eliminar
 
-//Insertar Elemento en el Arbol BST (Recursivo)
+//Insertar Elemento (Función Recursiva)
 ArbolBST* insertarRecursivo(ArbolBST* nodo, int valor) {
-
+    // Caso base: si el nodo es nulo, crear nuevo nodo
     if (nodo == nullptr) {
         return crearNodo(valor);
     }
 
+    // Si el valor ya existe, retornar el nodo sin modificar
+    if (valor == nodo->dato) {
+        return nodo;
+    }
+
+    // Insertar en el subárbol correspondiente según reglas BST
     if (valor < nodo->dato) {
         nodo->izquierdo = insertarRecursivo(nodo->izquierdo, valor);
     }
-    else if (valor > nodo->dato) {
+    else {
         nodo->derecho = insertarRecursivo(nodo->derecho, valor);
     }
 
     return nodo;
 }//FIN
 
-//Buscar Elemento en el Arbol (Recursivo)
-bool buscarRecursivo(ArbolBST* nodo, int valor) {
-
-    if (nodo == nullptr) {
-        return false;
+//Buscar Elemento (Función Recursiva)
+ArbolBST* buscarRecursivo(ArbolBST* nodo, int valor) {
+    // Caso base: nodo nulo o valor encontrado
+    if (nodo == nullptr || nodo->dato == valor) {
+        return nodo;
     }
 
-    if (valor == nodo->dato) {
-        return true;
-    }
-    else if (valor < nodo->dato) {
+    // Buscar en el subárbol correspondiente según reglas BST
+    if (valor < nodo->dato) {
         return buscarRecursivo(nodo->izquierdo, valor);
     }
     else {
@@ -184,17 +178,22 @@ bool buscarRecursivo(ArbolBST* nodo, int valor) {
 
 //Insertar Elemento
 void insertar() {
-
     int valor = leerDato();
 
-    // Verificar si el elemento ya existe
-    if (buscarRecursivo(root, valor)) {
-        cout << "\nElemento " << valor << " ya existe. No se inserto.\n\n";
-        return;
+    if (estaVacio()) {
+        root = crearNodo(valor);
+        cout << "\nElemento " << valor << " insertado como root del arbol.\n\n";
     }
-
-    root = insertarRecursivo(root, valor);
-    cout << "\nElemento " << valor << " insertado correctamente en el arbol.\n\n";
+    else {
+        // Verificar si el elemento ya existe antes de intentar insertar
+        if (buscarRecursivo(root, valor) != nullptr) {
+            cout << "\nERROR: El elemento " << valor << " ya existe en el arbol.\n\n";
+        }
+        else {
+            root = insertarRecursivo(root, valor);
+            cout << "\nElemento " << valor << " insertado correctamente en el arbol.\n\n";
+        }
+    }
 }//FIN
 
 //Buscar Elemento
@@ -205,23 +204,26 @@ void buscar() {
         return;
     }
 
-    int valor = leerDato();
+    int valorABuscar = leerDato();
+    ArbolBST* resultado = buscarRecursivo(root, valorABuscar);
 
-    if (buscarRecursivo(root, valor)) {
-        cout << "\nElemento " << valor << " encontrado en el arbol.\n\n";
+    if (resultado != nullptr) {
+        cout << "\nElemento " << valorABuscar << " encontrado en el arbol.\n\n";
     }
     else {
-        cout << "\nElemento " << valor << " no encontrado en el arbol.\n\n";
+        cout << "\nElemento " << valorABuscar << " no encontrado en el arbol.\n\n";
     }
 }//FIN
 
-//Eliminar Elemento del Arbol (Recursivo)
+//Eliminar Elemento (Función Recursiva)
 ArbolBST* eliminarRecursivo(ArbolBST* nodo, int valor) {
 
+    // Caso base: nodo no encontrado
     if (nodo == nullptr) {
         return nodo;
     }
 
+    // Buscar el nodo a eliminar
     if (valor < nodo->dato) {
         nodo->izquierdo = eliminarRecursivo(nodo->izquierdo, valor);
     }
@@ -229,7 +231,15 @@ ArbolBST* eliminarRecursivo(ArbolBST* nodo, int valor) {
         nodo->derecho = eliminarRecursivo(nodo->derecho, valor);
     }
     else {
-        // Nodo encontrado
+        // Nodo encontrado, aplicar reglas de sustitución
+
+        // Caso 1: Nodo sin hijos (hoja)
+        if (nodo->izquierdo == nullptr && nodo->derecho == nullptr) {
+            delete nodo;
+            return nullptr;
+        }
+
+        // Caso 2: Nodo con un solo hijo
         if (nodo->izquierdo == nullptr) {
             ArbolBST* temp = nodo->derecho;
             delete nodo;
@@ -241,11 +251,12 @@ ArbolBST* eliminarRecursivo(ArbolBST* nodo, int valor) {
             return temp;
         }
 
-        // Nodo con dos hijos
-        ArbolBST* temp = encontrarMinimo(nodo->derecho);
-        nodo->dato = temp->dato;
-        nodo->derecho = eliminarRecursivo(nodo->derecho, temp->dato);
+        // Caso 3: Nodo con dos hijos - usar sucesor inorden
+        ArbolBST* sucesor = encontrarMinimo(nodo->derecho);
+        nodo->dato = sucesor->dato;
+        nodo->derecho = eliminarRecursivo(nodo->derecho, sucesor->dato);
     }
+
     return nodo;
 }//FIN
 
@@ -257,117 +268,92 @@ void eliminar() {
         return;
     }
 
-    int valor = leerDato();
+    int valorAEliminar = leerDato();
 
-    if (!buscarRecursivo(root, valor)) {
-        cout << "\nElemento " << valor << " no encontrado en el arbol.\n\n";
+    // Verificar si el elemento existe antes de eliminar
+    if (buscarRecursivo(root, valorAEliminar) == nullptr) {
+        cout << "\nElemento " << valorAEliminar << " no encontrado en el arbol.\n\n";
         return;
     }
 
-    root = eliminarRecursivo(root, valor);
-    cout << "\nElemento " << valor << " eliminado del arbol.\n\n";
+    root = eliminarRecursivo(root, valorAEliminar);
+    cout << "\nElemento " << valorAEliminar << " eliminado del arbol.\n\n";
 }//FIN
 
-//Recorrido InOrden (Recursivo)
-void inOrdenRecursivo(ArbolBST* nodo) {
+#pragma endregion
+
+#pragma region Mostrar Arbol
+
+//Mostrar Árbol con Topología Intuitiva
+void mostrarArbol(ArbolBST* nodo, int nivel) {
     if (nodo != nullptr) {
-        inOrdenRecursivo(nodo->izquierdo);
-        cout << nodo->dato << " ";
-        inOrdenRecursivo(nodo->derecho);
+        // Mostrar subárbol derecho primero (arriba)
+        mostrarArbol(nodo->derecho, nivel + 1);
+
+        // Mostrar nodo actual con indentación
+        for (int i = 0; i < nivel; i++) {
+            cout << "    ";
+        }
+        cout << nodo->dato << "\n";
+
+        // Mostrar subárbol izquierdo (abajo)
+        mostrarArbol(nodo->izquierdo, nivel + 1);
     }
 }//FIN
 
-//Recorrido PreOrden (Recursivo)
-void preOrdenRecursivo(ArbolBST* nodo) {
+//Presentar el Árbol usando InOrden: subarbol izquierdo->root->subarbol derecho
+void inOrden(ArbolBST* nodo) {
     if (nodo != nullptr) {
+        inOrden(nodo->izquierdo);
         cout << nodo->dato << " ";
-        preOrdenRecursivo(nodo->izquierdo);
-        preOrdenRecursivo(nodo->derecho);
+        inOrden(nodo->derecho);
     }
 }//FIN
 
-//Recorrido PostOrden (Recursivo)
-void postOrdenRecursivo(ArbolBST* nodo) {
-    if (nodo != nullptr) {
-        postOrdenRecursivo(nodo->izquierdo);
-        postOrdenRecursivo(nodo->derecho);
-        cout << nodo->dato << " ";
-    }
-}//FIN
-
-//Mostrar Recorridos del Arbol
-void mostrarRecorridos() {
+//Presentar Árbol
+void presentarArbol() {
 
     if (estaVacio()) {
         cout << "Arbol vacio.\n\n";
         return;
     }
 
-    cout << "\n=== RECORRIDOS DEL ARBOL BST ===\n";
-
-    cout << "InOrden:   ";
-    inOrdenRecursivo(root);
-    cout << "\n";
-
-    cout << "PreOrden:  ";
-    preOrdenRecursivo(root);
-    cout << "\n";
-
-    cout << "PostOrden: ";
-    postOrdenRecursivo(root);
-    cout << "\n";
-
-    cout << "=================================\n\n";
-}//FIN
-
-// Función auxiliar para mostrar la estructura del árbol (recursiva)
-void mostrarArbolRecursivo(ArbolBST* nodo, int nivel) {
-    if (nodo == nullptr) {
-        return;
-    }
-    // Recorrer subárbol derecho (arriba del nodo actual)
-    mostrarArbolRecursivo(nodo->derecho, nivel + 1);
-
-    // Indentar según el nivel
-    for (int i = 0; i < nivel; i++) {
-        cout << "    ";
-    }
-    // Mostrar dato del nodo
-    cout << nodo->dato << endl;
-
-    // Recorrer subárbol izquierdo (debajo del nodo actual)
-    mostrarArbolRecursivo(nodo->izquierdo, nivel + 1);
-}//FIN
-
-//Mostrar Estructura del Arbol
-void mostrarArbol() {
-
-    if (estaVacio()) {
-        cout << "Arbol vacio.\n\n";
-        return;
-    }
-
-    cout << "\n=== ESTRUCTURA DEL ARBOL BST ===\n";
-    mostrarArbolRecursivo(root, 0);
-    cout << "=================================\n\n";
+    cout << "\n=== TOPOLOGIA DEL ARBOL BINARIO DE BUSQUEDA ===\n";
+    mostrarArbol(root, 0);
+    cout << "\n=== RECORRIDO INORDEN ===\n";
+    inOrden(root);
+    cout << "\n============================================\n\n";
 }//FIN
 
 #pragma endregion
 
 #pragma region Menu
 
+//Mostrar Menu Principal
 void mostrarMenu() {
-    cout << "=================================\n";
+    cout << "=========================================\n";
     cout << "      Arbol Binario de Busqueda\n";
-    cout << "=================================\n";
+    cout << "=========================================\n";
     cout << "1. Insertar elemento\n";
     cout << "2. Buscar elemento\n";
     cout << "3. Eliminar elemento\n";
-    cout << "4. Mostrar recorridos\n";
-    cout << "5. Desplegar\n";
-    cout << "6. Salir\n";
-    cout << "=================================\n";
+    cout << "4. Presentar arbol\n";
+    cout << "5. Salir\n";
+    cout << "=========================================\n";
     cout << "Opcion: ";
+}//FIN
+
+#pragma endregion
+
+#pragma region Funciones de Limpieza
+
+//Limpiar Árbol (Función Recursiva)
+void limpiarArbol(ArbolBST* nodo) {
+    if (nodo != nullptr) {
+        limpiarArbol(nodo->izquierdo);
+        limpiarArbol(nodo->derecho);
+        delete nodo;
+    }
 }//FIN
 
 #pragma endregion
@@ -399,22 +385,16 @@ int main() {
             break;
 
         case 4:
-            mostrarRecorridos();
+            presentarArbol();
             break;
 
         case 5:
-            mostrarArbol();
-            break;
-
-        case 6:
-            cout << "Fin del programa.\n";
+            limpiarArbol(root);
+            cout << "\nFin del programa.\n";
             break;
         }
 
-    } while (opcion != 6);
-
-    liberarArbol(root);
-    root = nullptr;
+    } while (opcion != 5);
 
     return 0;
 }//FIN
