@@ -48,7 +48,6 @@ ArbolBST* root = nullptr;
 
 #pragma region Validaciones
 
-//Validacion Universal para Enteros
 int validarEntero(const char* mensaje) {
 
     int valor;
@@ -298,7 +297,7 @@ void eliminar() {
 
 #pragma region Mostrar Arbol
 
-//Mostrar Árbol con Topología Intuitiva
+//Mostrar Árbol con Topología
 void mostrarArbol(ArbolBST* nodo, int nivel) {
     if (nodo != nullptr) {
         // Mostrar subárbol derecho primero (arriba)
@@ -315,7 +314,7 @@ void mostrarArbol(ArbolBST* nodo, int nivel) {
     }
 }//FIN
 
-//Recorrido InOrden: Izquierdo -> Root -> Derecho (ORDEN ASCENDENTE)
+//Recorrido InOrden: Izquierdo -> Root -> Derecho. Ascendente
 void inOrden(ArbolBST* nodo) {
     if (nodo != nullptr) {
         inOrden(nodo->izquierdo);
@@ -324,7 +323,7 @@ void inOrden(ArbolBST* nodo) {
     }
 }//FIN
 
-//Recorrido PreOrden: Root -> Izquierdo -> Derecho (UTIL PARA RECONSTRUIR)
+//Recorrido PreOrden: Root -> Izquierdo -> Derecho
 void preOrden(ArbolBST* nodo) {
     if (nodo != nullptr) {
         cout << nodo->dato << " ";
@@ -333,7 +332,7 @@ void preOrden(ArbolBST* nodo) {
     }
 }//FIN
 
-//Recorrido PostOrden: Izquierdo -> Derecho -> Root (UTIL PARA ELIMINAR)
+//Recorrido PostOrden: Izquierdo -> Derecho -> Root
 void postOrden(ArbolBST* nodo) {
     if (nodo != nullptr) {
         postOrden(nodo->izquierdo);
