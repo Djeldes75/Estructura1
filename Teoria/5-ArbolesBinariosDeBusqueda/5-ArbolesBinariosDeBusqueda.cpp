@@ -133,6 +133,20 @@ ArbolBST* encontrarMinimo(ArbolBST* nodo) {
     return nodo;
 }//FIN
 
+int calcularAltura(ArbolBST* nodo) {
+    if (nodo == nullptr) {
+        return -1; // Convención: árbol vacío tiene altura -1
+    }
+
+    int alturaIzq = calcularAltura(nodo->izquierdo);
+    int alturaDer = calcularAltura(nodo->derecho);
+
+    // Función max manual para evitar usar <algorithm>
+    int alturaMaxima = (alturaIzq > alturaDer) ? alturaIzq : alturaDer;
+
+    return 1 + alturaMaxima;
+}//FIN
+
 #pragma endregion
 
 #pragma region Insertar/Buscar/Eliminar
@@ -301,7 +315,7 @@ void mostrarArbol(ArbolBST* nodo, int nivel) {
     }
 }//FIN
 
-//Presentar el Árbol usando InOrden: subarbol izquierdo->root->subarbol derecho
+//Recorrido InOrden: Izquierdo -> Root -> Derecho (ORDEN ASCENDENTE)
 void inOrden(ArbolBST* nodo) {
     if (nodo != nullptr) {
         inOrden(nodo->izquierdo);
@@ -310,7 +324,25 @@ void inOrden(ArbolBST* nodo) {
     }
 }//FIN
 
-//Presentar Árbol
+//Recorrido PreOrden: Root -> Izquierdo -> Derecho (UTIL PARA RECONSTRUIR)
+void preOrden(ArbolBST* nodo) {
+    if (nodo != nullptr) {
+        cout << nodo->dato << " ";
+        preOrden(nodo->izquierdo);
+        preOrden(nodo->derecho);
+    }
+}//FIN
+
+//Recorrido PostOrden: Izquierdo -> Derecho -> Root (UTIL PARA ELIMINAR)
+void postOrden(ArbolBST* nodo) {
+    if (nodo != nullptr) {
+        postOrden(nodo->izquierdo);
+        postOrden(nodo->derecho);
+        cout << nodo->dato << " ";
+    }
+}//FIN
+
+//Presentar Árbol con todos los recorridos
 void presentarArbol() {
 
     if (estaVacio()) {
@@ -318,10 +350,34 @@ void presentarArbol() {
         return;
     }
 
-    cout << "\n=== TOPOLOGIA DEL ARBOL BINARIO DE BUSQUEDA ===\n";
-    mostrarArbol(root, 0);
-    cout << "\n=== RECORRIDO INORDEN ===\n";
+    cout << "\n============================================\n";
+    cout << "           ARBOL BINARIO DE BUSQUEDA\n";
+    cout << "============================================\n\n";
+
+    // Mostrar todos los tipos de recorridos
+    cout << "=== RECORRIDOS DEL ARBOL ===\n";
+
+    cout << "InOrden  (Izq->Root->Der): ";
     inOrden(root);
+    cout << "\n";
+
+    cout << "PreOrden (Root->Izq->Der): ";
+    preOrden(root);
+    cout << "\n";
+
+    cout << "PostOrden(Izq->Der->Root): ";
+    postOrden(root);
+    cout << "\n\n";
+
+    // Mostrar información adicional del árbol
+    cout << "=== INFORMACION DEL ARBOL ===\n";
+    cout << "Altura del arbol: " << calcularAltura(root) << "\n";
+    cout << "Nodo raiz: " << root->dato << "\n\n";
+
+    // Mostrar la topología visual del árbol
+    cout << "=== TOPOLOGIA VISUAL DEL ARBOL ===\n";
+    mostrarArbol(root, 0);
+
     cout << "\n============================================\n\n";
 }//FIN
 
@@ -329,10 +385,9 @@ void presentarArbol() {
 
 #pragma region Menu
 
-//Mostrar Menu Principal
 void mostrarMenu() {
     cout << "=========================================\n";
-    cout << "      Arbol Binario de Busqueda\n";
+    cout << "        Arbol Binario de Busqueda\n";
     cout << "=========================================\n";
     cout << "1. Insertar elemento\n";
     cout << "2. Buscar elemento\n";
