@@ -3,7 +3,7 @@
 TAREA: El reloj que atrasa  (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
-Descripción: 
+DescripciÃ³n: 
     Un reloj se atrasa una cantidad de tiempo distinta en cada hora, de acuerdo con el cuadro siguiente:
     Hora - Tiempo - Atrasado
       1     1/2      minuto
@@ -34,11 +34,18 @@ using namespace std;
 
 int main() {
 
-    //Variables
+    int a = 1, b = 1, c;
 
-    //Metodo para calcular los minutos
-
-    //
-
-
+    double total = 0.5 + 0.25; // Hora 1 y 2
+    
+    for (int i = 3; i <= 24; i++) {
+        c = a + b;
+        total += (double)c / (1 << i);
+        a = b;
+        b = c;
+    }
+    
+    cout << "El reloj se atrasa: " << total << " minutos en 24 horas" << endl;
+    
+    return 0;
 }
