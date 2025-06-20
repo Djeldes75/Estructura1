@@ -14,7 +14,7 @@ Descripción:
       6     8/64     minuto
       7     13/128   minuto
     hasta     --      --
-      n     f(n)/2"  minutos
+      n     f(n)/2^n  minutos
 
     Donde f(n) es el termino enesimo de la serie de Fibonacci, en el cual f(1) = 1, f(2) = 1, f(3) = 2, f(4) = 3, f(5) = 5,
     f(6) = 8, f(7) = 13, ..., y, en general, f(n) = f(n-1) + f(n-2) para todo n >= 3.
