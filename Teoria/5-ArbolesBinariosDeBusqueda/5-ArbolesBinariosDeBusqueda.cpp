@@ -264,7 +264,7 @@ ArbolBST* eliminarRecursivo(ArbolBST* nodo, int valor) {
             return temp;
         }
 
-        // Caso 3: Nodo con dos hijos - usar sucesor inorden
+        // Caso 3: Nodo con dos hijos
         ArbolBST* sucesor = encontrarMinimo(nodo->derecho);
         nodo->dato = sucesor->dato;
         nodo->derecho = eliminarRecursivo(nodo->derecho, sucesor->dato);
