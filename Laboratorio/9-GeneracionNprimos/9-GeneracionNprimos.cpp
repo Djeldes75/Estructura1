@@ -19,7 +19,24 @@ using namespace std;
 
 int main() {
 
-    //ee
+    int n, c = 0, i = 2;
 
+    cout << "Cuantos primos: ";
+    cin >> n;
 
+    while (c < n) {
+
+        bool p = 1;
+
+        for (int j = 2; j * j <= i && p; j++) {
+            p = i % j;
+        }
+
+        if (p) {
+
+            cout << i << " ", c++;
+        }
+
+        i++;
+    }
 }
