@@ -34,18 +34,30 @@ using namespace std;
 
 int main() {
 
-    int a = 1, b = 1, c;
+    long long fib1 = 1, fib2 = 1, fibActual;
 
-    double total = 0.5 + 0.25; // Hora 1 y 2
-    
-    for (int i = 3; i <= 24; i++) {
-        c = a + b;
-        total += (double)c / (1 << i);
-        a = b;
-        b = c;
+    double tiempoTotal = 0.0;
+
+    for (int hora = 1; hora <= 24; hora++) {
+
+        if (hora == 1) {
+            fibActual = 1;
+        }
+        else if (hora == 2) {
+            fibActual = 1;
+        }
+        else {
+            fibActual = fib1 + fib2;
+            fib1 = fib2;
+            fib2 = fibActual;
+        }
+
+        double atraso = (double)fibActual / (1LL << hora);
+
+        tiempoTotal += atraso;
     }
-    
-    cout << "El reloj se atrasa: " << total << " minutos en 24 horas" << endl;
-    
+
+    cout << "Total de minutos atrasados en 24 horas: " << tiempoTotal << " minutos." << endl;
+
     return 0;
 }
