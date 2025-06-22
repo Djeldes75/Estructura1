@@ -13,7 +13,6 @@ INTEGRANTE:
     Dominique Jeldes - 1121623
 
 Fecha: 23/May/2025
-
 */
 
 #include <iostream>
