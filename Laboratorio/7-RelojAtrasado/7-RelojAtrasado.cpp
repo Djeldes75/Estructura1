@@ -25,7 +25,6 @@ INTEGRANTE:
     Dominique Jeldes - 1121623
 
 Fecha: 20/Jun/2025
-
 */
 
 #include <iostream>
