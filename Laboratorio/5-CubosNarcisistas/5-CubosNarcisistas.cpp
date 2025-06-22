@@ -15,8 +15,7 @@ Descripción:
 INTEGRANTE:
     Dominique Jeldes - 1121623
 
-Fecha: 11/Jun/2025
-
+Fecha: 16/Jun/2025
 */
 #include <iostream>
 using namespace std;
