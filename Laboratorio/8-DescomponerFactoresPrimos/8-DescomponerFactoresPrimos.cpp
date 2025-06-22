@@ -3,15 +3,14 @@
 TAREA: Descomponer Factores Primos  (LABORATORIO)
 Materia: IDS343L-01-LABORATORIO ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -----------------------------------------------------------------------------------------
-Descripción:
-    Programa que descompone un número en sus factores primos
-    Ejemplo: 60 = 2² × 3¹ × 5¹
+DescripciÃ³n:
+    Programa que descompone un nÃºmero en sus factores primos
+    Ejemplo: 60 = 2Â² Ã— 3Â¹ Ã— 5Â¹
 
 INTEGRANTE:
     Dominique Jeldes - 1121623
 
-Fecha: 20/Jun/2025
-
+Fecha: 17/Jun/2025
 */
 
 #include <iostream>
@@ -72,7 +71,7 @@ void factorizar(long long n) {
         primero = false;
     }
 
-    // Factores 6k±1
+    // Factores 6kÂ±1
     for (long long i = 5; i * i <= n; i += 6) {
 
         if (n % i == 0) {
