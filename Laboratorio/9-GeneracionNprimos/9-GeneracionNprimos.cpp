@@ -9,9 +9,10 @@ Descripcion:
     factor de optimizacion significativo al evaluar solo candidatos 6k-1 y 6k+1.
 INTEGRANTE:
     Dominique Jeldes - 1121623
-Fecha: 20/Jun/2025
-
+    
+Fecha: 21/Jun/2025
 */
+
 #include <iostream>
 
 using namespace std;
