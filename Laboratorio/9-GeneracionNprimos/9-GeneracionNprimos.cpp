@@ -73,15 +73,20 @@ private:
     }
 
     void ejecutarCribaInicial() {
+
         bool esPrimo[LIMITE_CRIBA_INICIAL];
+
         for (int i = 0; i < LIMITE_CRIBA_INICIAL; i++) {
+
             esPrimo[i] = (i > 1);
         }
 
         int limiteSuperior = calcularRaizCuadrada(LIMITE_CRIBA_INICIAL);
 
         for (int i = 2; i <= limiteSuperior; i++) {
+
             if (esPrimo[i]) {
+
                 for (int multiplo = i * i; multiplo < LIMITE_CRIBA_INICIAL; multiplo += i) {
                     esPrimo[multiplo] = false;
                 }
@@ -89,18 +94,23 @@ private:
         }
 
         totalPrimosEnCache = 0;
+
         for (int i = 2; i < LIMITE_CRIBA_INICIAL && totalPrimosEnCache < MAX_CACHE_PRIMOS; i++) {
+
             if (esPrimo[i]) {
+
                 cachePrimos[totalPrimosEnCache++] = i;
             }
         }
     }
 
     bool buscarEnCachePrimos(int numero) {
+
         int izquierda = 0;
         int derecha = totalPrimosEnCache - 1;
 
         while (izquierda <= derecha) {
+
             int medio = (izquierda + derecha) / 2;
 
             if (cachePrimos[medio] == numero) return true;
@@ -111,6 +121,7 @@ private:
     }
 
     bool esNumeroPrimo(int numero) {
+
         if (numero < 2) return false;
         if (numero == 2 || numero == 3 || numero == 5) return true;
 
@@ -119,6 +130,7 @@ private:
         }
 
         if (numero < LIMITE_CRIBA_INICIAL) {
+
             return buscarEnCachePrimos(numero);
         }
 
@@ -132,10 +144,12 @@ private:
         }
 
         if (totalPrimosEnCache > 0 && cachePrimos[totalPrimosEnCache - 1] < limiteDivision) {
+
             int ultimoPrimoConocido = cachePrimos[totalPrimosEnCache - 1];
             int baseWheel = ((ultimoPrimoConocido / 30) + 1) * 30;
 
             while (baseWheel <= limiteDivision) {
+
                 for (int j = 0; j < 8; j++) {
                     int candidatoDivisor = baseWheel + wheel30[j];
 
@@ -151,7 +165,9 @@ private:
     }
 
     void agregarPrimoAlCache(int primo) {
+
         if (totalPrimosEnCache < MAX_CACHE_PRIMOS) {
+
             cachePrimos[totalPrimosEnCache++] = primo;
         }
     }
@@ -163,11 +179,11 @@ public:
 
     void generarPrimeros(int n) {
         if (n <= 0) {
-            cout << "\n❌ Error: N debe ser un número entero positivo.\n";
+            cout << "\n❌ Error: N debe ser un numero entero positivo.\n";
             return;
         }
 
-        cout << "\nLos primeros " << n << " números primos son:\n";
+        cout << "\nLos primeros " << n << " numeros primos son:\n";
 
         int contadorPrimos = 0;
 
@@ -186,12 +202,15 @@ public:
         int baseActualWheel = ((ultimoPrimoEncontrado / 30) + 1) * 30;
 
         while (contadorPrimos < n) {
+
             for (int i = 0; i < 8 && contadorPrimos < n; i++) {
+
                 int candidatoPrimo = baseActualWheel + wheel30[i];
 
                 if (candidatoPrimo <= ultimoPrimoEncontrado) continue;
 
                 if (esNumeroPrimo(candidatoPrimo)) {
+
                     cout << " " << candidatoPrimo;
                     contadorPrimos++;
                     agregarPrimoAlCache(candidatoPrimo);
@@ -208,6 +227,7 @@ public:
 const int GeneradorNPrimos::wheel30[8] = {1, 7, 11, 13, 17, 19, 23, 29};
 
 int validarEntero(const char* mensaje) {
+
     int valor;
     char caracterSiguiente;
     bool entradaValida = false;
@@ -215,11 +235,15 @@ int validarEntero(const char* mensaje) {
     cout << mensaje;
 
     while (!entradaValida) {
+
         if (cin >> valor) {
+
             caracterSiguiente = cin.peek();
+
             if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
                 cin.ignore(10000, '\n');
                 entradaValida = true;
+
             } else {
                 cout << "ERROR: Entrada invalida.\nIntente nuevamente: ";
                 cin.clear();
@@ -236,17 +260,16 @@ int validarEntero(const char* mensaje) {
 }
 
 int main() {
-    cout << "\n╔════════════════════════════════════════════════════════════╗\n";
-    cout <<   "║               GENERADOR DE N NÚMEROS PRIMOS               ║\n";
-    cout <<   "║       Algoritmo con Múltiples Técnicas de Optimización    ║\n";
-    cout <<   "╚════════════════════════════════════════════════════════════╝\n";
+    cout << "=============================================================\n";
+    cout <<   "               Generacion de N Numeros Primos               \n";
+    cout << "=============================================================";
 
     GeneradorNPrimos generador;
-    int n = validarEntero("\nIngrese la cantidad de números primos que desea generar: ");
+    int n = validarEntero("\nIngrese la cantidad de numeros primos que desea generar: ");
 
     cout << endl;
     generador.generarPrimeros(n);
 
-    cout << "\n✅ Programa ejecutado exitosamente. ¡Gracias por usar el generador!\n";
+    cout << "\nPrograma ejecutado exitosamente.\n";
     return 0;
 }

@@ -1,13 +1,12 @@
 
 /*
 -------------------------------------------------------------------------------------------------------
-Tarea: #8 - Funcion Hash para IDs
+Tarea: #6 - Tablas Hash para IDs
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -------------------------------------------------------------------------------------------------------
 Descripcion:
     Dados los IDs de la clase. asignar un indice a cada ID,
-    utilizando una funcion HASH [que este en notacion Big O(1)]
-    un Indice o Asiento a cada ID dado.
+    utilizando una funcion HASH [que este en notacion Big O(1)], un Indice o Asiento a cada ID dado.
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
@@ -132,6 +131,7 @@ void mostrarCalculoDetallado(int id) {
     bool primero = true;
 
     while (temp > 0) {
+
         int digito = temp % 10;
         suma += digito;
 
@@ -179,9 +179,10 @@ void verificarColisiones() {
         cout << "Total de colisiones: " << totalColisiones << endl;
         cout << "Eficiencia: " << ((NUM_ESTUDIANTES - totalColisiones) * 100 / NUM_ESTUDIANTES) << "%" << endl;
     }
-}//FIN
+}
 
 void presentar() {
+
     cout << "\n=============================================================" << endl;
     cout << "              ASIGNACION DE INDICES CON FUNCION HASH        " << endl;
     cout << "=============================================================" << endl;
@@ -215,7 +216,7 @@ void presentar() {
     }
 
     verificarColisiones();
-}//FIN
+}
 
 //Buscar ID especifico con validaciones
 void buscarID() {
@@ -237,7 +238,9 @@ void buscarID() {
 
     cout << "\n=== RESULTADO DE BUSQUEDA ===" << endl;
     if (encontrado) {
+
         int indice = funcionHash(idBuscado);
+
         cout << "ID ENCONTRADO:" << endl;
         cout << "   Estudiante #" << posicion << endl;
         cout << "   ID: " << idBuscado << endl;

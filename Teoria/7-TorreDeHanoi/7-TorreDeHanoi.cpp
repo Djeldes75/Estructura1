@@ -224,7 +224,7 @@ int torreAIndice(char torre) {
     case 'C': return 2;
     default: return -1;
     }
-}//FIN
+}
 
 // Convertir índice numérico a letra de torre
 char indiceATorre(int indice) {
@@ -234,16 +234,18 @@ char indiceATorre(int indice) {
     case 2: return 'C';
     default: return '?';
     }
-}//FIN
+}
 
 // Calcular el número mínimo de movimientos para n discos (2^n - 1)
 int calcularMovimientosMinimos(int numDiscos) {
+
     int resultado = 1;
+
     for (int i = 0; i < numDiscos; i++) {
         resultado *= 2;
     }
     return resultado - 1;
-}//FIN
+}
 
 // Limpiar todas las torres
 void limpiarTorres() {
@@ -251,10 +253,11 @@ void limpiarTorres() {
         limpiarPila(&torres[i]);
     }
     numeroMovimientos = 0;
-}//FIN
+}
 
 // Inicializar las torres con n discos en la torre A
 void inicializarTorres(int numDiscos) {
+
     limpiarTorres();
 
     // Colocar los discos en la torre A (del más grande al más pequeño)
@@ -264,13 +267,13 @@ void inicializarTorres(int numDiscos) {
 
     cout << "\nTorres inicializadas con " << numDiscos << " discos en la Torre A.\n";
     cout << "Movimientos minimos necesarios: " << calcularMovimientosMinimos(numDiscos) << "\n\n";
-}//FIN
+}
 
 // Pausar ejecución
 void pausar() {
     cout << "Presione ENTER para continuar...";
     cin.get();
-}//FIN
+}
 
 #pragma endregion
 
@@ -401,7 +404,7 @@ void resolverHanoiPersonalizado() {
 
     cout << "\n¡TORRES DE HANOI RESUELTAS EXITOSAMENTE!\n";
     cout << "Total de movimientos realizados: " << numeroMovimientos << "\n\n";
-}//FIN
+}
 
 #pragma endregion
 
