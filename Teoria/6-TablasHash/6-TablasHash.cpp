@@ -1,4 +1,3 @@
-
 /*
 -------------------------------------------------------------------------------------------------------
 Tarea: #6 - Tablas Hash para IDs
@@ -76,7 +75,7 @@ int validarEntero(const char* mensaje) {
     return valor;
 }
 
-// Validar opción del menú
+// Validar opciÃ³n del menÃº
 int validarOpcionMenu() {
 
     int opcion;
@@ -95,7 +94,7 @@ int validarOpcionMenu() {
     return opcion;
 }
 
-// Solicitar ID sin restricciones específicas
+// Solicitar ID sin restricciones especÃ­ficas
 int solicitarID() {
 
     return validarEntero("Ingrese el ID a buscar: ");
@@ -108,7 +107,7 @@ int funcionHash(int id) {
     int suma = 0;
     int temp = id;
 
-    //Sumar todos los dígitos
+    //Sumar todos los dÃ­gitos
     while (temp > 0) {
         suma += temp % 10;
         temp /= 10;
