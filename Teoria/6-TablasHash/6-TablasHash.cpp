@@ -1,11 +1,11 @@
 /*
 -------------------------------------------------------------------------------------------------------
-Tarea: #6 - Tablas Hash para IDs
+Tarea: #6 - Tablas Hash para IDs (VERSION SIMPLE PARA PRINCIPIANTES)
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -------------------------------------------------------------------------------------------------------
 Descripcion:
-    Dados los IDs de la clase. asignar un indice a cada ID,
-    utilizando una funcion HASH [que este en notacion Big O(1)], un Indice o Asiento a cada ID dado.
+    Asignar un indice a cada ID de la clase usando una funcion HASH simple
+    que evite colisiones de manera facil de entender.
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
@@ -17,15 +17,19 @@ INTEGRANTES (Grupo 6):
 
 Fecha: 21/Jun/2025
 
+COMPLEJIDAD TEMPORAL: O(1) promedio para insercion y busqueda
+COMPLEJIDAD ESPACIAL: O(n) donde n es el tamaño de la tabla
 */
 
 #include <iostream>
-#include <iomanip>
-
+#include <iomanip>  // Para formatear la salida
 using namespace std;
 
+// ==================== CONFIGURACION ====================
 const int NUM_ESTUDIANTES = 30;
+const int TABLA_SIZE = 61; // Numero primo para mejor distribucion y menos colisiones
 
+// Array con todos los IDs de la clase
 int idsClase[NUM_ESTUDIANTES] = {
     1124396, 1126338, 1118197, 1127166, 1123657,
     1129672, 1124404, 1127310, 1120392, 1127175,
@@ -35,273 +39,387 @@ int idsClase[NUM_ESTUDIANTES] = {
     1126396, 1126385, 1125701, 1126328, 1128066
 };
 
-#pragma region Validaciones
+// ==================== ESTRUCTURA DE LA TABLA HASH ====================
+struct SlotTabla {
+    int id;                 // ID del estudiante
+    int numeroEstudiante;   // Numero de estudiante (1-30)
+    bool ocupado;           // Si el slot esta ocupado
+    
+    // Constructor para inicializar
+    SlotTabla() : id(0), numeroEstudiante(0), ocupado(false) {}
+};
 
-// Validar entrada de entero
-int validarEntero(const char* mensaje) {
+SlotTabla tablaHash[TABLA_SIZE];
 
-    int valor;
-    char caracterSiguiente;
-    bool entradaValida = false;
-
+// ==================== VALIDACIONES SIMPLES ====================
+int pedirEntero(const string& mensaje) {
+    int numero;
     cout << mensaje;
-
-    while (!entradaValida) {
-
-        if (cin >> valor) {
-
-            caracterSiguiente = cin.peek();
-
-            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
-
-                cin.ignore(10000, '\n');
-                entradaValida = true;
-            }
-            else {
-                cout << "ERROR: Entrada invalida. Solo numeros enteros." << endl;
-                cout << "Intente nuevamente: ";
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }
-        }
-        else {
-            cout << "ERROR: Entrada invalida. Solo numeros enteros." << endl;
-            cout << "Intente nuevamente: ";
-            cin.clear();
-            cin.ignore(10000, '\n');
-        }
+    while (!(cin >> numero)) {
+        cout << "ERROR: Ingrese un numero valido: ";
+        cin.clear();
+        cin.ignore(10000, '\n');
     }
-
-    return valor;
+    return numero;
 }
 
-// Validar opción del menú
-int validarOpcionMenu() {
-
+int pedirOpcion() {
     int opcion;
-    bool valida = false;
-
-    while (!valida) {
-        opcion = validarEntero("");
-        if (opcion >= 1 && opcion <= 3) {
-            valida = true;
+    do {
+        cout << "\nSeleccione una opcion (1-5): ";
+        cin >> opcion;
+        if (opcion < 1 || opcion > 5) {
+            cout << "ERROR: Debe ser entre 1 y 5. Intente de nuevo." << endl;
         }
-        else {
-            cout << "ERROR: Opcion invalida. Debe seleccionar entre 1-3." << endl;
-            cout << "Seleccione una opcion: ";
-        }
-    }
+    } while (opcion < 1 || opcion > 5);
     return opcion;
 }
 
-// Solicitar ID sin restricciones específicas
-int solicitarID() {
-
-    return validarEntero("Ingrese el ID a buscar: ");
+// ==================== FUNCION HASH SIMPLE ====================
+/* 
+ * FUNCION HASH SIMPLE: 
+ * 1. Toma los ultimos 2 digitos del ID
+ * 2. Los multiplica por 3 (para mejor distribucion)
+ * 3. Aplica modulo del tamaño de la tabla
+ * 
+ * COMPLEJIDAD: O(1) - Operaciones aritmeticas constantes
+ */
+int funcionHashSimple(int id) {
+    int ultimosDosDigitos = id % 100;                          // Ej: 1124396 -> 96
+    int multiplicado = ultimosDosDigitos * 3;                  // 96 * 3 = 288
+    int indice = multiplicado % TABLA_SIZE;                    // 288 % 61 = 44
+    return indice;
 }
 
-#pragma endregion
-
-int funcionHash(int id) {
-
-    int suma = 0;
-    int temp = id;
-
-    //Sumar todos los dígitos
-    while (temp > 0) {
-        suma += temp % 10;
-        temp /= 10;
-    }
-
-    //Aplicar modulo
-    return suma % NUM_ESTUDIANTES;
+// Mostrar el calculo paso a paso (para fines educativos)
+void mostrarCalculoPasoAPaso(int id) {
+    int ultimosDosDigitos = id % 100;
+    int multiplicado = ultimosDosDigitos * 3;
+    int indice = multiplicado % TABLA_SIZE;
+    
+    cout << "\n┌─── CALCULO DE LA FUNCION HASH ───┐" << endl;
+    cout << "│ ID: " << setw(34) << id << " │" << endl;
+    cout << "│ Paso 1: Ultimos 2 digitos = " << setw(8) << ultimosDosDigitos << " │" << endl;
+    cout << "│ Paso 2: Multiplicar por 3 = " << setw(9) << multiplicado << " │" << endl;
+    cout << "│ Paso 3: Modulo " << TABLA_SIZE << " = " << setw(15) << indice << " │" << endl;
+    cout << "│ RESULTADO: Indice = " << setw(16) << indice << " │" << endl;
+    cout << "└──────────────────────────────────────┘" << endl;
 }
 
-void mostrarCalculoDetallado(int id) {
-
-    cout << "ID: " << id << " -> ";
-
-    int temp = id;
-    int suma = 0;
-
-    // Mostrar cada digito sumandose
-    cout << "Suma: ";
-
-    bool primero = true;
-
-    while (temp > 0) {
-
-        int digito = temp % 10;
-        suma += digito;
-
-        if (!primero) {
-            cout << " + ";
+// ==================== INSERCION CON LINEAR PROBING ====================
+/*
+ * INSERCION CON RESOLUCION DE COLISIONES (Linear Probing):
+ * - Si el slot calculado esta libre, insertar ahi
+ * - Si esta ocupado, buscar el siguiente slot libre secuencialmente
+ * - Complejidad promedio: O(1), peor caso: O(n)
+ */
+bool insertarID(int id, int numeroEstudiante) {
+    int indice = funcionHashSimple(id);
+    int indiceOriginal = indice;
+    int intentos = 0;
+    
+    cout << "  → Insertando ID " << id << " (Estudiante #" << numeroEstudiante << ")" << endl;
+    cout << "  → Indice calculado: " << indice << endl;
+    
+    // Linear probing: buscar siguiente slot libre
+    while (tablaHash[indice].ocupado) {
+        intentos++;
+        cout << "  ⚠️  COLISION en indice " << indice << " (ocupado por ID " 
+             << tablaHash[indice].id << ")" << endl;
+        
+        indice = (indice + 1) % TABLA_SIZE;  // Circular: ir al siguiente
+        
+        // Verificar si la tabla esta llena (dimos la vuelta completa)
+        if (indice == indiceOriginal) {
+            cout << "  ❌ ERROR: Tabla llena, no se puede insertar!" << endl;
+            return false;
         }
-
-        cout << digito;
-        temp /= 10;
-        primero = false;
     }
-
-    int indice = suma % NUM_ESTUDIANTES;
-    cout << " = " << suma;
-    cout << " mod " << NUM_ESTUDIANTES;
-    cout << " = " << indice << endl;
+    
+    // Insertar en el slot libre encontrado
+    tablaHash[indice].id = id;
+    tablaHash[indice].numeroEstudiante = numeroEstudiante;
+    tablaHash[indice].ocupado = true;
+    
+    if (intentos > 0) {
+        cout << "  ✅ ID insertado en indice " << indice << " (tras " << intentos << " colisiones)" << endl;
+    } else {
+        cout << "  ✅ ID insertado en indice " << indice << " (sin colisiones)" << endl;
+    }
+    
+    return true;
 }
 
-//Colisiones verif.
-void verificarColisiones() {
+// ==================== INICIALIZACION Y LLENADO ====================
+void inicializarTabla() {
+    for (int i = 0; i < TABLA_SIZE; i++) {
+        tablaHash[i] = SlotTabla(); // Usar constructor por defecto
+    }
+    cout << "✅ Tabla inicializada correctamente." << endl;
+}
 
-    bool colisiones[NUM_ESTUDIANTES] = { false };
-    int totalColisiones = 0;
-
-    cout << "\n=== VERIFICACION DE COLISIONES ===" << endl;
-
+void llenarTabla() {
+    cout << "\n" << string(50, '=') << endl;
+    cout << "      LLENANDO LA TABLA HASH" << endl;
+    cout << string(50, '=') << endl;
+    
+    inicializarTabla();
+    
+    int exitosas = 0;
     for (int i = 0; i < NUM_ESTUDIANTES; i++) {
-
-        int indice = funcionHash(idsClase[i]);
-
-        if (colisiones[indice]) {
-            cout << "COLISION: ID " << idsClase[i]
-                << " -> Indice " << indice << " (ya ocupado)" << endl;
-            totalColisiones++;
-        }
-        else {
-            colisiones[indice] = true;
+        cout << "\n[" << (i + 1) << "/" << NUM_ESTUDIANTES << "] ";
+        if (insertarID(idsClase[i], i + 1)) {
+            exitosas++;
         }
     }
-
-    if (totalColisiones == 0) {
-        cout << "PERFECTO! No hay colisiones - Funcion hash optima" << endl;
-    }
-    else {
-        cout << "Total de colisiones: " << totalColisiones << endl;
-        cout << "Eficiencia: " << ((NUM_ESTUDIANTES - totalColisiones) * 100 / NUM_ESTUDIANTES) << "%" << endl;
-    }
+    
+    cout << "\n" << string(50, '=') << endl;
+    cout << "RESUMEN: " << exitosas << "/" << NUM_ESTUDIANTES << " IDs insertados exitosamente" << endl;
+    cout << string(50, '=') << endl;
 }
 
-void presentar() {
-
-    cout << "\n=============================================================" << endl;
-    cout << "              ASIGNACION DE INDICES CON FUNCION HASH        " << endl;
-    cout << "=============================================================" << endl;
-
-    cout << "\nTABLA COMPLETA DE ASIGNACIONES:" << endl;
-    cout << "-------------------------------------------------------------" << endl;
-    cout << left << setw(12) << "Estudiante"
-        << setw(12) << "ID"
-        << setw(15) << "Suma Digitos"
-        << setw(10) << "Indice" << endl;
-    cout << "-------------------------------------------------------------" << endl;
-
-    for (int i = 0; i < NUM_ESTUDIANTES; i++) {
-
-        int id = idsClase[i];
-        int suma = 0;
-        int temp = id;
-
-        // Calcular suma para mostrar
-        while (temp > 0) {
-            suma += temp % 10;
-            temp /= 10;
+// ==================== VISUALIZACION DE LA TABLA ====================
+void mostrarTablaCompleta() {
+    cout << "\n" << string(70, '=') << endl;
+    cout << "                    TABLA HASH COMPLETA" << endl;
+    cout << string(70, '=') << endl;
+    
+    cout << "| Indice |    ID     | Estudiante |  Estado  | Hash Original |" << endl;
+    cout << "|--------|-----------|------------|----------|---------------|" << endl;
+    
+    for (int i = 0; i < TABLA_SIZE; i++) {
+        cout << "| " << setw(6) << i << " | ";
+        
+        if (tablaHash[i].ocupado) {
+            int hashOriginal = funcionHashSimple(tablaHash[i].id);
+            cout << setw(9) << tablaHash[i].id << " | ";
+            cout << "    E-" << setw(2) << tablaHash[i].numeroEstudiante << "   | ";
+            cout << " OCUPADO  | ";
+            cout << setw(13) << hashOriginal;
+            
+            // Marcar si hay colision
+            if (i != hashOriginal) {
+                cout << " *";
+            }
+        } else {
+            cout << "    ---   |     ---    |   LIBRE  |      ---     ";
         }
-
-        int indice = funcionHash(id);
-
-        cout << left << setw(12) << (i + 1)
-            << setw(12) << id
-            << setw(15) << suma
-            << setw(10) << indice << endl;
+        cout << " |" << endl;
     }
-
-    verificarColisiones();
+    
+    cout << string(70, '=') << endl;
+    cout << "* = Elemento movido por colision" << endl;
 }
 
-//Buscar ID especifico con validaciones
+// ==================== ESTADISTICAS DETALLADAS ====================
+void mostrarEstadisticas() {
+    int ocupados = 0;
+    int colisiones = 0;
+    int maxSondeos = 0;
+    
+    // Contar estadisticas
+    for (int i = 0; i < TABLA_SIZE; i++) {
+        if (tablaHash[i].ocupado) {
+            ocupados++;
+            
+            int posicionOriginal = funcionHashSimple(tablaHash[i].id);
+            if (i != posicionOriginal) {
+                colisiones++;
+                
+                // Calcular cuantos sondeos fueron necesarios
+                int sondeos = (i >= posicionOriginal) ? 
+                             (i - posicionOriginal) : 
+                             (TABLA_SIZE - posicionOriginal + i);
+                maxSondeos = max(maxSondeos, sondeos);
+            }
+        }
+    }
+    
+    double factorCarga = (double)ocupados / TABLA_SIZE;
+    double eficiencia = ((double)(NUM_ESTUDIANTES - colisiones) / NUM_ESTUDIANTES) * 100;
+    
+    cout << "\n┌─── ESTADISTICAS DETALLADAS ───┐" << endl;
+    cout << "│ Total estudiantes:     " << setw(7) << NUM_ESTUDIANTES << " │" << endl;
+    cout << "│ Tamaño tabla:          " << setw(7) << TABLA_SIZE << " │" << endl;
+    cout << "│ Slots ocupados:        " << setw(7) << ocupados << " │" << endl;
+    cout << "│ Slots libres:          " << setw(7) << (TABLA_SIZE - ocupados) << " │" << endl;
+    cout << "│ Colisiones:            " << setw(7) << colisiones << " │" << endl;
+    cout << "│ Max sondeos:           " << setw(7) << maxSondeos << " │" << endl;
+    cout << "│ Factor de carga:       " << setw(6) << fixed << setprecision(2) << factorCarga << " │" << endl;
+    cout << "│ Eficiencia:            " << setw(6) << fixed << setprecision(1) << eficiencia << "% │" << endl;
+    cout << "└───────────────────────────────┘" << endl;
+}
+
+// ==================== BUSQUEDA DE IDs ====================
+/*
+ * BUSQUEDA CON LINEAR PROBING:
+ * - Calcular indice con funcion hash
+ * - Si el slot esta vacio, el elemento no existe
+ * - Si esta ocupado pero es otro ID, continuar sondeo
+ * - Si encontramos el ID buscado, exito
+ * - Complejidad promedio: O(1), peor caso: O(n)
+ */
 void buscarID() {
-
-    int idBuscado = solicitarID();
-
-    // Buscar si el ID existe en la clase
+    int idBuscado = pedirEntero("\nIngrese el ID a buscar: ");
+    
+    cout << "\n" << string(50, '=') << endl;
+    cout << "         PROCESO DE BUSQUEDA" << endl;
+    cout << string(50, '=') << endl;
+    
+    mostrarCalculoPasoAPaso(idBuscado);
+    
+    int indice = funcionHashSimple(idBuscado);
+    int indiceOriginal = indice;
+    int pasos = 0;
     bool encontrado = false;
-    int posicion = -1;
-
-    for (int i = 0; i < NUM_ESTUDIANTES; i++) {
-
-        if (idsClase[i] == idBuscado) {
-            encontrado = true;
-            posicion = i + 1;
+    
+    cout << "\n🔍 Iniciando busqueda en la tabla..." << endl;
+    
+    do {
+        pasos++;
+        cout << "  Paso " << pasos << ": Revisando indice " << indice << " → ";
+        
+        if (!tablaHash[indice].ocupado) {
+            cout << "VACIO (El ID no existe en la tabla)" << endl;
             break;
+        } else if (tablaHash[indice].id == idBuscado) {
+            cout << "¡ENCONTRADO!" << endl;
+            encontrado = true;
+            break;
+        } else {
+            cout << "Ocupado por ID " << tablaHash[indice].id << " (continuar...)" << endl;
+            indice = (indice + 1) % TABLA_SIZE;
         }
-    }
-
-    cout << "\n=== RESULTADO DE BUSQUEDA ===" << endl;
+        
+    } while (indice != indiceOriginal && pasos < TABLA_SIZE);
+    
+    // Mostrar resultado
+    cout << "\n" << string(50, '=') << endl;
     if (encontrado) {
-
-        int indice = funcionHash(idBuscado);
-
-        cout << "ID ENCONTRADO:" << endl;
-        cout << "   Estudiante #" << posicion << endl;
+        cout << "✅ RESULTADO: ID ENCONTRADO" << endl;
         cout << "   ID: " << idBuscado << endl;
-        cout << "   Indice asignado: " << indice << endl;
-        cout << "   Calculo detallado: ";
-        mostrarCalculoDetallado(idBuscado);
+        cout << "   Posicion: Indice " << indice << endl;
+        cout << "   Estudiante: #" << tablaHash[indice].numeroEstudiante << endl;
+        cout << "   Pasos necesarios: " << pasos << endl;
+        
+        int posicionOriginal = funcionHashSimple(idBuscado);
+        if (indice != posicionOriginal) {
+            cout << "   Nota: Movido por colision (posicion original: " << posicionOriginal << ")" << endl;
+        }
+    } else {
+        cout << "❌ RESULTADO: ID NO ENCONTRADO" << endl;
+        cout << "   El ID " << idBuscado << " no existe en la clase" << endl;
+        cout << "   Pasos realizados: " << pasos << endl;
     }
-    else {
-        cout << "ID no encontrado en la clase actual" << endl;
-        cout << "   Pero el indice seria: " << funcionHash(idBuscado) << endl;
-        cout << "   Calculo detallado: ";
-        mostrarCalculoDetallado(idBuscado);
-    }
+    cout << string(50, '=') << endl;
 }
 
-#pragma region Main
+// ==================== DEMOSTRAR FUNCIONAMIENTO ====================
+void demostrarFuncionamiento() {
+    cout << "\n" << string(60, '=') << endl;
+    cout << "           DEMOSTRACION DEL FUNCIONAMIENTO" << endl;
+    cout << string(60, '=') << endl;
+    
+    cout << "\n📚 ¿Como funciona nuestra tabla hash?" << endl;
+    cout << "1. Tomamos un ID (ej: 1124396)" << endl;
+    cout << "2. Aplicamos la funcion hash:" << endl;
+    cout << "   - Ultimos 2 digitos: 96" << endl;
+    cout << "   - Multiplicar por 3: 96 * 3 = 288" << endl;
+    cout << "   - Modulo " << TABLA_SIZE << ": 288 % " << TABLA_SIZE << " = " << (288 % TABLA_SIZE) << endl;
+    cout << "3. Intentamos insertar en el indice " << (288 % TABLA_SIZE) << endl;
+    cout << "4. Si esta ocupado, probamos el siguiente (Linear Probing)" << endl;
+    
+    cout << "\n⚡ Complejidad temporal:" << endl;
+    cout << "   - Insercion: O(1) promedio" << endl;
+    cout << "   - Busqueda: O(1) promedio" << endl;
+    cout << "   - Espacio: O(n) donde n = " << TABLA_SIZE << endl;
+    
+    cout << "\n🎯 Ventajas de esta implementacion:" << endl;
+    cout << "   ✅ Muy rapida para busquedas" << endl;
+    cout << "   ✅ Facil de entender" << endl;
+    cout << "   ✅ Uso eficiente de memoria" << endl;
+    cout << "   ✅ Tabla dimensionada para evitar colisiones" << endl;
+}
 
+// ==================== MENU PRINCIPAL ====================
+void mostrarMenu() {
+    cout << "\n" << string(45, '=') << endl;
+    cout << "     TABLA HASH SIMPLE - PRINCIPIANTES" << endl;
+    cout << "        Complejidad: O(1) promedio" << endl;
+    cout << string(45, '=') << endl;
+    cout << "1. 📥 Llenar tabla hash con todos los IDs" << endl;
+    cout << "2. 📊 Ver tabla completa y estadisticas" << endl;
+    cout << "3. 🔍 Buscar un ID especifico" << endl;
+    cout << "4. 📚 Demostrar funcionamiento" << endl;
+    cout << "5. 🚪 Salir" << endl;
+    cout << string(45, '=') << endl;
+}
+
+// ==================== PROGRAMA PRINCIPAL ====================
 int main() {
-
     int opcion;
-
+    bool tablaLlena = false;
+    
+    cout << string(60, '=') << endl;
+    cout << "  🎓 BIENVENIDO AL PROGRAMA DE TABLA HASH EDUCATIVO" << endl;
+    cout << string(60, '=') << endl;
+    cout << "\nEste programa demuestra como funciona una tabla hash simple" << endl;
+    cout << "usando los IDs de estudiantes de la clase IDS343-01." << endl;
+    cout << "\n🔧 Configuracion actual:" << endl;
+    cout << "   - Estudiantes: " << NUM_ESTUDIANTES << endl;
+    cout << "   - Tamaño tabla: " << TABLA_SIZE << " (numero primo)" << endl;
+    cout << "   - Funcion hash: (ID % 100) * 3 % " << TABLA_SIZE << endl;
+    cout << "   - Resolucion colisiones: Linear Probing" << endl;
+    
     do {
-        cout << "\n=============================================================" << endl;
-        cout << "              FUNCION HASH:  ASIGNACION DE INDICES            " << endl;
-        cout << "=============================================================" << endl;
-
-        cout << "\nMENU DE OPCIONES:" << endl;
-        cout << "1.  Ver Indices" << endl;
-        cout << "2.  Buscar ID especifico" << endl;
-        cout << "3.  Salir" << endl;
-        cout << "============================================================" << endl;
-        cout << "+ Seleccione una opcion: ";
-
-        opcion = validarOpcionMenu();
-
+        mostrarMenu();
+        opcion = pedirOpcion();
+        
         switch (opcion) {
-
-        case 1:
-            presentar();
-            break;
-
-        case 2:
-            buscarID();
-            break;
-
-        case 3:
-            cout << "Programa terminado exitosamente." << endl;
-            break;
-
-        default:
-            cout << "Opcion invalida. Intente nuevamente." << endl;
+            case 1:
+                llenarTabla();
+                mostrarEstadisticas();
+                tablaLlena = true;
+                break;
+                
+            case 2:
+                if (tablaLlena) {
+                    mostrarTablaCompleta();
+                    mostrarEstadisticas();
+                } else {
+                    cout << "\n⚠️  Primero debe llenar la tabla (opcion 1)" << endl;
+                }
+                break;
+                
+            case 3:
+                if (tablaLlena) {
+                    buscarID();
+                } else {
+                    cout << "\n⚠️  Primero debe llenar la tabla (opcion 1)" << endl;
+                }
+                break;
+                
+            case 4:
+                demostrarFuncionamiento();
+                break;
+                
+            case 5:
+                cout << "\n" << string(40, '=') << endl;
+                cout << "  ¡Gracias por usar el programa!" << endl;
+                cout << "     Programa terminado ✅" << endl;
+                cout << string(40, '=') << endl;
+                break;
         }
-
-        if (opcion != 3) {
-            cout << "\nPresione Enter para continuar...";
+        
+        if (opcion != 5) {
+            cout << "\n📝 Presione Enter para continuar...";
             cin.ignore();
             cin.get();
         }
-
-    } while (opcion != 3);
-
+        
+    } while (opcion != 5);
+    
     return 0;
 }
 
-#pragma endregion
+// ==================== FIN DEL PROGRAMA ====================
