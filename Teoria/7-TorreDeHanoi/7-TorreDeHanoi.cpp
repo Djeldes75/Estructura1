@@ -26,7 +26,7 @@ INTEGRANTES (Grupo 6):
     Sebastian Ventura - 1128066
     Elianyer Gomez - 1118021
 
-Fecha: 19/Dic/2022
+Fecha: 29/June/2025
 */
 
 #include <iostream>
@@ -347,7 +347,7 @@ void resolverHanoi(int numDiscos, int origen, int destino, int auxiliar) {
 
         mostrarEstadoTorres();
 
-        // Simular espera sin usar thread o chrono
+        // Simular espera
         for (volatile long long i = 0; i < 500000000; i++);
 
     }
@@ -363,8 +363,9 @@ void resolverHanoi(int numDiscos, int origen, int destino, int auxiliar) {
     }
 }
 
-// Resolver Torres de Hanoi con configuración personalizada
+// Resolver
 void resolverHanoiPersonalizado() {
+
     if (pilaVacia(&torres[0]) && pilaVacia(&torres[1]) && pilaVacia(&torres[2])) {
         cout << "ERROR: No hay discos en las torres. Inicialice primero.\n\n";
         return;
@@ -466,8 +467,7 @@ int main() {
             for (int i = 0; i < 3; i++) {
                 liberarPila(&torres[i]);
             }
-            cout << "\nGracias por usar el programa Torres de Hanoi.\n";
-            cout << "¡Hasta luego!\n";
+            cout << "Hasta luego.\n";
             break;
         }
 
