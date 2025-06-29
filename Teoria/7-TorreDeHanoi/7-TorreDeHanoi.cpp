@@ -4,18 +4,18 @@ Tarea: #7 - Las Torres de Hanoi
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -------------------------------------------------------------------------------------------------------
 Las Torres de Hanoi es un rompecabezas que consiste en tres torres (A, B, C) y n discos de
-diferentes tamaÒos. El objetivo es trasladar todos los discos de una torre a otra, siguiendo
+diferentes tama√±os. El objetivo es trasladar todos los discos de una torre a otra, siguiendo
 las reglas establecidas.
 
 REGLAS:
 1. Solo se puede mover un disco a la vez
 2. Solo se puede tomar el disco superior de cada torre
-3. Un disco grande NUNCA puede estar sobre uno pequeÒo
+3. Un disco grande NUNCA puede estar sobre uno peque√±o
 
 RESTRICCIONES:
-    A. El juego tiene 3 torres, nombradas A, B y C y n anillos concÈntricos
+    A. El juego tiene 3 torres, nombradas A, B y C y n anillos conc√©ntricos
     B. Al iniciar se tiene un conjunto de al menos 3 anillos en orden descendente
-    C. Nunca un anillo m·s grande debe estar encima de uno m·s pequeÒo
+    C. Nunca un anillo m√°s grande debe estar encima de uno m√°s peque√±o
     D. Debe mostrar cada movimiento hasta completar el traslado
 
 INTEGRANTES (Grupo 6):
@@ -30,6 +30,7 @@ Fecha: 19/Dic/2022
 */
 
 #include <iostream>
+
 
 using namespace std;
 
@@ -157,17 +158,17 @@ void inicializarPila(Pila* pila) {
     pila->capacidad = MAX_DISCOS;
 }
 
-// Verificar si la pila est· vacÌa
+// Verificar si la pila est√° vac√≠a
 bool pilaVacia(Pila* pila) {
     return pila->tope == -1;
 }
 
-// Verificar si la pila est· llena
+// Verificar si la pila est√° llena
 bool pilaLlena(Pila* pila) {
     return pila->tope >= pila->capacidad - 1;
 }
 
-// Obtener el tamaÒo de la pila
+// Obtener el tama√±o de la pila
 int tamanioPila(Pila* pila) {
     return pila->tope + 1;
 }
@@ -188,7 +189,7 @@ int desapilar(Pila* pila) {
         pila->tope--;
         return valor;
     }
-    return -1; // Error: pila vacÌa
+    return -1; // Error: pila vac√≠a
 }
 
 // Ver el elemento superior sin quitarlo (top)
@@ -196,7 +197,7 @@ int verTope(Pila* pila) {
     if (!pilaVacia(pila)) {
         return pila->datos[pila->tope];
     }
-    return -1; // Error: pila vacÌa
+    return -1; // Error: pila vac√≠a
 }
 
 // Limpiar la pila
@@ -216,7 +217,7 @@ void liberarPila(Pila* pila) {
 
 #pragma region Funciones Auxiliares
 
-// Convertir letra de torre a Ìndice numÈrico
+// Convertir letra de torre a √≠ndice num√©rico
 int torreAIndice(char torre) {
     switch (torre) {
     case 'A': return 0;
@@ -226,7 +227,7 @@ int torreAIndice(char torre) {
     }
 }
 
-// Convertir Ìndice numÈrico a letra de torre
+// Convertir √≠ndice num√©rico a letra de torre
 char indiceATorre(int indice) {
     switch (indice) {
     case 0: return 'A';
@@ -236,7 +237,7 @@ char indiceATorre(int indice) {
     }
 }
 
-// Calcular el n˙mero mÌnimo de movimientos para n discos (2^n - 1)
+// Calcular el n√∫mero m√≠nimo de movimientos para n discos (2^n - 1)
 int calcularMovimientosMinimos(int numDiscos) {
 
     int resultado = 1;
@@ -260,7 +261,7 @@ void inicializarTorres(int numDiscos) {
 
     limpiarTorres();
 
-    // Colocar los discos en la torre A (del m·s grande al m·s pequeÒo)
+    // Colocar los discos en la torre A (del m√°s grande al m√°s peque√±o)
     for (int i = numDiscos; i >= 1; i--) {
         apilar(&torres[0], i);
     }
@@ -269,7 +270,7 @@ void inicializarTorres(int numDiscos) {
     cout << "Movimientos minimos necesarios: " << calcularMovimientosMinimos(numDiscos) << "\n\n";
 }
 
-// Pausar ejecuciÛn
+// Pausar ejecuci√≥n
 void pausar() {
     cout << "Presione ENTER para continuar...";
     cin.get();
@@ -277,7 +278,7 @@ void pausar() {
 
 #pragma endregion
 
-#pragma region VisualizaciÛn
+#pragma region Visualizaci√≥n
 
 // Mostrar el estado actual de las torres
 void mostrarEstadoTorres() {
@@ -285,7 +286,7 @@ void mostrarEstadoTorres() {
     cout << "            ESTADO ACTUAL DE LAS TORRES\n";
     cout << "===============================================\n";
 
-    // Encontrar la altura m·xima para la visualizaciÛn
+    // Encontrar la altura m√°xima para la visualizaci√≥n
     int alturaMaxima = 0;
     for (int i = 0; i < 3; i++) {
         if (tamanioPila(&torres[i]) > alturaMaxima) {
@@ -311,7 +312,7 @@ void mostrarEstadoTorres() {
         for (int torre = 0; torre < 3; torre++) {
             if (nivel < alturasTemp[torre]) {
                 cout << "[" << torresTemp[torre][nivel] << "]";
-                if (torresTemp[torre][nivel] < 10) cout << " "; // AlineaciÛn
+                if (torresTemp[torre][nivel] < 10) cout << " "; // Alineaci√≥n
             }
             else {
                 cout << " |  ";
@@ -332,7 +333,7 @@ void mostrarEstadoTorres() {
 
 #pragma region Algoritmo Torres de Hanoi
 
-// FunciÛn recursiva para resolver las Torres de Hanoi
+// Funci√≥n recursiva para resolver las Torres de Hanoi
 void resolverHanoi(int numDiscos, int origen, int destino, int auxiliar) {
     if (numDiscos == 1) {
         // Caso base: mover un solo disco
@@ -346,23 +347,23 @@ void resolverHanoi(int numDiscos, int origen, int destino, int auxiliar) {
 
         mostrarEstadoTorres();
 
-        // Pausa para visualizar mejor los movimientos
-        pausar();
+        // Simular espera sin usar thread o chrono
+        for (volatile long long i = 0; i < 500000000; i++);
 
     }
     else {
         // Paso 1: Mover n-1 discos de origen a auxiliar
         resolverHanoi(numDiscos - 1, origen, auxiliar, destino);
 
-        // Paso 2: Mover el disco m·s grande de origen a destino
+        // Paso 2: Mover el disco m√°s grande de origen a destino
         resolverHanoi(1, origen, destino, auxiliar);
 
         // Paso 3: Mover n-1 discos de auxiliar a destino
         resolverHanoi(numDiscos - 1, auxiliar, destino, origen);
     }
-}//FIN
+}
 
-// Resolver Torres de Hanoi con configuraciÛn personalizada
+// Resolver Torres de Hanoi con configuraci√≥n personalizada
 void resolverHanoiPersonalizado() {
     if (pilaVacia(&torres[0]) && pilaVacia(&torres[1]) && pilaVacia(&torres[2])) {
         cout << "ERROR: No hay discos en las torres. Inicialice primero.\n\n";
@@ -402,13 +403,13 @@ void resolverHanoiPersonalizado() {
     numeroMovimientos = 0;
     resolverHanoi(numDiscos, indiceOrigen, indiceDestino, indiceAuxiliar);
 
-    cout << "\n°TORRES DE HANOI RESUELTAS EXITOSAMENTE!\n";
+    cout << "\nTORRES DE HANOI RESUELTAS EXITOSAMENTE!\n";
     cout << "Total de movimientos realizados: " << numeroMovimientos << "\n\n";
 }
 
 #pragma endregion
 
-#pragma region Men˙
+#pragma region Men√∫
 
 void mostrarMenu() {
     cout << "================================================\n";
@@ -466,7 +467,7 @@ int main() {
                 liberarPila(&torres[i]);
             }
             cout << "\nGracias por usar el programa Torres de Hanoi.\n";
-            cout << "°Hasta luego!\n";
+            cout << "¬°Hasta luego!\n";
             break;
         }
 
