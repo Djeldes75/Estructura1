@@ -3,19 +3,21 @@
 Tarea: #7 - Las Torres de Hanoi
 Materia: IDS343-01-ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -------------------------------------------------------------------------------------------------------
-Las Torres de Hanoi es un rompecabezas que consiste en tres torres (A, B, C) y n discos de
-diferentes tamaños. El objetivo es trasladar todos los discos de una torre a otra.
+Realizar un programa C++ que permita resolver el problema de las Torres de Hanoi, el cual
+consiste en trasladar una cantidad x de anillos desde una torre A a una torre B.
 
-REGLAS FUNDAMENTALES:
-1. Solo se puede mover un disco a la vez
-2. Solo se puede tomar el disco superior de cada torre
-3. Un disco grande NUNCA puede estar sobre uno pequeño
+RESTRICCIONES:
+    A. El juego tiene 3 torres, nombradas A, B y C y n anillos concéntricos ordenados de mayor
+    diámetro a menos diámetro.
+    B. Al iniciar se tiene un conjunto de al menos 3 anillos colocados en forma descendente,
+    pues cada anillo está a su vez encima de otro más grande.
+    C. Nunca un anillo más grande debe estar encima de uno más pequeño, es decir, de mayor
+    diámetro va encima de otro con diámetro menor.
+    D. Debe realizar los movimientos de los anillos hasta que haya traslado los anillos de una
+    torre X a una torre Y.
 
-ALGORITMO:
-- Usa recursión dividiendo el problema en 3 pasos:
-  1. Mover n-1 discos de origen a auxiliar
-  2. Mover el disco más grande de origen a destino
-  3. Mover n-1 discos de auxiliar a destino
+La salida del programa debe indicar el movimiento de los anillos en cada etapa, es decir, debe
+indicar que anillo va a moverse a que torre, hasta completar el traslado de una torre a otra.
 
 INTEGRANTES (Grupo 6):
     Samira Jaquez - 1125467
