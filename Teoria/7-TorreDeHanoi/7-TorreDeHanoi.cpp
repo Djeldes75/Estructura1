@@ -7,12 +7,12 @@ Realizar un programa C++ que permita resolver el problema de las Torres de Hanoi
 consiste en trasladar una cantidad x de anillos desde una torre A a una torre B.
 
 RESTRICCIONES:
-    A. El juego tiene 3 torres, nombradas A, B y C y n anillos concéntricos ordenados de mayor
-    diámetro a menos diámetro.
+    A. El juego tiene 3 torres, nombradas A, B y C y n anillos concentricos ordenados de mayor
+    diametro a menos diametro.
     B. Al iniciar se tiene un conjunto de al menos 3 anillos colocados en forma descendente,
-    pues cada anillo está a su vez encima de otro más grande.
-    C. Nunca un anillo más grande debe estar encima de uno más pequeño, es decir, de mayor
-    diámetro va encima de otro con diámetro menor.
+    pues cada anillo esta a su vez encima de otro mas grande.
+    C. Nunca un anillo mas grande debe estar encima de uno mas pequeno, es decir, de mayor
+    diametro va encima de otro con diametro menor.
     D. Debe realizar los movimientos de los anillos hasta que haya traslado los anillos de una
     torre X a una torre Y.
 
@@ -34,13 +34,11 @@ Fecha de entrega: 1/7/2025
 
 using namespace std;
 
-#pragma region Estructuras y Variables Globales
-
 // Estructura que representa una torre como pila
 struct Torre {
-    int* discos;        // Array dinámico para almacenar los discos
-    int tope;          // Índice del disco superior (-1 si está vacía)
-    int capacidad;     // Capacidad máxima de la torre
+    int* discos;        // Array dinamico para almacenar los discos
+    int tope;          // Indice del disco superior (-1 si esta vacia)
+    int capacidad;     // Capacidad maxima de la torre
 };
 
 // Variables globales del juego
@@ -48,11 +46,10 @@ Torre torres[3];        // Array de 3 torres: A=0, B=1, C=2
 long long movimientos = 0;  // Contador de movimientos realizados
 bool mostrarPasos = true;   // Flag para mostrar o no los pasos
 
-#pragma endregion
-
-#pragma region Validaciones Robustas
+#pragma region Validaciones
 
 int validarEntero(const char* mensaje) {
+
     int valor;
     char caracterSiguiente;
     bool entradaValida = false;
@@ -60,9 +57,8 @@ int validarEntero(const char* mensaje) {
     cout << mensaje;
 
     while (!entradaValida) {
-        // Intentar leer el entero
+
         if (cin >> valor) {
-            // Verificar que después del número no hay caracteres adicionales
             caracterSiguiente = cin.peek();
 
             if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
@@ -87,6 +83,7 @@ int validarEntero(const char* mensaje) {
 }
 
 int leerOpcionMenu() {
+
     int opcion;
     bool opcionValida = false;
 
@@ -109,14 +106,17 @@ int leerNumeroDiscos() {
     bool numeroValido = false;
 
     while (!numeroValido) {
+
         discos = validarEntero("Ingrese numero de discos (minimo 3): ");
+
         if (discos < 3) {
             cout << "ERROR: Debe ingresar al menos 3 discos segun las reglas.\n";
         }
         else if (discos > 20) {
+
             cout << "ADVERTENCIA: Mas de 20 discos tomara mucho tiempo (2^" << discos << "-1 movimientos).\n";
             char confirmar;
-            cout << "¿Desea continuar? (s/n): ";
+            cout << "Desea continuar? (s/n): ";
             cin >> confirmar;
             cin.ignore(10000, '\n');
 
@@ -133,6 +133,7 @@ int leerNumeroDiscos() {
 }
 
 char leerTorre(const char* mensaje) {
+
     char letra;
     bool torreValida = false;
 
@@ -141,7 +142,6 @@ char leerTorre(const char* mensaje) {
         cin >> letra;
         cin.ignore(10000, '\n');
 
-        // Convertir a mayúscula si es necesario
         if (letra >= 'a' && letra <= 'z') {
             letra = letra - 'a' + 'A';
         }
@@ -159,46 +159,89 @@ char leerTorre(const char* mensaje) {
 
 #pragma endregion
 
-#pragma region Gestión de Torres
+#pragma region Gestion de Torres
 
 void crearTorre(Torre* torre, int capacidadMax) {
+
     torre->discos = new int[capacidadMax];
     torre->tope = -1;
     torre->capacidad = capacidadMax;
+
+    // Inicializar el array con ceros para mayor seguridad
+    for (int i = 0; i < capacidadMax; i++) {
+        torre->discos[i] = 0;
+    }
 }
 
 bool torreVacia(Torre* torre) {
     return torre->tope == -1;
 }
 
-void apilar(Torre* torre, int disco) {
-    if (torre->tope < torre->capacidad - 1) {
-        torre->tope++;
-        torre->discos[torre->tope] = disco;
+bool torreLlena(Torre* torre) {
+    return torre->tope == torre->capacidad - 1;
+}
+
+int verTope(Torre* torre) {
+
+    if (torreVacia(torre)) {
+        return -1;
     }
+    return torre->discos[torre->tope];
+}
+
+bool puedeApilar(Torre* torre, int disco) {
+
+    if (torreLlena(torre)) {
+        return false;
+    }
+    if (torreVacia(torre)) {
+        return true;
+    }
+    // Validar restriccion, disco mas pequeno va sobre mas grande
+    return disco < verTope(torre);
+}
+
+bool apilar(Torre* torre, int disco) {
+
+    if (!puedeApilar(torre, disco)) {
+        return false;
+    }
+    torre->tope++;
+    torre->discos[torre->tope] = disco;
+    return true;
 }
 
 int desapilar(Torre* torre) {
-    if (!torreVacia(torre)) {
-        int disco = torre->discos[torre->tope];
-        torre->tope--;
-        return disco;
+
+    if (torreVacia(torre)) {
+        return -1;
     }
-    return -1;
+    int disco = torre->discos[torre->tope];
+    torre->tope--;
+    return disco;
 }
 
 void limpiarTorre(Torre* torre) {
+
     torre->tope = -1;
+    for (int i = 0; i < torre->capacidad; i++) {
+        torre->discos[i] = 0;
+    }
 }
 
 void liberarTorre(Torre* torre) {
-    delete[] torre->discos;
-    torre->discos = nullptr;
+
+    if (torre->discos != nullptr) {
+        delete[] torre->discos;
+        torre->discos = nullptr;
+    }
+    torre->tope = -1;
+    torre->capacidad = 0;
 }
 
 #pragma endregion
 
-#pragma region Utilidades de Conversión
+#pragma region Utilidades de Conversion
 
 int torreAIndice(char letra) {
     switch (letra) {
@@ -223,7 +266,10 @@ char indiceATorre(int indice) {
 #pragma region Utilidad
 
 long long calcularMovimientos(int n) {
+
+    if (n <= 0) return 0;
     long long resultado = 1;
+
     for (int i = 0; i < n; i++) {
         resultado = resultado * 2;
     }
@@ -235,8 +281,15 @@ int contarDiscos(Torre* torre) {
 }
 
 void pausa() {
-    cout << "\nPresione Enter para continuar...\n";
+    cout << "\nPresione Enter para continuar.";
     cin.get();
+}
+
+void pausaCorta() {
+
+    cout.flush();
+    for (int i = 0; i < 600000000; i++) {
+    }
 }
 
 void mostrarLinea(int longitud, char caracter) {
@@ -248,23 +301,17 @@ void mostrarLinea(int longitud, char caracter) {
 
 #pragma endregion
 
-#pragma region Visualización
-
-void mostrarTitulo() {
-    cout << "\n";
-    mostrarLinea(60, '=');
-    cout << "                   TORRES DE HANOI\n";
-    mostrarLinea(60, '=');
-}
+#pragma region Visualizacion
 
 void mostrarTorres() {
+
     if (!mostrarPasos) return;
 
-    mostrarTitulo();
-
-    // Calcular la altura máxima entre todas las torres
+    // Calcular la altura maxima entre todas las torres
     int alturaMax = 0;
+
     for (int i = 0; i < 3; i++) {
+
         int discos = contarDiscos(&torres[i]);
         if (discos > alturaMax) {
             alturaMax = discos;
@@ -275,16 +322,18 @@ void mostrarTorres() {
 
     // Mostrar las torres nivel por nivel, de arriba hacia abajo
     for (int nivel = alturaMax - 1; nivel >= 0; nivel--) {
+
         cout << "  ";
+
         for (int t = 0; t < 3; t++) {
+
             if (nivel < contarDiscos(&torres[t])) {
                 // Hay un disco en este nivel
                 int disco = torres[t].discos[nivel];
                 cout << "[" << disco << "]";
-                if (disco < 10) cout << " ";  // Alineación para números de 1 dígito
+                if (disco < 10) cout << " ";  // Alineacion para numeros de 1 digito
             }
             else {
-                // No hay disco, mostrar la base de la torre
                 cout << " |  ";
             }
             cout << "   ";
@@ -297,7 +346,6 @@ void mostrarTorres() {
     cout << "   A     B     C\n";
     cout << "----------------------------------------\n";
     cout << "Movimientos realizados: " << movimientos << "\n";
-    mostrarLinea(60, '-');
 }
 
 #pragma endregion
@@ -308,7 +356,18 @@ void resolverHanoi(int n, int origen, int destino, int auxiliar) {
     if (n == 1) {
         // Caso base: mover un solo disco
         int disco = desapilar(&torres[origen]);
-        apilar(&torres[destino], disco);
+        if (disco == -1) {
+            cout << "ERROR: No se pudo obtener disco de la torre " << indiceATorre(origen) << "\n";
+            return;
+        }
+
+        if (!apilar(&torres[destino], disco)) {
+            cout << "ERROR: No se pudo colocar disco " << disco << " en torre " << indiceATorre(destino) << "\n";
+            // Restaurar el disco a la torre original
+            apilar(&torres[origen], disco);
+            return;
+        }
+
         movimientos++;
 
         if (mostrarPasos) {
@@ -317,8 +376,8 @@ void resolverHanoi(int n, int origen, int destino, int auxiliar) {
             cout << " a Torre " << indiceATorre(destino) << "\n";
             mostrarTorres();
 
-            // Pequeña pausa visual para seguir mejor los movimientos
-            for (volatile long long i = 0; i < 500000000; i++);
+            // Pausa visual mas eficiente
+            pausaCorta();
         }
     }
     else {
@@ -327,7 +386,7 @@ void resolverHanoi(int n, int origen, int destino, int auxiliar) {
         // Paso 1: Mover n-1 discos de origen a auxiliar
         resolverHanoi(n - 1, origen, auxiliar, destino);
 
-        // Paso 2: Mover el disco más grande de origen a destino
+        // Paso 2: Mover el disco mas grande de origen a destino
         resolverHanoi(1, origen, destino, auxiliar);
 
         // Paso 3: Mover n-1 discos de auxiliar a destino
@@ -345,9 +404,12 @@ void inicializarJuego(int numDiscos) {
         limpiarTorre(&torres[i]);
     }
 
-    // Colocar discos en Torre A (grande abajo, pequeño arriba)
+    // Colocar discos en Torre A (grande abajo, pequeno arriba)
     for (int disco = numDiscos; disco >= 1; disco--) {
-        apilar(&torres[0], disco);
+        if (!apilar(&torres[0], disco)) {
+            cout << "ERROR: No se pudo inicializar correctamente el juego.\n";
+            return;
+        }
     }
 
     // Reiniciar contador de movimientos
@@ -418,7 +480,7 @@ void jugar() {
     cout << "Movimientos minimos posibles: " << calcularMovimientos(numDiscos) << "\n";
 
     if ((movimientos - movimientosAnteriores) == calcularMovimientos(numDiscos)) {
-        cout << "¡PERFECTO! Resuelto con el numero minimo de movimientos.\n";
+        cout << "PERFECTO! Resuelto con el numero minimo de movimientos.\n";
     }
 
     pausa();
@@ -427,7 +489,7 @@ void jugar() {
 void mostrarEstado() {
     cout << "\n--- ESTADO ACTUAL DEL JUEGO ---\n";
 
-    // Mostrar información detallada de cada torre
+    // Mostrar informacion detallada de cada torre
     for (int i = 0; i < 3; i++) {
         cout << "Torre " << indiceATorre(i) << ": ";
         if (torreVacia(&torres[i])) {
@@ -447,14 +509,14 @@ void mostrarEstado() {
 
     cout << "Total de movimientos realizados: " << movimientos << "\n";
 
-    // Mostrar representación visual
+    // Mostrar representacion visual
     mostrarTorres();
     pausa();
 }
 
 #pragma endregion
 
-#pragma region Menú
+#pragma region Menu
 
 void mostrarMenu() {
     mostrarLinea(50, '=');
@@ -462,7 +524,7 @@ void mostrarMenu() {
     mostrarLinea(50, '=');
     cout << "1. Inicializar juego (colocar discos)\n";
     cout << "2. Mostrar estado actual\n";
-    cout << "3. Resolver automaticamente\n";
+    cout << "3. Resolver\n";
     cout << "4. Salir\n";
     mostrarLinea(50, '=');
     cout << "Seleccione una opcion: ";
@@ -500,7 +562,7 @@ int main() {
             jugar();
             break;
         case 4:
-            cout << "\n¡Gracias por jugar Torres de Hanoi!\n";
+            cout << "\nGracias por jugar Torres de Hanoi!\n";
             cout << "Programa desarrollado por el Grupo 6.\n";
             break;
         }
