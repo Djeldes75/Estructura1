@@ -23,7 +23,7 @@ using namespace std;
 
 int main() {
 
-    cout << "Superposiciones de las manecillas en un reloj analógico (12 horas):\n\n";
+    cout << "Superposiciones de las manecillas en un reloj analogico (12 horas):\n\n";
 
     int totalSuperposiciones = 0;
 
@@ -48,7 +48,7 @@ int main() {
         }
 
         // Imprimir en formato hh:mm:ss
-        cout << "Superposición #" << (totalSuperposiciones + 1) << ": ";
+        cout << "Superposicion #" << (totalSuperposiciones + 1) << ": ";
         printf("%02d:%02d:%02d\n", horas == 0 ? 12 : horas, minutosEnteros, segundos);
 
         totalSuperposiciones++;
