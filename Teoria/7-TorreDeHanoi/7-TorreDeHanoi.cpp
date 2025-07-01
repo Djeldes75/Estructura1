@@ -197,7 +197,6 @@ bool puedeApilar(Torre* torre, int disco) {
     if (torreVacia(torre)) {
         return true;
     }
-    // Validar restriccion, disco mas pequeno va sobre mas grande
     return disco < verTope(torre);
 }
 
@@ -542,7 +541,7 @@ int main() {
 
     // Crear las tres torres con capacidad suficiente
     for (int i = 0; i < 3; i++) {
-        crearTorre(&torres[i], 50);  // Capacidad para hasta 50 discos
+        crearTorre(&torres[i], 63);  //capacidad de los disc0s
     }
 
     int opcion;
