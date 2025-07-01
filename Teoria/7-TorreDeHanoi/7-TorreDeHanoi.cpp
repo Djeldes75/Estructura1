@@ -350,9 +350,10 @@ void mostrarTorres() {
 
 #pragma endregion
 
-#pragma region Algoritmo Principal
+#pragma region Resolver las Torres
 
 void resolverHanoi(int n, int origen, int destino, int auxiliar) {
+
     if (n == 1) {
         // Caso base: mover un solo disco
         int disco = desapilar(&torres[origen]);
@@ -399,7 +400,7 @@ void resolverHanoi(int n, int origen, int destino, int auxiliar) {
 #pragma region Funciones de Juego
 
 void inicializarJuego(int numDiscos) {
-    // Limpiar todas las torres
+
     for (int i = 0; i < 3; i++) {
         limpiarTorre(&torres[i]);
     }
@@ -423,8 +424,10 @@ void inicializarJuego(int numDiscos) {
 }
 
 void jugar() {
+
     // Verificar que hay discos para jugar
     bool hayDiscos = false;
+
     for (int i = 0; i < 3; i++) {
         if (!torreVacia(&torres[i])) {
             hayDiscos = true;
@@ -487,6 +490,7 @@ void jugar() {
 }
 
 void mostrarEstado() {
+
     cout << "\n--- ESTADO ACTUAL DEL JUEGO ---\n";
 
     // Mostrar informacion detallada de cada torre
