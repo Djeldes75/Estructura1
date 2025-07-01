@@ -1,20 +1,62 @@
-// 18-HorarioMinutero.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+-------------------------------------------------------------------------------------------------------
+Tarea:  Horario y Minutero de un Reloj
+Materia: IDS343-01L-LAB. ESTRUCTURAS DE DATOS Y ALGORITMOS I
+-------------------------------------------------------------------------------------------------------
+Descripción:
+
+   Hacer un programa en C++ que determine cuántas veces se superponen la
+   horaria y la minutera en un reloj análogo, indique las horas y minutos en que se superponen 
+   las manecillas.
+
+Autor:
+   Dominique Jeldes ID: 1121623
+
+Fecha:
+   30/6/2025
+
+*/
 
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+int main() {
+
+    cout << "Superposiciones de las manecillas en un reloj analógico (12 horas):\n\n";
+
+    int totalSuperposiciones = 0;
+
+    for (int h = 0; h < 12; h++) {
+        // Fórmula: (60 * h) / 11
+        double minutos = (60.0 * h) / 11.0;
+
+        int horas = h;
+        int minutosEnteros = (int)minutos;
+        int segundos = (int)((minutos - minutosEnteros) * 60 + 0.5); // redondeo a segundos
+
+        // Ajuste si los segundos llegan a 60
+        if (segundos == 60) {
+            minutosEnteros++;
+            segundos = 0;
+        }
+
+        // Ajuste si los minutos llegan a 60
+        if (minutosEnteros == 60) {
+            horas = (horas + 1) % 12;
+            minutosEnteros = 0;
+        }
+
+        // Imprimir en formato hh:mm:ss
+        cout << "Superposición #" << (totalSuperposiciones + 1) << ": ";
+        printf("%02d:%02d:%02d\n", horas == 0 ? 12 : horas, minutosEnteros, segundos);
+
+        totalSuperposiciones++;
+    }
+
+    cout << "\nTotal de superposiciones en 12 horas: " << totalSuperposiciones << endl;
+
+
+
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
