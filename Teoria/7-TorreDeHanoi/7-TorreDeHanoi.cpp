@@ -479,7 +479,7 @@ void jugar() {
     cout << "Movimientos realizados: " << (movimientos - movimientosAnteriores) << "\n";
 
     if ((movimientos - movimientosAnteriores) == calcularMovimientos(numDiscos)) {
-        cout << "PERFECTO! Resuelto con el numero minimo de movimientos.\n";
+        cout << "La torre de Hanoi ha sido.\n";
     }
 
     pausa();
