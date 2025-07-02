@@ -287,7 +287,7 @@ void pausa() {
 void pausaCorta() {
 
     cout.flush();
-    for (int i = 0; i < 600000000; i++) {
+    for (int i = 0; i < 90000000; i++) {
     }
 }
 
