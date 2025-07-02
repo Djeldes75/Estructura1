@@ -417,7 +417,6 @@ void inicializarJuego(int numDiscos) {
     mostrarPasos = true;
 
     cout << "\nJuego iniciado con " << numDiscos << " discos en Torre A\n";
-    cout << "Movimientos minimos necesarios: " << calcularMovimientos(numDiscos) << "\n";
 
     mostrarTorres();
 }
@@ -468,7 +467,6 @@ void jugar() {
     cout << "Moviendo " << numDiscos << " discos de Torre " << origenChar;
     cout << " a Torre " << destinoChar << "\n";
     cout << "Torre auxiliar: " << indiceATorre(auxiliar) << "\n";
-    cout << "Movimientos minimos esperados: " << calcularMovimientos(numDiscos) << "\n";
 
     pausa();
 
@@ -479,7 +477,6 @@ void jugar() {
     // Mostrar resultados
     cout << "\n** RESOLUCION COMPLETADA **\n";
     cout << "Movimientos realizados: " << (movimientos - movimientosAnteriores) << "\n";
-    cout << "Movimientos minimos posibles: " << calcularMovimientos(numDiscos) << "\n";
 
     if ((movimientos - movimientosAnteriores) == calcularMovimientos(numDiscos)) {
         cout << "PERFECTO! Resuelto con el numero minimo de movimientos.\n";
@@ -541,7 +538,7 @@ int main() {
 
     // Crear las tres torres con capacidad suficiente
     for (int i = 0; i < 3; i++) {
-        crearTorre(&torres[i], 63);  //capacidad de los disc0s
+        crearTorre(&torres[i], 70);  //capacidad de los disc0s
     }
 
     int opcion;
@@ -566,7 +563,6 @@ int main() {
             break;
         case 4:
             cout << "\nGracias por jugar Torres de Hanoi!\n";
-            cout << "Programa desarrollado por el Grupo 6.\n";
             break;
         }
 
