@@ -19,7 +19,7 @@ Fecha: 25/Jun/2025
 using namespace std;
 
 int main() {
-    cout << "Buscando todas las horas donde h² + m² = hhmm" << endl;
+    cout << "Buscando todas las horas donde h^2 + m^2 = hhmm" << endl;
     cout << "================================================" << endl;
     
     int contador = 0;
@@ -32,10 +32,10 @@ int main() {
             
             if (suma_cuadrados == hhmm) {
                 contador++;
-                cout << "Solución " << contador << ": ";
+                cout << "Solucion " << contador << ": ";
                 cout << setfill('0') << setw(2) << h << ":"
                      << setfill('0') << setw(2) << m;
-                cout << " -> " << h << "² + " << m << "² = " 
+                cout << " -> " << h << "^2 + " << m << "^2 = " 
                      << h*h << " + " << m*m << " = " << hhmm << endl;
             }
         }
