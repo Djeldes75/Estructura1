@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d049af5c-f495-45fb-a639-7f36589e89cf}</ProjectGuid>
-    <RootNamespace>LaHora</RootNamespace>
+    <ProjectGuid>{f87d2165-6d9c-4d88-8300-bbddcd518f46}</ProjectGuid>
+    <RootNamespace>My18SuperposicionDeLaHora</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LaHora.cpp" />
+    <ClCompile Include="18-SuperposicionDeLaHora.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

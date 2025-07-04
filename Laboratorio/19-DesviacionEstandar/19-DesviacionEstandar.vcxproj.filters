@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="18-HorarioMinutero.cpp">
+    <ClCompile Include="19-DesviacionEstandar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

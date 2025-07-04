@@ -3,17 +3,17 @@
 Tarea:  Horario y Minutero de un Reloj
 Materia: IDS343-01L-LAB. ESTRUCTURAS DE DATOS Y ALGORITMOS I
 -------------------------------------------------------------------------------------------------------
-DescripciÃ³n:
+Descripción:
 
-   Hacer un programa en C++ que determine cuÃ¡ntas veces se superponen la
-   horaria y la minutera en un reloj anÃ¡logo, indique las horas y minutos en que se superponen 
+   Hacer un programa en C++ que determine cuántas veces se superponen la
+   horaria y la minutera en un reloj análogo, indique las horas y minutos en que se superponen
    las manecillas.
 
 Autor:
    Dominique Jeldes ID: 1121623
 
 Fecha:
-   30/6/2025
+   30/Junio/2025
 
 */
 
@@ -28,7 +28,7 @@ int main() {
     int totalSuperposiciones = 0;
 
     for (int h = 0; h < 12; h++) {
-        // FÃ³rmula: (60 * h) / 11
+        // Fórmula: (60 * h) / 11
         double minutos = (60.0 * h) / 11.0;
 
         int horas = h;
@@ -58,5 +58,5 @@ int main() {
 
 
 
-	return 0;
+    return 0;
 }

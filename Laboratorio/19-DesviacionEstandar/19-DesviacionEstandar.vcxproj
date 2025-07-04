@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0be27339-0c78-49bd-b6ec-78e10b3a985d}</ProjectGuid>
-    <RootNamespace>My18HorarioMinutero</RootNamespace>
+    <ProjectGuid>{c0c227d0-5125-4faf-96d5-5a9cf6728cd0}</ProjectGuid>
+    <RootNamespace>My19DesviacionEstandar</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="18-HorarioMinutero.cpp" />
+    <ClCompile Include="19-DesviacionEstandar.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
