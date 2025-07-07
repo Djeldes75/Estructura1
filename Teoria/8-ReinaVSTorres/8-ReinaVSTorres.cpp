@@ -50,164 +50,55 @@ Fecha de Entrega:
 
 #include <iostream>
 #include <iomanip>
-using namespace std;
 
-// Estructura para representar una posición
-struct Posicion {
-    int fila, columna;
-    Posicion(int f = 0, int c = 0) : fila(f), columna(c) {}
-};
+using namespace std;
 
 // Variables globales siguiendo el enfoque del profesor
 char tablero[8][8];
-int t[2][2]; // t[0] = torre1, t[1] = torre2
+int t[2][2]; // t[0] = torre1 {fila, columna}, t[1] = torre2 {fila, columna}
 int limifx = 1, limsx = 8, limify = 1, limsy = 8;
-Posicion reina;
-Posicion torre1, torre2;
+int reina_x, reina_y;
 
-// Helper to validate range 1-8
-bool validarRango(int v) {
-    return v >= 1 && v <= 8;
-}
+// Función recursiva para generar movimientos en una dirección específica
+void Movimiento(int x, int y, int dir_x, int dir_y) {
+    int mx = x + dir_x;
+    int my = y + dir_y;
 
-// Helper to clear input buffer
-void limpiarBuffer() {
-    cin.clear();
-    cin.ignore(10000, '\n');
-}
-
-// Overload posicionesValidas to accept Posicion for torres
-bool posicionesValidas(const Posicion& r, const Posicion& t1, const Posicion& t2) {
-    if ((r.fila == t1.fila && r.columna == t1.columna) ||
-        (r.fila == t2.fila && r.columna == t2.columna) ||
-        (t1.fila == t2.fila && t1.columna == t2.columna)) {
-        return false;
+    // Verificar límites del tablero
+    if (mx < limifx || mx > limsx || my < limify || my > limsy) {
+        return; // Fuera del tablero
     }
-    return true;
-}
 
-#pragma region Validaciones
-
-int validarEntero(const char* mensaje) {
-
-    int valor;
-    char caracterSiguiente;
-    bool entradaValida = false;
-    cout << mensaje;
-    while (!entradaValida) {
-        if (cin >> valor) {
-            caracterSiguiente = cin.peek();
-            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
-                cin.ignore(10000, '\n');
-                entradaValida = true;
-            }
-            else {
-                cout << "ERROR: Entrada invalida. Intente nuevamente: ";
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }
-        }
-        else {
-            // Error al leer el entero
-            cout << "ERROR: Debe ingresar un numero valido. Intente nuevamente: ";
-            cin.clear();
-            cin.ignore(10000, '\n');
-        }
+    // Verificar si hay una torre en esta posición (bloquea el movimiento)
+    if ((mx == t[0][0] && my == t[0][1]) || (mx == t[1][0] && my == t[1][1])) {
+        return; // Torre bloquea el camino
     }
-    return valor;
-}
 
-int leerOpcionMenu() {
+    // Verificar si esta posición está bajo ataque de alguna torre
+    bool bajo_ataque = false;
 
-    int opcion;
-    bool opcionValida = false;
-    while (!opcionValida) {
-        opcion = validarEntero("");
-        if (opcion >= 1 && opcion <= 3) {
-            opcionValida = true;
-        }
-        else {
-            cout << "ERROR: Opcion invalida. Seleccione una opcion valida (1-3): ";
-        }
+    // Verificar ataque de torre 1
+    if (mx == t[0][0] || my == t[0][1]) {
+        bajo_ataque = true;
     }
-    return opcion;
-}
 
-int leerCoordenada(const char* mensaje) {
-
-    int coordenada;
-    bool coordenadaValida = false;
-    while (!coordenadaValida) {
-        coordenada = validarEntero(mensaje);
-        if (coordenada >= 1 && coordenada <= 8) {
-            coordenadaValida = true;
-        }
-        else {
-            cout << "ERROR: La coordenada debe estar entre 1 y 8. Intente nuevamente: ";
-        }
+    // Verificar ataque de torre 2
+    if (mx == t[1][0] || my == t[1][1]) {
+        bajo_ataque = true;
     }
-    return coordenada;
-}
 
-
-Posicion leerPosicion(const char* pieza) {
-
-    cout << "\n--- Ingresando posicion de " << pieza << " ---\n";
-    int fila = leerCoordenada("Ingrese la fila (1-8): ");
-    int columna = leerCoordenada("Ingrese la columna (1-8): ");
-    return Posicion(fila, columna);
-}
-#pragma endregion
-
-// Función para verificar si las posiciones no se solapen
-bool posicionesValidas(const Posicion& r, int torre1_fila, int torre1_col, int torre2_fila, int torre2_col) {
-
-    if ((r.fila == torre1_fila && r.columna == torre1_col) ||
-        (r.fila == torre2_fila && r.columna == torre2_col) ||
-        (torre1_fila == torre2_fila && torre1_col == torre2_col)) {
-        return false;
+    // Establecer la jugada en el tablero
+    if (bajo_ataque) {
+        tablero[mx - 1][my - 1] = 'X'; // Posición peligrosa
     }
-    return true;
-}
-
-// Función para solicitar posición con validación
-Posicion solicitarPosicion(const string& pieza) {
-
-    int f, c;
-    while (true) {
-        cout << "Ingrese la posicion de " << pieza << " (fila columna): ";
-        if (cin >> f >> c) {
-            if (validarRango(f) && validarRango(c)) {
-                return Posicion(f, c);
-            }
-            else {
-                cout << "Error: Las posiciones deben estar entre 1 y 8.\n";
-            }
-        }
-        else {
-            cout << "Error: Ingrese solo numeros enteros.\n";
-            limpiarBuffer();
-        }
+    else {
+        tablero[mx - 1][my - 1] = 'V'; // Posición segura
     }
+
+    // Continuar recursivamente en la misma dirección
+    Movimiento(mx, my, dir_x, dir_y);
 }
 
-// Función para verificar si una posición está bajo ataque de una torre
-bool estaAtacadaPorTorre(const Posicion& pos, const Posicion& torre) {
-    // Una torre ataca en la misma fila o columna
-    return (pos.fila == torre.fila || pos.columna == torre.columna);
-}
-
-// Función para verificar si una posición está bajo ataque de cualquier torre
-bool estaAtacada(const Posicion& pos) {
-    return estaAtacadaPorTorre(pos, torre1) || estaAtacadaPorTorre(pos, torre2);
-}
-
-// Función para verificar si una posición está dentro del tablero
-bool dentroDelTablero(int fila, int columna) {
-    return fila >= 1 && fila <= 8 && columna >= 1 && columna <= 8;
-}
-
-// Función para inicializar el tablero siguiendo el enfoque del profesor
 void inicializarTablero() {
     // Limpiar tablero
     for (int i = 0; i < 8; i++) {
@@ -216,55 +107,30 @@ void inicializarTablero() {
         }
     }
 
-    // Colocar piezas (usando índices basados en 1)
-    tablero[reina.fila - 1][reina.columna - 1] = 'R';
-    tablero[t[0][0] - 1][t[0][1] - 1] = 'T';  // Torre 1
-    tablero[t[1][0] - 1][t[1][1] - 1] = 'T';  // Torre 2
+    // Colocar piezas
+    tablero[reina_x - 1][reina_y - 1] = 'R';
+    tablero[t[0][0] - 1][t[0][1] - 1] = 'T';
+    tablero[t[1][0] - 1][t[1][1] - 1] = 'T';
 }
 
-// Función para generar movimientos de la reina
+// Función para generar todos los movimientos posibles de la reina
 void generarMovimientos() {
-    // Direcciones: horizontal, vertical y diagonal
+
     int direcciones[8][2] = {
         {-1, -1}, {-1, 0}, {-1, 1},  // Arriba-izq, arriba, arriba-der
         { 0, -1},          { 0, 1},  // Izquierda, derecha
         { 1, -1}, { 1, 0}, { 1, 1}   // Abajo-izq, abajo, abajo-der
     };
 
-    // Para cada dirección
-    for (int d = 0; d < 8; d++) {
-        int df = direcciones[d][0];
-        int dc = direcciones[d][1];
-
-        // Moverse en esa dirección hasta encontrar límite
-        int nuevaFila = reina.fila + df;
-        int nuevaColumna = reina.columna + dc;
-
-        while (dentroDelTablero(nuevaFila, nuevaColumna)) {
-            // Si hay una torre en esta posición, parar
-            if ((nuevaFila == torre1.fila && nuevaColumna == torre1.columna) ||
-                (nuevaFila == torre2.fila && nuevaColumna == torre2.columna)) {
-                break;
-            }
-
-            // Determinar si el movimiento es seguro o peligroso
-            Posicion nuevaPos(nuevaFila, nuevaColumna);
-            if (estaAtacada(nuevaPos)) {
-                tablero[nuevaFila - 1][nuevaColumna - 1] = 'X';
-            }
-            else {
-                tablero[nuevaFila - 1][nuevaColumna - 1] = 'V';
-            }
-
-            // Continuar en la misma dirección
-            nuevaFila += df;
-            nuevaColumna += dc;
-        }
+    // Generar movimientos en cada dirección
+    for (int i = 0; i < 8; i++) {
+        Movimiento(reina_x, reina_y, direcciones[i][0], direcciones[i][1]);
     }
 }
 
 // Función para mostrar el tablero
 void mostrarTablero() {
+
     cout << "\n    A B C D E F G H\n";
     for (int i = 0; i < 8; i++) {
         cout << (i + 1) << " ";
@@ -280,22 +146,64 @@ void mostrarTablero() {
     cout << "X = Movimiento peligroso (bajo ataque)\n\n";
 }
 
+// Función para validar entrada
+bool validarRango(int valor) {
+    return valor >= 1 && valor <= 8;
+}
+
+// Función para leer coordenadas
+int leerCoordenada(const string& mensaje) {
+
+    int coordenada;
+    do {
+        cout << mensaje;
+        cin >> coordenada;
+        if (!validarRango(coordenada)) {
+            cout << "Error: Debe estar entre 1 y 8.\n";
+        }
+    } while (!validarRango(coordenada));
+    return coordenada;
+}
+
+// Función para verificar que las posiciones no se solapen
+bool posicionesValidas() {
+
+    // Verificar que la reina no esté en la misma posición que las torres
+    if ((reina_x == t[0][0] && reina_y == t[0][1]) ||
+        (reina_x == t[1][0] && reina_y == t[1][1])) {
+        return false;
+    }
+
+    // Verificar que las torres no estén en la misma posición
+    if (t[0][0] == t[1][0] && t[0][1] == t[1][1]) {
+        return false;
+    }
+
+    return true;
+}
+
 // Función para solicitar datos de entrada
 void solicitarDatos() {
-    cout << "=== CONFIGURACIÓN DEL JUEGO ===\n";
 
-    while (true) {
-        reina = solicitarPosicion("la Reina");
-        torre1 = solicitarPosicion("la Torre 1");
-        torre2 = solicitarPosicion("la Torre 2");
+    cout << "=== Configuración del juego ===\n";
 
-        if (posicionesValidas(reina, torre1, torre2)) {
-            break;
+    do {
+        cout << "\n--- Posición de la Reina ---\n";
+        reina_x = leerCoordenada("Ingrese la fila de la Reina (1-8): ");
+        reina_y = leerCoordenada("Ingrese la columna de la Reina (1-8): ");
+
+        cout << "\n--- Posición de la Torre 1 ---\n";
+        t[0][0] = leerCoordenada("Ingrese la fila de la Torre 1 (1-8): ");
+        t[0][1] = leerCoordenada("Ingrese la columna de la Torre 1 (1-8): ");
+
+        cout << "\n--- Posición de la Torre 2 ---\n";
+        t[1][0] = leerCoordenada("Ingrese la fila de la Torre 2 (1-8): ");
+        t[1][1] = leerCoordenada("Ingrese la columna de la Torre 2 (1-8): ");
+
+        if (!posicionesValidas()) {
+            cout << "\nError: Las posiciones no pueden coincidir. Intente de nuevo.\n";
         }
-        else {
-            cout << "Error: Las posiciones no pueden coincidir. Intente de nuevo.\n\n";
-        }
-    }
+    } while (!posicionesValidas());
 }
 
 // Función para mostrar el menú
@@ -314,12 +222,14 @@ int main() {
     bool primerJuego = true;
 
     while (true) {
+
         mostrarMenu();
-        opcion = leerOpcionMenu();
+        cin >> opcion;
 
         switch (opcion) {
 
         case 1: {
+
             solicitarDatos();
             inicializarTablero();
             generarMovimientos();
@@ -329,9 +239,8 @@ int main() {
         }
 
         case 2: {
-
             if (primerJuego) {
-                cout << "\nERROR: Debe configurar el juego primero (opcion 1).\n";
+                cout << "\nError: Debe configurar el juego primero (opcion 1).\n";
             }
             else {
                 mostrarTablero();
@@ -340,8 +249,13 @@ int main() {
         }
 
         case 3: {
-            cout << "\n¡Gracias por jugar!\n";
+            cout << "\nGracias por jugar!\n";
             return 0;
+        }
+
+        default: {
+            cout << "Opción invalida. Seleccione 1, 2 o 3.\n";
+            break;
         }
         }
     }
