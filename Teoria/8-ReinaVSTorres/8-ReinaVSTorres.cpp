@@ -53,7 +53,7 @@ Fecha de Entrega:
 
 using namespace std;
 
-// Variables globales siguiendo el enfoque del profesor
+// Variables globales
 char tablero[8][8];
 int t[2][2]; // t[0] = torre1 {fila, columna}, t[1] = torre2 {fila, columna}
 int limifx = 1, limsx = 8, limify = 1, limsy = 8;
@@ -74,15 +74,15 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
         return; // Torre bloquea el camino
     }
 
-    // Verificar si esta posición está bajo ataque de alguna torre
+    //Verificar si esta posición está bajo ataque de alguna torre
     bool bajo_ataque = false;
 
-    // Verificar ataque de torre 1
+    // Torre 1: ataca si comparte fila O columna
     if (mx == t[0][0] || my == t[0][1]) {
         bajo_ataque = true;
     }
 
-    // Verificar ataque de torre 2
+    // Torre 2: ataca si comparte fila O columna
     if (mx == t[1][0] || my == t[1][1]) {
         bajo_ataque = true;
     }
@@ -100,7 +100,7 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
 }
 
 void inicializarTablero() {
-    // Limpiar tablero
+
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             tablero[i][j] = ' ';
@@ -206,7 +206,6 @@ void solicitarDatos() {
     } while (!posicionesValidas());
 }
 
-// Función para mostrar el menú
 void mostrarMenu() {
     cout << "======== REINA VS TORRES ENEMIGAS ========\n";
     cout << "1. Jugar (configurar nuevas posiciones)\n";
@@ -254,7 +253,7 @@ int main() {
         }
 
         default: {
-            cout << "Opción invalida. Seleccione 1, 2 o 3.\n";
+            cout << "Opcion inválida. Seleccione 1, 2 o 3.\n";
             break;
         }
         }
