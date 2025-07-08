@@ -1,20 +1,67 @@
-// 21-CalcularFecha.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+-------------------------------------------------------------------------------------------------------
+Tarea: Calcular fecha
+Materia: IDS343-01 ESTRUCTURAS DE DATOS Y ALGORITMOS I
+-------------------------------------------------------------------------------------------------------
+Descripcion:
+   Dada una fecha, calcular el número de meses y días transcurridos desde el
+   1 de enero de 2025 hasta la fecha dada.
+
+   Ejemplo: 4/jul/2025
+   Resultado: 6 meses y 3 días
+
+ Autor:
+    Dominique Jeldes - 1121623
+
+
+Fecha: 7/Jul/2025
+
+*/
 
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+// Días de cada mes en 2025 (no bisiesto)
+int diasPorMes[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+int main() {
+    int dia, mes;
+    string nombreMes;
+
+    cout << "Ingrese una fecha (ej: 4 jul 2025): ";
+    cin >> dia >> nombreMes;
+
+    // Convertir el nombre del mes a número
+    if (nombreMes == "ene") mes = 1;
+    else if (nombreMes == "feb") mes = 2;
+    else if (nombreMes == "mar") mes = 3;
+    else if (nombreMes == "abr") mes = 4;
+    else if (nombreMes == "may") mes = 5;
+    else if (nombreMes == "jun") mes = 6;
+    else if (nombreMes == "jul") mes = 7;
+    else if (nombreMes == "ago") mes = 8;
+    else if (nombreMes == "sep") mes = 9;
+    else if (nombreMes == "oct") mes = 10;
+    else if (nombreMes == "nov") mes = 11;
+    else if (nombreMes == "dic") mes = 12;
+    else {
+        cout << "Mes invalido." << endl;
+        return 1;
+    }
+
+    // Verificar día válido
+    if (dia < 1 || dia > diasPorMes[mes - 1]) {
+        cout << "Día inválido para el mes dado." << endl;
+        return 1;
+    }
+
+    // Calcular meses y días transcurridos desde el 1 de enero
+    int mesesTranscurridos = mes - 1;
+    int diasTranscurridos = dia - 1;
+
+    cout << "Han transcurrido " << mesesTranscurridos << " meses y "
+        << diasTranscurridos << " dias desde el 1 de enero de 2025." << endl;
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
