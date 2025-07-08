@@ -1,20 +1,52 @@
-// 22-AsteriscoCon1For.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+-------------------------------------------------------------------------------------------------------
+Tarea: AsteriscoCon1For
+Materia: IDS343-01 ESTRUCTURAS DE DATOS Y ALGORITMOS I
+-------------------------------------------------------------------------------------------------------
+Descripcion:
+  
+  Hacer un programa C++ que genere el siguiente patrón utilizando solo un for e imprimiendo un
+  * a la vez.
+  
+  El patrón es el siguiente:
+
+  *
+  **
+  ***
+  ****
+  *****
+  ******
+  *******
+  
+ Autor:
+    Dominique Jeldes - 1121623
+
+
+Fecha: 7/Jul/2025
+
+*/
 
 #include <iostream>
+using namespace std;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+int main() {
+    int total = 28; // Total de caracteres a imprimir (* y \n)
+    int fila = 1;
+    int cuenta = 0;
+
+    for (int i = 1; i <= total; ++i) {
+        cout << "*";
+        ++cuenta;
+
+        // Pequeño retraso (delay) usando un bucle vacío
+        for (volatile int d = 0; d < 140000000; ++d);
+
+        if (cuenta == fila) {
+            cout << endl;
+            ++fila;
+            cuenta = 0;
+        }
+    }
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
