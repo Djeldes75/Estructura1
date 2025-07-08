@@ -39,15 +39,15 @@ Fecha de Entrega:
 
 using namespace std;
 
-// Variables globales
 char tablero[8][8];
 int t[2][2]; // t[0] = torre1 {fila, columna}, t[1] = torre2 {fila, columna}
-int limifx = 1, limicx = 8, limify = 1, limicy = 8;
+int limiFx = 1, limiCx = 8, limiFy = 1, limiCy = 8;
 int reina_x, reina_y;
 
 #pragma region Validaciones
 
 int validarEntero(const char* mensaje) {
+
     int valor;
     char caracterSiguiente;
     bool entradaValida = false;
@@ -80,6 +80,7 @@ int validarEntero(const char* mensaje) {
 }
 
 int leerOpcionMenu() {
+
     int opcion;
     bool opcionValida = false;
 
@@ -101,6 +102,7 @@ bool validarRango(int valor) {
 }
 
 int leerCoordenada(const char* mensaje) {
+
     int coordenada;
     bool coordenadaValida = false;
 
@@ -116,6 +118,8 @@ int leerCoordenada(const char* mensaje) {
 
     return coordenada;
 }
+
+#pragma endregion 
 
 bool posicionesValidas() {
 
@@ -140,7 +144,10 @@ bool posicionesValidas() {
     return true;
 }
 
+#pragma region Confirmacion y si no, reintentaaa
+
 bool confirmarConfiguracion() {
+
     cout << "\n--- CONFIGURACION ACTUAL ---\n";
     cout << "Reina: Fila " << reina_x << ", Columna " << reina_y << "\n";
     cout << "Torre 1: Fila " << t[0][0] << ", Columna " << t[0][1] << "\n";
@@ -150,7 +157,7 @@ bool confirmarConfiguracion() {
     bool respuestaValida = false;
 
     while (!respuestaValida) {
-        cout << "¿Es correcta esta configuracion? (s/n): ";
+        cout << "Es correcta esta configuracion? (s/n): ";
         cin >> confirmacion;
         cin.ignore(10000, '\n');
 
@@ -178,7 +185,7 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
     int my = y + dir_y;
 
     // Verificar límites del tablero
-    if (mx < limifx || mx > limicx || my < limify || my > limicy) {
+    if (mx < limiFx || mx > limiCx || my < limiFy || my > limiCy) {
         return;
     }
 
@@ -187,14 +194,13 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
         return;
     }
 
-    // Verificar si esta posición está bajo ataque de alguna torre
     bool bajo_ataque = false;
 
     // Torre 1: ataca si comparte fila O columna
     if (mx == t[0][0] || my == t[0][1]) {
         bajo_ataque = true;
     }
-
+    \
     // Torre 2: ataca si comparte fila O columna
     if (mx == t[1][0] || my == t[1][1]) {
         bajo_ataque = true;
@@ -227,17 +233,19 @@ void inicializarTablero() {
 
 // Función para generar todos los movimientos posibles de la reina
 void generarMovimientos() {
+
     int direcciones[8][2] = {
         {-1, -1}, {-1, 0}, {-1, 1},  // Arriba-izq, arriba, arriba-der
         { 0, -1},          { 0, 1},  // Izquierda, derecha
         { 1, -1}, { 1, 0}, { 1, 1}   // Abajo-izq, abajo, abajo-der
     };
 
-    // Generar movimientos en cada dirección
     for (int i = 0; i < 8; i++) {
         Movimiento(reina_x, reina_y, direcciones[i][0], direcciones[i][1]);
     }
 }
+
+#pragma region Visualizacion
 
 void mostrarTablero() {
 
@@ -278,6 +286,7 @@ void solicitarDatos() {
         if (posicionesValidas()) {
 
             if (confirmarConfiguracion()) {
+
                 configuracionValida = true;
                 cout << "\nConfiguracion guardada exitosamente.\n";
             }
@@ -308,11 +317,14 @@ void mostrarLinea(int longitud, char caracter) {
 }
 
 void mostrarEstadisticas() {
+
     int movimientosValidos = 0;
     int movimientosPeligrosos = 0;
 
     for (int i = 0; i < 8; i++) {
+
         for (int j = 0; j < 8; j++) {
+
             if (tablero[i][j] == 'V') {
                 movimientosValidos++;
             }
@@ -339,6 +351,7 @@ void mostrarEstadisticas() {
 #pragma region Menu
 
 void mostrarMenu() {
+
     mostrarLinea(45, '=');
     cout << "          REINA VS TORRES ENEMIGAS\n";
     mostrarLinea(45, '=');
@@ -364,7 +377,9 @@ int main() {
         opcion = leerOpcionMenu();
 
         switch (opcion) {
+
         case 1: {
+
             try {
                 solicitarDatos();
                 inicializarTablero();
