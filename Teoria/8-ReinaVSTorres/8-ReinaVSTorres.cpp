@@ -47,7 +47,6 @@ int reina_x, reina_y;
 
 #pragma region Validaciones
 
-// Función para validar entrada de enteros con manejo robusto de errores
 int validarEntero(const char* mensaje) {
     int valor;
     char caracterSiguiente;
@@ -60,7 +59,7 @@ int validarEntero(const char* mensaje) {
             caracterSiguiente = cin.peek();
 
             if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
-                cin.ignore(10000, '\n');  // Limpiar buffer
+                cin.ignore(10000, '\n');
                 entradaValida = true;
             }
             else {
@@ -80,7 +79,6 @@ int validarEntero(const char* mensaje) {
     return valor;
 }
 
-// Función para leer opción del menú con validación
 int leerOpcionMenu() {
     int opcion;
     bool opcionValida = false;
@@ -98,12 +96,10 @@ int leerOpcionMenu() {
     return opcion;
 }
 
-// Función para validar rango de coordenadas (1-8)
 bool validarRango(int valor) {
     return valor >= 1 && valor <= 8;
 }
 
-// Función para leer coordenadas con validación robusta
 int leerCoordenada(const char* mensaje) {
     int coordenada;
     bool coordenadaValida = false;
@@ -121,8 +117,8 @@ int leerCoordenada(const char* mensaje) {
     return coordenada;
 }
 
-// Función para verificar que las posiciones no se solapen
 bool posicionesValidas() {
+
     // Verificar que la reina no esté en la misma posición que la torre 1
     if (reina_x == t[0][0] && reina_y == t[0][1]) {
         cout << "ERROR: La reina no puede estar en la misma posicion que la Torre 1.\n";
@@ -144,7 +140,6 @@ bool posicionesValidas() {
     return true;
 }
 
-// Función para confirmar configuración antes de continuar
 bool confirmarConfiguracion() {
     cout << "\n--- CONFIGURACION ACTUAL ---\n";
     cout << "Reina: Fila " << reina_x << ", Columna " << reina_y << "\n";
@@ -184,12 +179,12 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
 
     // Verificar límites del tablero
     if (mx < limifx || mx > limicx || my < limify || my > limsy) {
-        return; // Fuera del tablero
+        return;
     }
 
     // Verificar si hay una torre en esta posición (bloquea el movimiento)
     if ((mx == t[0][0] && my == t[0][1]) || (mx == t[1][0] && my == t[1][1])) {
-        return; // Torre bloquea el camino
+        return;
     }
 
     // Verificar si esta posición está bajo ataque de alguna torre
@@ -207,17 +202,17 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
 
     // Establecer la jugada en el tablero
     if (bajo_ataque) {
-        tablero[mx - 1][my - 1] = 'X'; // Posición peligrosa
+        tablero[mx - 1][my - 1] = 'X';
     }
     else {
-        tablero[mx - 1][my - 1] = 'V'; // Posición segura
+        tablero[mx - 1][my - 1] = 'V';
     }
 
-    // Continuar recursivamente en la misma dirección
     Movimiento(mx, my, dir_x, dir_y);
 }
 
 void inicializarTablero() {
+
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             tablero[i][j] = ' ';
@@ -244,8 +239,8 @@ void generarMovimientos() {
     }
 }
 
-// Función para mostrar el tablero
 void mostrarTablero() {
+
     cout << "\n    A B C D E F G H\n";
     for (int i = 0; i < 8; i++) {
         cout << (i + 1) << " ";
@@ -262,6 +257,7 @@ void mostrarTablero() {
 }
 
 void solicitarDatos() {
+
     cout << "=== CONFIGURACION DEL JUEGO ===\n";
 
     bool configuracionValida = false;
@@ -280,6 +276,7 @@ void solicitarDatos() {
         t[1][1] = leerCoordenada("Ingrese la columna de la Torre 2 (1-8): ");
 
         if (posicionesValidas()) {
+
             if (confirmarConfiguracion()) {
                 configuracionValida = true;
                 cout << "\nConfiguracion guardada exitosamente.\n";
