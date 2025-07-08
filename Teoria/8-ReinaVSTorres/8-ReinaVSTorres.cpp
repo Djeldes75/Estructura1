@@ -4,47 +4,33 @@ Tarea: #8 - Reina VS Torres Enemigas
 Materia: Estructura de Datos y Agoritmos 1; IDS343-01; 6-8pm; Trimestre May-Julio 2025
 =====================================================================================================
 Descripcion:
-	Realizar un programa C++ que genere los movimientos posibles (según las reglas del ajedrez) de
-	una Reina amenazada por dos Torres enemigas. El programa debe desplegar el tablero con las
-	jugadas posibles de la Reina, colocando una V donde la reina pueda moverse sin ser eliminada y
-	una X donde pueda moverse, pero ser eliminada por una o las dos torres enemigas.
+    Realizar un programa C++ que genere los movimientos posibles (según las reglas del ajedrez) de
+    una Reina amenazada por dos Torres enemigas. El programa debe desplegar el tablero con las
+    jugadas posibles de la Reina, colocando una V donde la reina pueda moverse sin ser eliminada y
+    una X donde pueda moverse, pero ser eliminada por una o las dos torres enemigas.
 
 RESTRICCIONES:
-	A. El programa debe solicitar al usuario las posiciones de las dos torres enemigas y la de la
-	reina.
+    A. El programa debe solicitar al usuario las posiciones de las dos torres enemigas y la de la
+    reina.
 
-	B. Las posiciones de las torres no deben solaparse, es decir, no deben estar en la misma
-	posición. Las Torres deben estar en casillas distintas.
+    B. Las posiciones de las torres no deben solaparse, es decir, no deben estar en la misma
+    posición. Las Torres deben estar en casillas distintas.
 
-	C. La posición de la reina no debe coincidir con las de las torres.
+    C. La posición de la reina no debe coincidir con las de las torres.
 
-	D. Debe desplegar el cuadro del ajedrez indicando a la reina con una R, las torres como T y
-	las jugadas según se establece en el enunciado.
+    D. Debe desplegar el cuadro del ajedrez indicando a la reina con una R, las torres como T y
+    las jugadas según se establece en el enunciado.
 
-	A B C D E F G H
-	1 X V V
-	2 X R V V X V V V
-	3 X V V
-	4 X X T
-	5 V X
-	6 V V
-	7 T X X
-	8 V V
-
-Ejemplo de la salida del programa:
-	Si la reina se ubica en la fila 2 columna 2 y las torres enemigas
-	en las filas 4 y 7 y columnas 1 y 5 respectivamente.
-=====================================================================================================
 Integrantes:
-	Dominique Jeldes, 1121623
+    Dominique Jeldes, 1121623
     Enmanuel Carrasco, 1124404
-	Samira Jaquez, 1125467
+    Samira Jaquez, 1125467
     Juan Castillo, 1127310
     Sebastian Ventura, 1128066
     Elianyer Gomez, 1118021
 
 Fecha de Entrega:
-	8/Julio/2025
+    8/Julio/2025
 
 */
 
@@ -56,8 +42,140 @@ using namespace std;
 // Variables globales
 char tablero[8][8];
 int t[2][2]; // t[0] = torre1 {fila, columna}, t[1] = torre2 {fila, columna}
-int limifx = 1, limsx = 8, limify = 1, limsy = 8;
+int limifx = 1, limicx = 8, limify = 1, limsy = 8;
 int reina_x, reina_y;
+
+#pragma region Validaciones
+
+// Función para validar entrada de enteros con manejo robusto de errores
+int validarEntero(const char* mensaje) {
+    int valor;
+    char caracterSiguiente;
+    bool entradaValida = false;
+
+    cout << mensaje;
+
+    while (!entradaValida) {
+        if (cin >> valor) {
+            caracterSiguiente = cin.peek();
+
+            if (caracterSiguiente == '\n' || caracterSiguiente == ' ') {
+                cin.ignore(10000, '\n');  // Limpiar buffer
+                entradaValida = true;
+            }
+            else {
+                cout << "ERROR: Entrada invalida. Intente nuevamente: ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
+        else {
+            // Error al leer el entero
+            cout << "ERROR: Debe ingresar un numero valido. Intente nuevamente: ";
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+    }
+
+    return valor;
+}
+
+// Función para leer opción del menú con validación
+int leerOpcionMenu() {
+    int opcion;
+    bool opcionValida = false;
+
+    while (!opcionValida) {
+        opcion = validarEntero("");
+        if (opcion >= 1 && opcion <= 3) {
+            opcionValida = true;
+        }
+        else {
+            cout << "ERROR: Opcion invalida. Seleccione una opcion valida (1-3): ";
+        }
+    }
+
+    return opcion;
+}
+
+// Función para validar rango de coordenadas (1-8)
+bool validarRango(int valor) {
+    return valor >= 1 && valor <= 8;
+}
+
+// Función para leer coordenadas con validación robusta
+int leerCoordenada(const char* mensaje) {
+    int coordenada;
+    bool coordenadaValida = false;
+
+    while (!coordenadaValida) {
+        coordenada = validarEntero(mensaje);
+        if (validarRango(coordenada)) {
+            coordenadaValida = true;
+        }
+        else {
+            cout << "ERROR: La coordenada debe estar entre 1 y 8. Intente nuevamente: ";
+        }
+    }
+
+    return coordenada;
+}
+
+// Función para verificar que las posiciones no se solapen
+bool posicionesValidas() {
+    // Verificar que la reina no esté en la misma posición que la torre 1
+    if (reina_x == t[0][0] && reina_y == t[0][1]) {
+        cout << "ERROR: La reina no puede estar en la misma posicion que la Torre 1.\n";
+        return false;
+    }
+
+    // Verificar que la reina no esté en la misma posición que la torre 2
+    if (reina_x == t[1][0] && reina_y == t[1][1]) {
+        cout << "ERROR: La reina no puede estar en la misma posicion que la Torre 2.\n";
+        return false;
+    }
+
+    // Verificar que las torres no estén en la misma posición
+    if (t[0][0] == t[1][0] && t[0][1] == t[1][1]) {
+        cout << "ERROR: Las torres no pueden estar en la misma posicion.\n";
+        return false;
+    }
+
+    return true;
+}
+
+// Función para confirmar configuración antes de continuar
+bool confirmarConfiguracion() {
+    cout << "\n--- CONFIGURACION ACTUAL ---\n";
+    cout << "Reina: Fila " << reina_x << ", Columna " << reina_y << "\n";
+    cout << "Torre 1: Fila " << t[0][0] << ", Columna " << t[0][1] << "\n";
+    cout << "Torre 2: Fila " << t[1][0] << ", Columna " << t[1][1] << "\n";
+
+    char confirmacion;
+    bool respuestaValida = false;
+
+    while (!respuestaValida) {
+        cout << "¿Es correcta esta configuracion? (s/n): ";
+        cin >> confirmacion;
+        cin.ignore(10000, '\n');
+
+        if (confirmacion == 's' || confirmacion == 'S') {
+            return true;
+        }
+        else if (confirmacion == 'n' || confirmacion == 'N') {
+            return false;
+        }
+        else {
+            cout << "ERROR: Responda con 's' para Si o 'n' para No.\n";
+        }
+    }
+
+    return false;
+}
+
+#pragma endregion
+
+#pragma region Funciones del Juego
 
 // Función recursiva para generar movimientos en una dirección específica
 void Movimiento(int x, int y, int dir_x, int dir_y) {
@@ -65,7 +183,7 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
     int my = y + dir_y;
 
     // Verificar límites del tablero
-    if (mx < limifx || mx > limsx || my < limify || my > limsy) {
+    if (mx < limifx || mx > limicx || my < limify || my > limsy) {
         return; // Fuera del tablero
     }
 
@@ -74,7 +192,7 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
         return; // Torre bloquea el camino
     }
 
-    //Verificar si esta posición está bajo ataque de alguna torre
+    // Verificar si esta posición está bajo ataque de alguna torre
     bool bajo_ataque = false;
 
     // Torre 1: ataca si comparte fila O columna
@@ -100,7 +218,6 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
 }
 
 void inicializarTablero() {
-
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             tablero[i][j] = ' ';
@@ -115,7 +232,6 @@ void inicializarTablero() {
 
 // Función para generar todos los movimientos posibles de la reina
 void generarMovimientos() {
-
     int direcciones[8][2] = {
         {-1, -1}, {-1, 0}, {-1, 1},  // Arriba-izq, arriba, arriba-der
         { 0, -1},          { 0, 1},  // Izquierda, derecha
@@ -130,7 +246,6 @@ void generarMovimientos() {
 
 // Función para mostrar el tablero
 void mostrarTablero() {
-
     cout << "\n    A B C D E F G H\n";
     for (int i = 0; i < 8; i++) {
         cout << (i + 1) << " ";
@@ -146,74 +261,100 @@ void mostrarTablero() {
     cout << "X = Movimiento peligroso (bajo ataque)\n\n";
 }
 
-// Función para validar entrada
-bool validarRango(int valor) {
-    return valor >= 1 && valor <= 8;
-}
-
-// Función para leer coordenadas
-int leerCoordenada(const string& mensaje) {
-
-    int coordenada;
-    do {
-        cout << mensaje;
-        cin >> coordenada;
-        if (!validarRango(coordenada)) {
-            cout << "Error: Debe estar entre 1 y 8.\n";
-        }
-    } while (!validarRango(coordenada));
-    return coordenada;
-}
-
-// Función para verificar que las posiciones no se solapen
-bool posicionesValidas() {
-
-    // Verificar que la reina no esté en la misma posición que las torres
-    if ((reina_x == t[0][0] && reina_y == t[0][1]) ||
-        (reina_x == t[1][0] && reina_y == t[1][1])) {
-        return false;
-    }
-
-    // Verificar que las torres no estén en la misma posición
-    if (t[0][0] == t[1][0] && t[0][1] == t[1][1]) {
-        return false;
-    }
-
-    return true;
-}
-
-// Función para solicitar datos de entrada
 void solicitarDatos() {
+    cout << "=== CONFIGURACION DEL JUEGO ===\n";
 
-    cout << "=== Configuración del juego ===\n";
+    bool configuracionValida = false;
 
-    do {
-        cout << "\n--- Posición de la Reina ---\n";
+    while (!configuracionValida) {
+        cout << "\n--- Posicion de la Reina ---\n";
         reina_x = leerCoordenada("Ingrese la fila de la Reina (1-8): ");
         reina_y = leerCoordenada("Ingrese la columna de la Reina (1-8): ");
 
-        cout << "\n--- Posición de la Torre 1 ---\n";
+        cout << "\n--- Posicion de la Torre 1 ---\n";
         t[0][0] = leerCoordenada("Ingrese la fila de la Torre 1 (1-8): ");
         t[0][1] = leerCoordenada("Ingrese la columna de la Torre 1 (1-8): ");
 
-        cout << "\n--- Posición de la Torre 2 ---\n";
+        cout << "\n--- Posicion de la Torre 2 ---\n";
         t[1][0] = leerCoordenada("Ingrese la fila de la Torre 2 (1-8): ");
         t[1][1] = leerCoordenada("Ingrese la columna de la Torre 2 (1-8): ");
 
-        if (!posicionesValidas()) {
-            cout << "\nError: Las posiciones no pueden coincidir. Intente de nuevo.\n";
+        if (posicionesValidas()) {
+            if (confirmarConfiguracion()) {
+                configuracionValida = true;
+                cout << "\nConfiguracion guardada exitosamente.\n";
+            }
+            else {
+                cout << "\nReiniciando configuracion...\n";
+            }
         }
-    } while (!posicionesValidas());
+        else {
+            cout << "\nError en la configuracion. Intente nuevamente.\n";
+        }
+    }
 }
 
+#pragma endregion
+
+#pragma region Utilidades
+
+void pausa() {
+    cout << "\nPresione Enter para continuar...";
+    cin.get();
+}
+
+void mostrarLinea(int longitud, char caracter) {
+    for (int i = 0; i < longitud; i++) {
+        cout << caracter;
+    }
+    cout << "\n";
+}
+
+void mostrarEstadisticas() {
+    int movimientosValidos = 0;
+    int movimientosPeligrosos = 0;
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (tablero[i][j] == 'V') {
+                movimientosValidos++;
+            }
+            else if (tablero[i][j] == 'X') {
+                movimientosPeligrosos++;
+            }
+        }
+    }
+
+    cout << "\n--- ESTADISTICAS ---\n";
+    cout << "Movimientos seguros disponibles: " << movimientosValidos << "\n";
+    cout << "Movimientos peligrosos: " << movimientosPeligrosos << "\n";
+    cout << "Total de movimientos posibles: " << (movimientosValidos + movimientosPeligrosos) << "\n";
+
+    if (movimientosValidos == 0) {
+        cout << "ADVERTENCIA: La reina no tiene movimientos seguros!\n";
+    }
+
+    pausa();
+}
+
+#pragma endregion
+
+#pragma region Menu
+
 void mostrarMenu() {
-    cout << "======== REINA VS TORRES ENEMIGAS ========\n";
+    mostrarLinea(45, '=');
+    cout << "          REINA VS TORRES ENEMIGAS\n";
+    mostrarLinea(45, '=');
     cout << "1. Jugar (configurar nuevas posiciones)\n";
-    cout << "2. Mostrar tablero actual\n";
+    cout << "2. Mostrar tablero y estadisticas\n";
     cout << "3. Salir\n";
-    cout << "==========================================\n";
+    mostrarLinea(45, '=');
     cout << "Seleccione una opcion: ";
 }
+
+#pragma endregion
+
+#pragma region Main
 
 int main() {
 
@@ -223,37 +364,44 @@ int main() {
     while (true) {
 
         mostrarMenu();
-        cin >> opcion;
+        opcion = leerOpcionMenu();
 
         switch (opcion) {
-
         case 1: {
-
-            solicitarDatos();
-            inicializarTablero();
-            generarMovimientos();
-            mostrarTablero();
-            primerJuego = false;
+            try {
+                solicitarDatos();
+                inicializarTablero();
+                generarMovimientos();
+                mostrarTablero();
+                mostrarEstadisticas();
+                primerJuego = false;
+            }
+            catch (const exception& e) {
+                cout << "ERROR: Ocurrio un problema durante la configuracion.\n";
+                cout << "Intente nuevamente.\n";
+            }
             break;
         }
 
         case 2: {
             if (primerJuego) {
-                cout << "\nError: Debe configurar el juego primero (opcion 1).\n";
+                cout << "\nERROR: Debe configurar el juego primero (opcion 1).\n";
+                pausa();
             }
             else {
                 mostrarTablero();
+                mostrarEstadisticas();
             }
             break;
         }
 
         case 3: {
-            cout << "\nGracias por jugar!\n";
+            cout << "\nGracias por jugar Reina vs Torres Enemigas!\n";
             return 0;
         }
 
         default: {
-            cout << "Opcion inválida. Seleccione 1, 2 o 3.\n";
+            cout << "ERROR: Esta opcion no deberia ser alcanzable.\n";
             break;
         }
         }
@@ -261,3 +409,5 @@ int main() {
 
     return 0;
 }
+
+#pragma endregion
