@@ -42,7 +42,7 @@ using namespace std;
 // Variables globales
 char tablero[8][8];
 int t[2][2]; // t[0] = torre1 {fila, columna}, t[1] = torre2 {fila, columna}
-int limifx = 1, limicx = 8, limify = 1, limsy = 8;
+int limifx = 1, limicx = 8, limify = 1, limicy = 8;
 int reina_x, reina_y;
 
 #pragma region Validaciones
@@ -178,7 +178,7 @@ void Movimiento(int x, int y, int dir_x, int dir_y) {
     int my = y + dir_y;
 
     // Verificar límites del tablero
-    if (mx < limifx || mx > limicx || my < limify || my > limsy) {
+    if (mx < limifx || mx > limicx || my < limify || my > limicy) {
         return;
     }
 
