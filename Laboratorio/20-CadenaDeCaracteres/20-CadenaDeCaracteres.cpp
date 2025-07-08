@@ -1,20 +1,44 @@
-// 20-CadenaDeCaracteres.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+-------------------------------------------------------------------------------------------------------
+Tarea: Cadena de Caracteres
+Materia: IDS343-01 ESTRUCTURAS DE DATOS Y ALGORITMOS I
+-------------------------------------------------------------------------------------------------------
+Descripcion:
+   Hacer un programa en C++, que dada una cadena de caracteres la revierta de la manera
+   más eficiente posible, es decir, empleando el menor número de iteraciones.
+
+   Ejemplo:  Triangulo
+             olugnairT
+
+ Autor:
+    Dominique Jeldes - 1121623
+
+
+Fecha: 7/Jul/2025
+
+*/
 
 #include <iostream>
+#include <string>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+int main() {
+    string cadena;
+    
+    cout << "Ingrese una cadena: ";
+    getline(cin, cadena); // Permite espacios también
+
+    int n = cadena.length();
+
+    // Inversión eficiente: intercambiamos caracteres desde los extremos
+    for (int i = 0; i < n / 2; i++) {
+        char temp = cadena[i];
+        cadena[i] = cadena[n - 1 - i];
+        cadena[n - 1 - i] = temp;
+    }
+
+    cout << "Cadena invertida: " << cadena << endl;
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
