@@ -39,8 +39,25 @@ Fecha de Entrega:
 
 using namespace std;
 
+/*
+t[0][0] = torre 1 su fila 
+t[0][1] = torre 1 su columna 
+t[1][0] = torre 2 su fila
+t[1][1] = torre 2 su columna
+
+por ejemplo:
+
+torre 1 = (3,5)
+torre 2 = (6,2)
+
+t[0][0] = 3(fila)
+t[0][1] = 5(columna)
+t[1][0] = 6(fila)
+t[1][1] = 2(columna)
+*/
+
 char tablero[8][8];
-int t[2][2]; // t[0] = torre1 {fila, columna}, t[1] = torre2 {fila, columna}
+int t[2][2];
 int limiFx = 1, limiCx = 8, limiFy = 1, limiCy = 8;
 int reina_x, reina_y;
 

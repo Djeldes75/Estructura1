@@ -34,17 +34,17 @@ int main() {
 
     // Convertir el nombre del mes a número
     if (nombreMes == "ene") mes = 1;
-    else if (nombreMes == "feb") mes = 2;
-    else if (nombreMes == "mar") mes = 3;
-    else if (nombreMes == "abr") mes = 4;
-    else if (nombreMes == "may") mes = 5;
-    else if (nombreMes == "jun") mes = 6;
-    else if (nombreMes == "jul") mes = 7;
-    else if (nombreMes == "ago") mes = 8;
-    else if (nombreMes == "sep") mes = 9;
-    else if (nombreMes == "oct") mes = 10;
-    else if (nombreMes == "nov") mes = 11;
-    else if (nombreMes == "dic") mes = 12;
+    else if (nombreMes == "feb" || "feberero") mes = 2;
+    else if (nombreMes == "mar" || "marzo") mes = 3;
+    else if (nombreMes == "abr" || "abril") mes = 4;
+    else if (nombreMes == "may" || "mayo") mes = 5;
+    else if (nombreMes == "jun" || "junio") mes = 6;
+    else if (nombreMes == "jul" || "julio") mes = 7;
+    else if (nombreMes == "ago" || "agosto") mes = 8;
+    else if (nombreMes == "sep" || "septiembre") mes = 9;
+    else if (nombreMes == "oct" || "octubre") mes = 10;
+    else if (nombreMes == "nov" || "noviembre") mes = 11;
+    else if (nombreMes == "dic" || "diciembre") mes = 12;
     else {
         cout << "Mes invalido." << endl;
         return 1;
